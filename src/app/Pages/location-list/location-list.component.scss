@@ -1,0 +1,120 @@
+.max-150px {
+    max-width: 150px;
+}
+
+.wrap-word {
+    overflow-wrap: break-word;
+}
+
+.date-input {
+    visibility: hidden;
+    width: 1px;
+}
+
+.custom-error-div {
+    margin-top: -18px;
+    padding: 0.1em 0.75em 0 0.75em;
+    line-height: 1.125;
+    letter-spacing: normal;
+}
+
+.custom-error-span {
+    color: #f44336;
+    font-size: 75%;
+}
+
+.toolbox {
+    pointer-events: auto;
+}
+
+.calender-icon{
+    vertical-align: top; 
+    font-size: 28px;
+}
+
+i.tip {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    color: #606060;
+}
+
+i.tip:hover {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+i.tip span {
+    display: none
+}
+
+i.tip:hover span {
+    // padding: 5px 20px 5px 5px;
+    display: block;
+    z-index: 100;
+    // background: url(../images/status-info.png) #f0f0f0 no-repeat 100% 5%;
+    left: 0px;
+    // margin: 10px;
+    // position: absolute;
+    top: 10px;
+    text-decoration: none;
+    background: #fff;
+    font-size: 12px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 200;
+    text-align: left;
+}
+
+.toolbox {
+    pointer-events: auto;
+}
+
+i.tip {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    color: #606060;
+}
+
+i.tip:hover {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+i.tip .custom-tooltip {
+    display: none
+}
+
+i.tip:hover .custom-tooltip {
+    padding: 5px 5px 5px 5px;
+    display: block;
+    z-index: 100;
+    right: 0px;
+    margin: 10px;
+    position: absolute;
+    top: 10px;
+    text-decoration: none;
+    background: #fff;
+    font-size: 12px;
+    font-family: "Open Sans", sans-serif;
+    font-weight: 200;
+    text-align: left;
+    width: 110px;
+    box-shadow: 2px 2px 2px #ccc;
+    line-height: 18px;
+
+    ul {
+        margin-top: 10px;
+        margin-bottom: 0;
+    }
+}
+
+::ng-deep .mat-calendar {
+    height: 370px;
+}

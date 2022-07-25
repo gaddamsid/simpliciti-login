@@ -1,0 +1,50 @@
+
+<mat-card-content class="mat-card-content p-2">
+    <div class="innergrid border-0">
+        <table>
+            <tr>
+                <td>{{"Added to eTims" | translate}}</td>
+                <td class="font-weight-bold">{{(processingDetails?.addedtoeTims ? processingDetails?.addedtoeTims :
+                    '-')}}</td>
+            </tr>
+            <tr>
+                <td>{{"Batch Date" | translate}}</td>
+                <td class="font-weight-bold" *ngIf="processingDetails?.batchDate">{{processingDetails?.batchDate | date
+                    : globalFormats.dateOnly}}</td>
+                <td class="font-weight-bold" *ngIf="!processingDetails?.batchDate">-</td>
+            </tr>
+            <tr>
+                <td>{{"Batch Number" | translate}}</td>
+                <td class="font-weight-bold">{{(processingDetails?.batchNumber ? processingDetails?.batchNumber : '-')}}
+                </td>
+            </tr>
+            <tr>
+                <td>{{"Microfilm Number" | translate}}</td>
+                <td class="font-weight-bold">{{(processingDetails?.microfilmNumber ? processingDetails?.microfilmNumber
+                    : '-')}}</td>
+            </tr>
+            <tr>
+                <td>{{"Backlog Code" | translate}}</td>
+                <td class="font-weight-bold">{{(processingDetails?.backlogCode ? processingDetails?.backlogCode : '-')}}
+                </td>
+            </tr>
+            <tr>
+                <td>{{"Next Event" | translate}}</td>
+                <td class="font-weight-bold" *ngIf="processingDetails?.nextEvent">{{processingDetails?.nextEvent | date
+                    : globalFormats.dateOnly}}</td>
+                <td class="font-weight-bold" *ngIf="!processingDetails?.nextEvent">-</td>
+            </tr>
+            <tr>
+                <td>{{"Hold Status" | translate}}</td>
+                <td class="font-weight-bold">{{(processingDetails?.holdStatus ? processingDetails?.holdStatus : '-')}}
+                </td>
+            </tr>
+            <tr>
+                <td>{{"Hold Process Date" | translate}}</td>
+                <td class="font-weight-bold" *ngIf="processingDetails?.holdProcessDate">
+                    {{processingDetails?.holdProcessDate | date : globalFormats.dateOnly}}</td>
+                <td class="font-weight-bold" *ngIf="!processingDetails?.holdProcessDate">-</td>
+            </tr>
+        </table>
+    </div>
+</mat-card-content>

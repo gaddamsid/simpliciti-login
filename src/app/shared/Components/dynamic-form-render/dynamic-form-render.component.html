@@ -1,0 +1,152 @@
+<form [formGroup]="dynamicForm"  >
+    <div *ngFor="let element of pageConfig.uiElementList" >
+        <div class="row" >
+            <div class="{{item.class}}" *ngFor="let item of element.row" >
+                <container-element [ngSwitch]="item.elementType">
+                    <div *ngSwitchCase="'text'">
+                        <mat-form-field appearance="fill"  [ngClass]="{'disable-field pb-0 border-bottom-black': item.disabled}" class="w-100">
+                            <mat-label>{{ item.translateName | translate }}</mat-label>
+                            <input matInput placeholder="{{item.placeholderTrans}}" type="{{item.elementType}}"  [readonly]="item.disabled" 
+                            formControlName="{{item.formControlName}}" name="{{item.elementName}}"
+                                id="{{item.uniqueId}}" oninput="this.value=this.value.slice(0,this.maxLength)"  min="{{item.minlength}}" maxlength="{{item.maxlength}}" appNotAllowWhiteSpaceStart />
+                            <mat-error *ngIf="dynamicForm.get(item.formControlName)?.hasError('required')">
+                                {{ item.translateReuiredError | translate}}
+                            </mat-error>
+                            <mat-error *ngIf="dynamicForm.get(item.formControlName)?.hasError('invalid') ">
+                                {{ 'invalid' | translate }}
+                            </mat-error>
+                            <mat-error *ngIf="dynamicForm.get(item.formControlName)?.hasError('maxlength') ">
+                                {{ item.inavlidLengthError | translate }}
+                            </mat-error>
+                            <mat-error *ngIf="dynamicForm.get(item.formControlName)?.hasError('duplicateKey') ">
+                                {{ item.duplicateFoundError | translate }}
+                            </mat-error>
+                            <mat-error *ngIf="dynamicForm.get(item.formControlName)?.hasError('pattern') ">
+                                {{ item.regExPatternError | translate }}
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div *ngSwitchCase="'number'">
+                        <mat-form-field appearance="fill"
+                            [ngClass]="{'disable-field pb-0 border-bottom-black': item.disabled}" class="w-100">
+                            <mat-label>{{ item.translateName | translate }}</mat-label>
+                            <input matInput placeholder="{{item.placeholderTrans}}" type="{{item.elementType}}"
+                                [readonly]="item.disabled" formControlName="{{item.formControlName}}"
+                                name="{{item.elementName}}" id="{{item.uniqueId}}" pattern="{{item.regEx}}"
+                                oninput="this.value=this.value.slice(0,this.maxLength)" minlength="{{item.minlength}}"
+                                maxlength="{{item.maxlength}}" appNotAllowWhiteSpaceStart />
+                            <mat-error *ngIf="dynamicForm.get(item.formControlName)?.hasError('required')">
+                                {{ item.translateReuiredError | translate}}
+                            </mat-error>
+                            <mat-error *ngIf="dynamicForm.get(item.formControlName)?.hasError('invalid') ">
+                                {{ item.invalidError | translate }}
+                            </mat-error>
+                            <mat-error *ngIf="dynamicForm.get(item.formControlName)?.hasError('maxlength') ">
+                                {{ item.inavlidLengthError | translate }}
+                            </mat-error>
+                            <mat-error *ngIf="dynamicForm.get(item.formControlName)?.hasError('minlength') ">
+                                {{ item.inavlidMinLengthError | translate }}
+                            </mat-error>
+                            <mat-error *ngIf="dynamicForm.get(item.formControlName)?.hasError('duplicateKey') ">
+                                {{ item.duplicateFoundError | translate }}
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div *ngSwitchCase="'date'">
+                        <mat-form-field appearance="fill"
+                            [ngClass]="{'disable-field pb-0 border-bottom-black': item.disabled}" class="w-100">
+                            <mat-label>{{ item.translateName | translate }}</mat-label>
+                            <input matInput placeholder="{{item.placeholderTrans}}" type="date"
+                                 formControlName="{{item.formControlName}}" name="{{item.elementName}}" 
+                                 id="{{item.uniqueId}}" min="{{minDateValue}}" />
+                            <mat-error *ngIf="dynamicForm.get(item.formControlName)?.hasError('required')">
+                                {{ item.translateReuiredError | translate}}
+                            </mat-error>
+                            <mat-error *ngIf="dynamicForm.get(item.formControlName)?.hasError('invalid') ">
+                                {{ 'invalid' | translate }}
+                            </mat-error>
+                            <mat-error *ngIf="dynamicForm.get(item.formControlName)?.hasError('invalidDate') ">
+                                {{ item.invalidDateError | translate}}
+                            </mat-error>
+                            <mat-error *ngIf="dynamicForm.get(item.formControlName)?.hasError('maxlength') ">
+                                {{ item.inavlidLengthError | translate }}
+                            </mat-error>
+                            <mat-error *ngIf="dynamicForm.get(item.formControlName)?.hasError('duplicateKey') ">
+                                {{ item.duplicateFoundError | translate }}
+                            </mat-error>
+                            
+                        </mat-form-field>
+                    </div>
+                    <div *ngSwitchCase="'select'">
+                        <!-- <mat-form-field  ngDefaultControl appearance="fill" class="w-100">
+                            <mat-label>{{ item.translateName | translate }}</mat-label>
+                            <mat-select id="{{item.uniqueId}}"  
+                            formControlName="{{item.formControlName}}">
+                             <mat-option  value=""> {{'Select' | translate}}</mat-option>
+                                <mat-option *ngFor="let ele of listOfDropdownData[item.formControlName]" 
+                                value="{{ele[item.renderValueKey]}}">{{ele[item.renderDisplayKey]}}</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="dynamicForm.get(item.formControlName)?.hasError('required')">
+                                {{ item.translateReuiredError | translate}}
+                            </mat-error>
+                        </mat-form-field> -->
+                    </div>
+                    <div *ngSwitchCase="'multiSelect'">
+                        <!-- <ng-select [items]="listOfDropdownData[item.formControlName]" bindLabel="{{item.elementName}}"
+                            placeholder="{{item.placeholderTrans | translate}}" id="{{item.uniqueId}}" [multiple]="item.multiple"
+                            [searchable]="item.searchable" [required]="true" bindValue="{{item.formControlName}}"
+                            [ngClass]="{ 'is-invalid': dynamicForm.get(item.formControlName).invalid && dynamicForm.get(item.formControlName).touched }" 
+                            formControlName="{{item.formControlName}}">
+                        </ng-select>
+                        <div *ngIf="dynamicForm.get(item.formControlName).invalid && dynamicFormRef.submitted">
+                            <mat-error class="pt-1 pl-2"*ngIf="dynamicForm.get(item.formControlName)?.hasError('required')">
+                                {{ item.translateReuiredError | translate}}
+                            </mat-error>
+                        </div> -->
+                    </div>
+                    <div *ngSwitchCase="'checkbox'">
+                        <mat-checkbox class="ellipsis" title='{{item.titleTranslate | translate}}' 
+                         name="eventsBelowSpeed" id="{{item.uniqueId}}" [disabled]="item.disabled"  formControlName="{{item.formControlName}}" 
+                         (change)="trackChangeEvent($event, item.formControlName)"  [checked]="item.defaultValue"
+                        color="primary"> {{item.translateName | translate}} </mat-checkbox>
+                    </div>
+                </container-element>
+            </div>
+            <!-- <div class="col-md-4">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{ "CORR_CLASS" | translate }}</mat-label>
+                    <input matInput placeholder="Type" formControlName="corresClass" name="corresClass"
+                        [id]="'corresClassId'" maxlength="1" />
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{ "FULL_NAME" | translate }}</mat-label>
+                    <input matInput placeholder="Type" formControlName="fullName" [id]="'fullName'"
+                        maxlength="20" appNotAllowWhiteSpaceStart />
+                    <mat-error *ngIf="correspondenceForm.get('fullName')?.hasError('required')">
+                        {{'FULL_NAME_REQUIRED' | translate}}
+                    </mat-error>
+                    <mat-error *ngIf="correspondenceForm.get('fullName')?.hasError('invalid')">
+                        {{ 'invalid' | translate }}
+                    </mat-error>
+                </mat-form-field>
+            </div> -->
+        </div>
+    </div>
+    <div class="row"> 
+        <div class="col-md-12 align-items-end justify-content-end d-flex">
+            <button mat-raised-button [id]="'cancelButton'" (click)="cancel()"
+                class="color-blue">{{'Cancel' | translate}}</button>
+            <button mat-raised-button class="color-blue ml-2" *ngIf="!editMode"
+                [id]="'save'" (click)="save()">{{'Add' |
+                translate}}</button>
+                <!-- <input type="submit" mat-raised-button class="color-blue ml-2" *ngIf="true"
+                [id]="'save'" (click)="save()" value="{{'Add' |
+                translate}}"> -->
+            <button [id]="'update'" mat-raised-button type="button" class="color-blue ml-2"
+                (click)="update(dynamicForm.value)" *ngIf="editMode">{{'Save' |
+                translate}}</button>
+        </div>
+    </div>
+</form>

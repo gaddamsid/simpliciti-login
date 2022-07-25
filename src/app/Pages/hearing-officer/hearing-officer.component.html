@@ -1,0 +1,308 @@
+<h3 class="header-title"> {{'Hearing Officer' | translate}}</h3>
+<div class="container-fluid" *ngIf="showAddForm">
+    <form [formGroup]="HOfficerForm" (ngSubmit)="addRecord(HOfficerForm.value)">
+        <div class="row">
+            <div class="col-md-3">
+                <mat-form-field appearance="fill" appearance="fill" class="w-100" [disabled]="showEditForm"
+                    [ngClass]="showEditForm === true ? 'disable-field pb-0 border-bottom-black' : ''">
+                    <mat-label>{{"Hearing Officer ID" | translate }}</mat-label>
+                    <input matInput placeholder="Type" [id]="'HearingOfficer'" formControlName="hearingOfficerNumber"
+                        appNotAllowWhiteSpaceStart specialIsAlphaNumeric maxlength="6" />
+                    <mat-error [id]="'err_Officer'"
+                        *ngIf="HOfficerForm.get('hearingOfficerNumber')?.hasError('required')">
+                        {{'Hearing Officer ID is Required' | translate}}
+                    </mat-error>
+                    <mat-error *ngIf="HOfficerForm.get('hearingOfficerNumber')?.hasError('invalid')"
+                        [id]="'err_Officer1'">
+                        {{ HOfficerForm.get('hearingOfficerNumber')?.getError('invalid') |
+                        translate }}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{"Hearing Officer Name" | translate }}</mat-label>
+                    <input matInput placeholder="Type" [id]="'Officername'" formControlName="hearingOfficerFullName"
+                        appNotAllowWhiteSpaceStart maxlength="50" specialIsAlphaNumeric />
+                    <mat-error [id]="'hearingOfficerFullName'"
+                        *ngIf="HOfficerForm.get('hearingOfficerFullName')?.hasError('required')">
+                        {{'Hearing Officer Name is Required' | translate}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{"CAD" | translate }}</mat-label>
+                    <input matInput placeholder="Type" [id]="'CAD'" formControlName="hearingCAD"
+                        appNotAllowWhiteSpaceStart maxlength="9" specialIsAlphaNumeric />
+                    <mat-error [id]="'hearingCAD'" *ngIf="HOfficerForm.get('hearingCAD')?.hasError('required')">
+                        {{'CAD is Required' | translate}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{"Badge" | translate }}</mat-label>
+                    <input matInput placeholder="Type" [id]="'Badge'" formControlName="hearingBadge"
+                        appNotAllowWhiteSpaceStart maxlength="6" specialIsAlphaNumeric />
+                    <mat-error [id]="'hearingBadge'" *ngIf="HOfficerForm.get('hearingBadge')?.hasError('required')">
+                        {{'Badge is Required' | translate}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{"Hearing Agency" | translate}}</mat-label>
+                    <mat-select formControlName="hearingAgencyID" [id]="'hearingAgencyID'"
+                        (selectionChange)="setAgencyCode($event.value)">
+                        <mat-option *ngFor="let rule of hearingofficerResp" value="{{rule.hearingAgencyID}}">
+                            {{rule.hearingAgencyLongName}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error [id]="'hearingAgencyID'"
+                        *ngIf="HOfficerForm.get('hearingAgencyID')?.hasError('required')">
+                        {{'Hearing Agency is Required' | translate}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-3">
+                <mat-form-field appearance="fill" class="w-100" [disabled]="disable"
+                    [ngClass]="disable === false ? 'disable-field pb-0 border-bottom-black' : ''">
+                    <mat-label>{{"Hearing Agency Code" | translate }}</mat-label>
+                    <input matInput placeholder="Type" [id]="'AgencyCodeid'" appNotAllowWhiteSpaceStart
+                        formControlName="hearingAgencyCode" autocomplete="off" />
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-3">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{"Hearing Division" | translate}}</mat-label>
+                    <mat-select formControlName="hearingDivisionID" [id]="'hearingDivisionID'">
+                        <mat-option *ngFor="let rule of hearingDivisionResp" value="{{rule.hearingDivisionID}}">
+                            {{rule.divisionDesc}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error [id]="'err_hearingDivisionID'"
+                        *ngIf="HOfficerForm.get('hearingDivisionID')?.hasError('required')">
+                        {{'Hearing Division is Required' | translate}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-3">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{"Jurisdiction" | translate}}</mat-label>
+                    <mat-select formControlName="jurisdictionsID" [id]="'jurisdictionsID'">
+                        <mat-option *ngFor="let rule of juridictionResp" value="{{rule.jurisdictionsID}}">
+                            {{rule.jurisdictionsName}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error [id]="'err_jurisdictionsID'"
+                        *ngIf="HOfficerForm.get('jurisdictionsID')?.hasError('required')">
+                        {{'Jurisdiction is Required' | translate}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3">
+                <div class="time-selctor">
+                    <mat-form-field appearance="fill" class="w-100">
+                        <mat-label>{{"Start Time" | translate }}</mat-label>
+                        <input matInput type="time" formControlName="timeRangeScheduleStartTime"
+                            appNotAllowWhiteSpaceStart [id]="'timeRangeScheduleStartTime'" />
+
+                    </mat-form-field>
+                    <mat-error *ngIf="HOfficerForm.get('timeRangeScheduleStartTime')?.hasError('invalid')"
+                        [id]="'err_Starttime'">
+                        {{ HOfficerForm.get('timeRangeScheduleStartTime')?.getError('invalid') |
+                        translate }}
+                    </mat-error>
+
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="time-selctor">
+                    <mat-form-field appearance="fill" class="w-100">
+                        <mat-label>{{"End Time" | translate }}</mat-label>
+                        <input matInput type="time" formControlName="timeRangeScheduleEndTime"
+                            appNotAllowWhiteSpaceStart [id]="'timeRangeScheduleEndTime'" />
+
+                    </mat-form-field>
+                    <mat-error *ngIf="HOfficerForm.get('timeRangeScheduleEndTime')?.hasError('invalid')"
+                        [id]="'err_Endtime'">
+                        {{ HOfficerForm.get('timeRangeScheduleEndTime')?.getError('invalid') |
+                        translate }}
+                    </mat-error>
+
+
+                </div>
+            </div>
+
+            <div class="col-md-6">
+
+                <mat-label>{{"Days of the Weeks" | translate}}</mat-label>
+                <ng-select [items]="weekDaysResp" bindLabel="weekDayDesc" [id]="'week'" appendTo="body"
+                    [multiple]="true" [searchable]="true" bindValue="hearingOfficerWeekDaysID"
+                    formControlName="weekDays" (ngModelChange)="changeLeagueOwner($event)">
+                </ng-select>
+                <mat-error *ngIf="HOfficerForm.get('weekDays')?.hasError('invalid')" [id]="'err_Weeks'">
+                    {{ HOfficerForm.get('weekDays')?.getError('invalid') |
+                    translate }}
+                </mat-error>
+
+
+            </div>
+            <div class="col-md-3 mt-3">
+                <mat-label> {{'Signature Upload' | translate}}</mat-label>
+                <div class="button-wrap position-relative">
+                    <div class="d-flex">
+                        <label for="signature-upload" class="custom-file-upload bg-file mt-1 h-45 d-flex ">
+                            <input #fileInput hidden id="signature-upload" type="file" formControlName="signatureUpload"
+                                (change)="UploadFile($event)" accept="image/png,image/jpeg" />
+                            <button mat-raised-button type="button" class="m-1 color-blue w-120px" [id]="'chooseFile'"
+                                (click)="fileInput.click()">{{"Choose File" | translate}}</button>
+                            {{file}}
+                        </label>
+                    </div>
+                    <span [id]="'errormsg'" class="f-12">
+                        {{'Please Upload file only JPEG/PNG format' |translate }}
+                    </span>
+                    <div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="d-flex justify-content-end  mt-4">
+            <button mat-raised-button class="m-1 color-blue" [id]="'Cancel'" (click)="cancelAdd_Save()">{{'Cancel'|
+                translate}}</button>
+            <button type="submit" mat-raised-button class="color-blue m-1" *ngIf="addBtn" [id]="'addBtn'">{{'Add' |
+                translate}}</button>
+            <button type="button" mat-raised-button class="m-1 color-blue" [id]="'Searchbtn'" *ngIf="!addBtn"
+                (click)="updateRecord(HOfficerForm.value)">
+                {{'Save' |translate}}
+            </button>
+        </div>
+    </form>
+</div>
+
+<div class="container-fluid" [hidden]="showAddForm">
+    <!-- add form -->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="align-items-center d-flex row">
+                <div class="col-6">
+                    <mat-form-field appearance="fill">
+                        <mat-label>{{ "Search" | translate }}</mat-label>
+                        <input matInput #search matInput [id]="'Search1'" placeholder="Type"
+                            (keyup)="applyFilter($event)" />
+                    </mat-form-field>
+                </div>
+                <div class="col-6">
+                    <div class="text-right">
+                        <button mat-raised-button appearance="fill" class="m-1 color-blue" [id]="'Add2'"
+                            (click)="showAddFormPage()">
+                            {{ "Add" | translate }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
+            <ng-container matColumnDef="hearingOfficerID">
+                <th mat-header-cell mat-sort-header *matHeaderCellDef>{{"Hearing Officer ID" | translate }}</th>
+                <td mat-cell *matCellDef="let element">
+                    <p class="ellipsis-text m-0 w-200px">{{element.hearingOfficerNumber}}</p>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="hearingOfficerFullName">
+                <th mat-header-cell mat-sort-header *matHeaderCellDef>{{"Hearing Officer Name" | translate }}</th>
+                <td mat-cell *matCellDef="let element" class="text-right"> {{element.hearingOfficerFullName}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="hearingCAD">
+                <th mat-header-cell mat-sort-header *matHeaderCellDef>{{ "CAD" | translate }}</th>
+                <td mat-cell *matCellDef="let element" class="text-right">{{element.hearingCAD}}</td>
+            </ng-container>
+            <ng-container matColumnDef="agencyName">
+                <th mat-header-cell mat-sort-header *matHeaderCellDef>{{ "Hearing Agency" | translate }}</th>
+                <td mat-cell *matCellDef="let element" class="text-right">{{element.agencyName}}</td>
+            </ng-container>
+            <ng-container matColumnDef="hearingDivision">
+                <th mat-header-cell mat-sort-header *matHeaderCellDef>{{ "Hearing Division" | translate }}</th>
+                <td mat-cell *matCellDef="let element" class="text-right">{{element.hearingDivision}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="agencyCode">
+                <th mat-header-cell mat-sort-header *matHeaderCellDef>{{ "Hearing Agency Code" | translate }}</th>
+                <td mat-cell *matCellDef="let element" class="text-right">{{element.agencyCode}}</td>
+            </ng-container>
+
+
+
+            <ng-container matColumnDef="Action">
+                <tr>
+                    <th mat-header-cell *matHeaderCellDef class="text-center">{{ "Action" | translate }}</th>
+                </tr>
+                <tr>
+                    <td mat-cell *matCellDef="let element" class="text-center">
+                        <div class="table-icon-container">
+                            <button mat-icon-button color="dark-grey" [id]="'btn1'" title="{{'Edit' | translate }}">
+                                <mat-icon class="edit-blue" (click)="editRecord(element.hearingOfficerID)">edit
+                                </mat-icon>
+                            </button>
+                            <button mat-icon-button color="dark-grey" [id]="'btn2'" title="{{'Disable' | translate }}"
+                                (click)="toggleRecord(element.hearingOfficerID, element.active)" *ngIf="element.active">
+                                <mat-icon class="color-red">block</mat-icon>
+                            </button>
+                            <button mat-icon-button color="dark-grey" [id]="'btn3'" title="{{'Enable' | translate }}"
+                                (click)="toggleRecord(element.hearingOfficerID, element.active)"
+                                *ngIf="!element.active">
+                                <mat-icon class="color-green">done_outline</mat-icon>
+                            </button>
+                            <button mat-icon-button *ngIf="element.imagePath?.length" [id]="'btn4'" color="dark-grey"
+                                title="{{'image' | translate }}">
+                                <mat-icon (click)="openDialogWithTemplateRef(myDialog,element.imagePath)"
+                                    class="color-light-gray">
+                                    image
+                                </mat-icon>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr></tr>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <div class="col-sm-12 text-center" *ngIf="dataSource.filteredData?.length === 0">
+            {{'No records found' | translate}}
+        </div>
+        <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons [hidden]="showAddForm">
+        </mat-paginator>
+    </div>
+</div>
+
+
+<!-- Dialog template -->
+
+<ng-template #myDialog [id]="'Signaturepopup '">
+    <h2 matDialogTitle>{{'Signature' | translate}}</h2>
+    <mat-dialog-content>
+        <img [src]="pdfSrc" alt="image" class="w-100" />
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button mat-button matDialogClose color="primary">{{'Cancel' | translate}}</button>
+    </mat-dialog-actions>
+</ng-template>

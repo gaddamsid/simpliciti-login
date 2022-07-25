@@ -1,0 +1,1416 @@
+<div class="spinner-wrapper spinn" *ngIf="isLoading && !hideEntity">
+    <mat-spinner></mat-spinner>
+</div>
+<div id="pdfPage" *ngIf="!isplateHistoryView && !hideEntity">
+    <app-plate-info [entityDetails]="entityDetails" (downloadPdf)="downloadAsPDF()"
+        (PlateHistory)="platehistroyView($event)"></app-plate-info>
+    <div class="p-3">
+        <div class="container-fluid background-white table-border p-0">
+            <div class="sarch-table">
+                <div class="row m-0">
+                    <div class="col-lg-3">
+                        <div class="btn-group mt-3" role="group" aria-label="Basic example">
+                            <mat-form-field class="ml-3" appearance="fill" class="open-account">
+                                <mat-select value="0">
+                                    <mat-option [id]="'entityd1'" value="0" selected="this.selected">
+                                        {{"All Tickets"|translate}}
+                                    </mat-option>
+                                    <mat-option [id]="'entityd2'" value="1">{{"Open Tickets"|translate}}</mat-option>
+                                    <mat-option [id]="'entityd3'" value="2">{{"Boot Eligible Tickets"|translate}}
+                                    </mat-option>
+                                    <mat-option [id]="'entityd4'" value="3">{{"Marked/Held Tickets"|translate}}
+                                    </mat-option>
+                                    <mat-option [id]="'entityd5'" value="5">{{"Moving"|translate}}
+                                    </mat-option>
+                                    <mat-option [id]="'entityd6'" value="6">{{"Parking"|translate}}
+                                    </mat-option>
+                                    <mat-option [id]="'entityd7'" value="7">{{"Photo"|translate}}
+                                    </mat-option>
+                                    <mat-option [id]="'entityd8'" value="8">{{"Speeding"|translate}}
+                                    </mat-option>
+                                    <mat-option [id]="'entityd9'" value="9">{{"Taxi"|translate}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="align-content-center col-lg-6 justify-content-center">
+                        <div class="align-content-center d-flex eventicons justify-content-center mt-3 icon">
+                            <button [id]="'entityd5'" mat-button class="custom-button-size" (click)="onClickCart()">
+                                <img [id]="'entityd6'" src="./assets/Tickets/Group 8702.svg" width="23px" />
+                            </button>
+                            <button [id]="'entityd7'" mat-button class="custom-button-size">
+                                <img [id]="'entityd8'" src="./assets/Tickets/Group 7661.svg" width="22px" />
+                            </button>
+                            <button [id]="'entityd9'" mat-button class="custom-button-size">
+                                <img [id]="'entityd10'" src="./assets/Tickets/P.png"
+                                    style="width:20px; height: 28px;margin-bottom: 5px" />
+                            </button>
+                            <button [id]="'entityd11'" mat-button [matMenuTriggerFor]="menu">
+                                <img [id]="'entityd12'" src="./assets/Tickets/Group 7658.png" width="16px" />
+                            </button>
+                            <button [id]="'entityd13'" mat-button class="custom-button-size"
+                                (click)="onClickCalender()">
+                                <img [id]="'entityd14'" src="./assets/Tickets/Group 7660.png" width="18px" />
+                            </button>
+                            <button [id]="'entityd15'" mat-button class="custom-button-size color-text">
+                                <button [id]="'entityd16'" mat-icon-button [matMenuTriggerFor]="menu"
+                                    aria-label="Example icon-button with a menu ">
+                                    <mat-icon [id]="'entityd1'">more_vert</mat-icon>
+                                </button>
+                                <mat-menu #menu="matMenu">
+                                    <button [id]="'entityd17'" mat-menu-item>
+                                        <span>{{"Adjust Payment"|translate}}</span>
+                                    </button>
+                                    <button [id]="'entityd18'" mat-menu-item>
+                                        <span>{{"Reduce Fines and Penalties" | translate}}</span>
+                                    </button>
+                                    <button [id]="'entityd19'" mat-menu-item (click)="getTicketHistory()">
+                                        <span>{{"View Ticket History" | translate}}</span>
+                                    </button>
+                                    <button [id]="'entityd20'" mat-menu-item>
+                                        <span>{{"Add an Event and Send a Correspondence" | translate}}</span>
+                                    </button>
+                                    <button [id]="'entityd21'" mat-menu-item>
+                                        <span>{{"Dissmiss a Ticket" | translate}}</span>
+                                    </button>
+                                    <button [id]="'entityd22'" mat-menu-item>
+                                        <span>{{"Administrative Review" | translate}}</span>
+                                    </button>
+                                    <button [id]="'entityd23'" mat-menu-item>
+                                        <span>{{"Ticket Facsimile"|translate}}</span>
+                                    </button>
+                                    <button [id]="'entityd24'" mat-menu-item>
+                                        <span>{{"Suspend Ticket"|translate}}</span>
+                                    </button>
+                                    <button [id]="'entityd25'" mat-menu-item>
+                                        <span>{{"Suspend Backout"|translate}}</span>
+                                    </button>
+                                    <button [id]="'event27'" mat-menu-item (click)="redirectShouldHappen()">
+                                        <span>{{"nameandAddressUpdate" | translate}}</span>
+                                    </button>
+                                    <button [id]="'entityd26'" mat-menu-item
+                                        (click)="openCustomLayout();getCitationNumber('F144520158')">
+
+                                        <span>{{"Change Layout View"|translate}}</span>
+                                    </button>
+                                    <button [id]="'addNotes'" mat-menu-item (click)="addTicketNote()"
+                                        [id]="'addTicketNote'">
+                                        <span>{{"Add Notes" | translate}}</span>
+                                    </button>
+
+                                </mat-menu>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-3 d-flex justify-content-end">
+                        <mat-form-field appearance="fill" class="w-100 search-event-entity open-account  mt-3">
+                            <mat-select [id]="'entityd99'" value="0" (selectionChange)="onSelectEvent($event.value)">
+                                <mat-option [id]="'entityd27'" value="0" selected="this.selected">
+                                    {{"Summary" | translate}}</mat-option>
+                                <mat-option [id]="'entityd28'" value="1">{{"Multi-Owner"|translate}}</mat-option>
+                                <mat-option [id]="'entityd29'" value="2">{{"Non-Renewal"|translate}}</mat-option>
+                                <mat-option [id]="'entityd30'" value="3">{{"Issuance"|translate}}</mat-option>
+                                <mat-option [id]="'entityd31'" value="4">{{"Moving 1"|translate}}</mat-option>
+                                <mat-option [id]="'entityd32'" value="5">{{"Moving 2"|translate}}</mat-option>
+                                <mat-option [id]="'entityd33'" value="6">{{"Other Violations"|translate}}</mat-option>
+                                <mat-option [id]="'entityd34'" value="7">{{"Admin Review"|translate}}</mat-option>
+                                <mat-option [id]="'entityd35'" value="8">{{"Hearing Request"|translate}}</mat-option>
+                                <mat-option [id]="'entityd36'" value="9">{{"Hearing Status"|translate}}</mat-option>
+                                <mat-option [id]="'entityd37'" value="10">{{"System Views"|translate}}</mat-option>
+                                <mat-option [id]="'entityd38'" value="11">{{"Penalty"|translate}}</mat-option>
+                                <mat-option [id]="'entityd39'" value="12">{{"Enforcement"|translate}}</mat-option>
+                                <mat-option [id]="'entityd40'" value="13">{{"Surcharge"|translate}}</mat-option>
+                                <mat-option [id]="'entityd41'" value="14">{{"Public Space"|translate}}</mat-option>
+                                <mat-option [id]="'entityd42'" value="15">{{"Collections"|translate}}</mat-option>
+                                <mat-option [id]="'entityd43'" value="16">{{"Payments"|translate}}</mat-option>
+                                <mat-option [id]="'entityd44'" value="17">{{"Notices"|translate}}</mat-option>
+                                <mat-option [id]="'entityd45'" value="18">{{"Hearings"|translate}}</mat-option>
+                                <mat-option [id]="'entityd46'" value="19">{{"Suspends"|translate}}</mat-option>
+                                <mat-option [id]="'entityd47'" value="20">{{"Revenue Distribution"|translate}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div>
+                    <router-outlet></router-outlet>
+                </div>
+            </div>
+            <div class="mat-elevation-z8">
+                <table mat-table class="full-width-table plate-info-table" matSort aria-label="Elements"
+                    [dataSource]="dataSource" matSortDisableClear>
+                    <ng-container matColumnDef="select">
+                        <th mat-header-cell *matHeaderCellDef style="padding: 0 !important; vertical-align: middle;"
+                            class="header-checkbox">
+                            <mat-checkbox color="primary" (change)="($event ? masterToggle() : null);courtScheduledList = [];"
+                                [checked]="selection.hasValue()"
+                                [indeterminate]="selection.hasValue() && !isAllSelected()">
+                            </mat-checkbox>
+                        </th>
+                        <td mat-cell *matCellDef="let row; let i = index" class="text-center">
+                            <mat-checkbox color="primary" (click)="$event.stopPropagation()"
+                                (change)="$event ? selection.toggle(row) : null;  onCheck(row);deleteSelectedCoutSchedule(row.citationNo)"
+                                [checked]="selection.isSelected(row)" id="{{'checkboxId' + i}}">
+                            </mat-checkbox>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="citationNo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Citation No." | translate}} </th>
+                        <td mat-cell *matCellDef="let row">
+
+                            <a class="plate-info-link" (click)="findByTicketNumber(row.citationNo)">
+                                <img [id]="'entityd69'" src="./assets/Plate/Group 7407.svg" width="23px" />
+                                <img [id]="'entityd70'" src="./assets/Plate/Group 7410.svg"
+                                    width="23px" />
+                                    <span [ngStyle]="{'color': isScheduleAllow(row.citationNo) ? 'red' : '' }">{{row.citationNo}} </span>
+                                {{row.userId}}
+                            </a>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="violationDate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Violation Date|Time" | translate}}</th>
+                        <td mat-cell *matCellDef="let row">{{row.violationDate}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="issuedDate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="w-150px"
+                            style=" vertical-align: middle;">
+                            {{"Issued Date" | translate}}</th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ row.issuedDate }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="status">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="w-150px"
+                            style=" vertical-align: middle;">
+                            {{"Status" | translate}}</th>
+                        <td mat-cell *matCellDef="let row">{{(row.status) ? (row.status) : '-'  }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="locationDescription">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="vertical-align: middle;">
+                            {{"Location Code Description" | translate}} </th>
+                        <td mat-cell *matCellDef="let row">{{ row.locationDescription }}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="fines">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            <span *ngIf="!isCollection">{{"Fines" | translate}}</span>
+                            <span *ngIf="isCollection">{{"Fine/Penalty" | translate}}</span>
+                        </th>
+                        <td mat-cell *matCellDef="let row">
+                            <div class="text-right">{{(row.fines ? row.fines : 0) | currency}}</div>
+                            <div class="text-right" *ngIf="isCollection">{{(row.penalties ? row.penalties : 0) | currency}}</div>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="penalties">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Penalties"
+                            |translate}}</th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ (row.penalties ? row.penalties: 0) | currency}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="reduction">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Reduction"
+                            | translate}}</th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ (row.reduction ? row.reduction: 0) | currency}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="interest">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Interest"
+                            | translate}}</th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ (row.interest ? row.interest: 0) | currency }}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="payments">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Payments"
+                            | translate}}</th>
+                        <td mat-cell *matCellDef="let row">
+                            {{ (row.payments? row.payments: 0) | currency }}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="amountDue" *ngIf="isAmtTotalDue && !isCollection">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Amt.Due" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-right">{{(row.amountDue? row.amountDue: 0) | currency}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="amountDue" *ngIf="!isAmtTotalDue && !isCollection">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"TotalDue" | translate}}</th>
+                        <td mat-cell *matCellDef="let row">{{(row.amountDue? row.amountDue: 0) | currency}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="events">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Events" | translate}}</th>
+                        <td mat-cell *matCellDef="let row">{{row.events}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="click">
+                        <th mat-header-cell *matHeaderCellDef style=" vertical-align: middle;"></th>
+                        <td mat-cell *matCellDef="let row"> <button mat-button class="custom-button-size ">
+                                <!-- <img src="./assets/Tickets/Group 8257.png" width="20px" /> -->
+                                <button [id]="'entityd48'" mat-icon-button [matMenuTriggerFor]="menu"
+                                    aria-label="Example icon-button with a menu ">
+                                    <mat-icon [id]="'entityd71'">more_vert</mat-icon>
+                                </button>
+                                <mat-menu #menu="matMenu">
+                                    <button [id]="'entityd49'" mat-menu-item>
+                                        <span>Add Payment</span>
+                                    </button>
+                                    <button [id]="'entityd50'" mat-menu-item>
+                                        <span>Adjust Payment/Fees/Penalties</span>
+                                    </button>
+                                    <button [id]="'entityd51'" mat-menu-item>
+                                        <span>Add notes</span>
+                                    </button>
+                                    <button [id]="'entityd52'" mat-menu-item>
+                                        <span>Add an Event and Send a Correspondence</span>
+                                    </button>
+                                    <button [id]="'entityd53'" mat-menu-item>
+                                        <span>Schedule a hearing</span>
+                                    </button>
+                                    <button [id]="'entityd54'" mat-menu-item>
+                                        <span>Dismiss ticket(s)</span>
+                                    </button>
+                                    <button [id]="'entityd55'" mat-menu-item>
+                                        <span>Adjudicate ticket(s)</span>
+                                    </button>
+                                    <button [id]="'entityd56'" mat-menu-item>
+                                        <span>Suspend Ticket</span>
+                                    </button>
+
+                                </mat-menu>
+                            </button></td>
+                    </ng-container>
+
+                    <!-- Start Non-Renewal Tab -->
+                    <ng-container matColumnDef="date">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Date" | translate}} </th>
+                            <td mat-cell *matCellDef="let row">{{(row.date) ? (row.date | date :
+                                globalFormats.dateOnly) : ''}}
+                            </td>
+                    </ng-container>
+                    <ng-container matColumnDef="swapStatus">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Swap Status" | translate}} </th>
+                            <td mat-cell *matCellDef="let row">{{(row.swapStatus) ? (row.swapStatus) : '-'}}
+                            </td>
+                    </ng-container>
+                    <ng-container matColumnDef="swapDate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Swap Date" | translate}} </th>
+                            <td mat-cell *matCellDef="let row">{{(row.swapDate) ? (row.swapDate | date :
+                                globalFormats.dateOnly) : '-' }}
+                            </td>
+                    </ng-container>
+                    <ng-container matColumnDef="responseDate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Response Date" | translate}} </th>
+                            <td mat-cell *matCellDef="let row">{{(row.responseDate) ? (row.responseDate | date :
+                                globalFormats.dateOnly) : '-' }}
+                            </td>
+                    </ng-container>
+                    <!-- End Non-Renewal Tab-->
+
+                    <!--Issunace tab start-->
+                    <ng-container matColumnDef="citationNumber">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Ticket#" | translate}} </th>
+                        <td mat-cell *matCellDef="let row" class="text-left"><a class="plate-info-link"
+                                (click)="findByTicketNumber(row.citationNumber)">{{row.citationNumber}}</a></td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="issueDateTime">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="vertical-align: middle;">
+                            {{"Issue Date/Time" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-center"><span
+                                *ngIf="row.issueDateTime">{{row.issueDateTime | date :
+                                globalFormats.dateAndTime}}</span>
+                            <span *ngIf="!row.issueDateTime">-</span>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="division">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="w-150px"
+                            style=" vertical-align: middle;">
+                            {{"Division/Route" | translate}}</th>
+                        <td mat-cell *matCellDef="let row">{{(row.division ? row.division : '-')}}<br> {{(row.route ?
+                            row.route : '-')}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="badge">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="w-150px"
+                            style=" vertical-align: middle;">
+                            {{"Badge/Color" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-right">{{(row.badge ? row.badge :
+                            '-')}}<br>{{(row.color ? row.color : '-')}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="make">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="vertical-align: middle;">
+                            {{"Make/Model" | translate}} </th>
+                        <td mat-cell *matCellDef="let row">{{(row.make ? row.make : '-')}}<br>{{(row.model ? row.model :
+                            '-')}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="style">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Style/Tag Exp" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-center">{{(row.style ? row.style :
+                            '-')}}<br><span *ngIf="row.tagExpirationDate"> {{row.tagExpirationDate | date :
+                                globalFormats.dateOnly}}</span><span *ngIf="!row.tagExpirationDate">-</span></td>
+                    </ng-container>
+                    <ng-container matColumnDef="violationCode">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Location/Violation" |translate}}</th>
+                        <td mat-cell *matCellDef="let row">
+                            {{(row.location ? row.location : '-')}}<br>{{(row.violationCode ? row.violationCode : '-')}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="rppDistrict">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Permit District/Meter" | translate}}</th>
+                        <td mat-cell *matCellDef="let row">
+                            {{(row.rppDistrict ? row.rppDistrict : '-')}}<br>
+                            <span *ngIf="row.meter!=='' || row.meter!==' '"> {{row.meter}}</span><span
+                                *ngIf="row.meter==='' || row.meter===' '">-</span>
+                        </td>
+                    </ng-container>
+                    <!-- Issuance tab end-->
+
+                    <!-- suspendDetail tab end-->
+                    <ng-container matColumnDef="suspendCode">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Suspended Code / Description" | translate}}</th>
+                        <td mat-cell *matCellDef="let row">
+                            <span *ngIf="row.suspendCode!==0"> {{row.suspendCode}}</span>
+                            <span *ngIf="!row.suspendCode">-</span>
+                            <br>{{row.suspendName}} <br><span *ngIf="row.suspendTillDate"> {{row.suspendTillDate | date
+                                : globalFormats.dateOnly}}</span><span *ngIf="!row.suspendTillDate">-</span>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="suspendDateTime">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Suspend Date/Time" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-center">
+                            <span *ngIf="row.suspendDateTime">
+                                {{row.suspendDateTime | date : globalFormats.dateAndTime}}</span>
+                            <span *ngIf="!row.suspendDateTime">-</span>
+
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="processDate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="w-150px"
+                            style=" vertical-align: middle;">
+                            {{"Processed On/User ID" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-center">
+                            <span *ngIf="row.processDate"> {{row.processDate | date : globalFormats.dateOnly}}</span>
+                            <span *ngIf="!row.processDate">-</span><br>{{(row.userId ? row.userId : '-')}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="caseNumber">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            <span *ngIf="!hearingShow">{{"Case" | translate}}</span>
+                            <span *ngIf="hearingShow">{{"Case # / Plea" | translate}}</span>
+                        </th>
+                        <td mat-cell *matCellDef="let row"> <span *ngIf="!hearingShow">{{(row.caseNumber ?
+                                row.caseNumber : '-')}}</span>
+                            <span *ngIf="hearingShow">{{(row.caseNumber ? row.caseNumber :'-')}}<br>
+                                {{(row.pleaCode ? row.pleaCode : '-')}}</span>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="dateOverride">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Date Override" | translate}}</th>
+                        <td mat-cell *matCellDef="let row">{{(row.dateOverride ? row.dateOverride : '-')}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="reductionAmount">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            <span *ngIf="!hearingShow">{{"Reduction" | translate}}</span>
+                            <span *ngIf="hearingShow">{{"Reduction / Total Due" | translate}}</span>
+
+                        </th>
+                        <td mat-cell *matCellDef="let row" class="text-right">
+                            <span *ngIf="!hearingShow">{{(row.reductionAmount? row.reductionAmount: 0) |
+                                currency}}</span>
+
+                            <span *ngIf="hearingShow">
+                                {{(row.reductionAmount? row.reductionAmount: 0) | currency}}
+                                <br>
+                                {{(row.totalDue ? row.totalDue : 0) | currency}}
+                            </span>
+                        </td>
+                    </ng-container>
+
+
+
+                    <!-- <ng-container matColumnDef="reductionTotal">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Reduction Total Due" | translate}}</th>
+                        <td mat-cell *matCellDef="let row">
+                            {{(row.reductionAmount ? row.reductionAmount : 0) | currency}}<br>
+                            {{(row.totalDue ? row.totalDue : 0) | currency}}
+
+
+                        </td>
+                    </ng-container> -->
+
+
+
+
+                    <ng-container matColumnDef="totalAmountDue">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Total Due" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-right">
+                            {{(row.totalAmountDue? row.totalAmountDue: 0) | currency}}</td>
+                    </ng-container>
+                    <!-- public space start -->
+                    <ng-container matColumnDef="surchargeNumber">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"sur Charge #" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-left" >
+                            <a class="plate-info-link" (click)="findByTicketNumber(row.surchargeNumber)">{{(row.surchargeNumber? row.surchargeNumber: '-')}}</a></td>
+                    </ng-container>
+                    <ng-container matColumnDef="servDate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"serv Date" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-center">
+                            {{(row.servDate| date : globalFormats.dateOnly)}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="servMethod">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"serv Method" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-center">
+                            {{(row.servMethod? row.servMethod : '-')}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="violation">
+                        <th mat-header-cell *matHeaderCellDef  style=" vertical-align: middle;">
+                            {{"violation" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-center">
+                            {{(row.violation? row.violation : '-')}}<br>{{(row.location? row.location : '-')}}</td>
+                    </ng-container> 
+                    <ng-container matColumnDef="publicstatus">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Status" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-center">
+                            {{(row.status? row.status : '-')}}</td>
+                    </ng-container> 
+                    <ng-container matColumnDef="abateAmount">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Abate Amt" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-right">
+                            {{(row.abateAmount? row.abateAmount : 0) | currency}}</td>
+                    </ng-container>  
+                    <!-- <ng-container matColumnDef="amountDueType">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Amt.Due" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-right">
+                            {{(row.amountDue? row.amountDue : 0) | currency}}</td>
+                    </ng-container> -->
+                    <ng-container matColumnDef="pernalties">
+                        <th mat-header-cell *matHeaderCellDef  style=" vertical-align: middle;">
+                            {{"Fin & Pen" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-right">
+                            {{(row.fines? row.fines : 0) | currency}} <br> {{(row.pernalties? row.pernalties :0) | currency}} </td>
+                    </ng-container>                  
+                    <!-- public space end -->
+
+                    <!-- suspendDetail tab end-->
+                    <!--Start Penalty Tab-->
+                    <ng-container matColumnDef="fine">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Fine Amt" | translate}}</th>
+                        <td mat-cell *matCellDef="let row">
+                            <div class="text-right">{{(row.fine ? row.fine : 0) | currency}}</div>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="penalty1">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Penalty1 / Date" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="align-center">{{(row.penalty1 ? row.penalty1 : 0) |
+                            currency}}<br>{{row.penalty1Date | date : globalFormats.dateOnly}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="penalty2">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Penalty2 / Date" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="align-center">{{(row.penalty2 ? row.penalty2 : 0) |
+                            currency}}<br>{{row.penalty2Date | date : globalFormats.dateOnly}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="penalty3">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Penalty3 / Date" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="align-center">{{(row.penalty3 ? row.penalty3 : 0) |
+                            currency}}<br>{{row.penalty3Date | date : globalFormats.dateOnly}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="penalty4">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Penalty4 / Date" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="align-center">{{(row.penalty4 ? row.penalty4 : 0) |
+                            currency}}<br>{{row.penalty4Date | date : globalFormats.dateOnly}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="penalty5">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Penalty5 / Date" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="align-center">{{(row.penalty5 ? row.penalty5 : 0) |
+                            currency}}<br>{{row.penalty5Date | date : globalFormats.dateOnly}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="totalPaid">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Total Paid" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" >
+                            <div class="text-right">{{(row.amountPaid ? row.amountPaid : 0) | currency}}</div>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="reduced">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Reduced" | translate}}</th>
+                        <td mat-cell *matCellDef="let row">
+                            <div class="text-right">{{(row.reductionAmount ? row.reductionAmount : 0) | currency}}</div>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="totalDue" *ngIf="!paymentDetails">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Total Due / Overpaid" | translate}}</th>
+                        <td mat-cell *matCellDef="let row">
+                            <div class="text-right">{{(row.totalDue ? row.totalDue : 0) | currency}}</div>
+                            <div class="text-right">{{(row.overPaid ? row.overPaid : 0) | currency}}</div>
+                        </td>
+                    </ng-container>
+                    <!--End Penalty Tab-->
+                    
+                    <!-- start other voilation -->
+                    <ng-container matColumnDef="OthercitationNumber">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Ticket" | translate}}</th>
+                        <td mat-cell *matCellDef="let row">
+                            <a class="plate-info-link text-left" (click)="findByTicketNumber(row.OthercitationNumber)">{{row.OthercitationNumber ? row.OthercitationNumber : '-'}}</a>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="OtherissueDate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Issue Date" | translate}}</th>
+                        <td mat-cell *matCellDef="let row">
+                            <div class="text-center" *ngIf="row.OtherissueDate">{{row.OtherissueDate  | date : 'mediumDate'}}</div>
+                            <div class="text-center" *ngIf="!row.OtherissueDate">-</div>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="fineAmount">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Fine" | translate}}</th>
+                        <td mat-cell *matCellDef="let row">
+                            <div class="text-right" *ngIf="row.fineAmount">${{row.fineAmount}}</div>
+                            <div class="text-right" *ngIf="!row.fineAmount">-</div>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="violationCode1">
+                        <th mat-header-cell *matHeaderCellDef  style=" vertical-align: middle;">
+                            {{"Violation Code 1/Description 1"| translate}}</th>
+                        <td mat-cell *matCellDef="let row">
+                            <div class="text-left">{{row.violationCode1 ? row.violationCode1 : '-' }}</div>
+                            <div class="text-left">{{row.description1 ? row.description1 : '-'}}</div>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="violationCode2">
+                        <th mat-header-cell *matHeaderCellDef  style=" vertical-align: middle;">
+                            {{"Violation Code 2/Description 2"| translate}}</th>
+                        <td mat-cell *matCellDef="let row">
+                            <div class="text-left">{{row.violationCode2 ?  row.violationCode2 : '-' }}</div>
+                            <div class="text-left">{{row.description2 ?  row.description2 : '-' }}</div>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="violationCode3">
+                        <th mat-header-cell *matHeaderCellDef  style=" vertical-align: middle;">
+                            {{"Violation Code 3/Description 3"| translate}}</th>
+                        <td mat-cell *matCellDef="let row">
+                            <div class="text-left">{{row.violationCode3 ?  row.violationCode3 : '-' }}</div>
+                            <div class="text-left">{{row.description3 ?  row.description3 : '-' }}</div>
+                        </td>
+                    </ng-container>
+
+                    <!-- <ng-container matColumnDef="violationCode4">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Violation Code 4/Description 4"| translate}}</th>
+                        <td mat-cell *matCellDef="let row">
+                            <div class="text-right">{{row.violationCode4 ? row.violationCode4 : '-'}}</div>
+                            <div class="text-right">{{row.description4 ? row.description4 : '-'}}</div>
+                        </td>
+                    </ng-container> -->
+                    <!-- end other Voilation -->
+
+                    <!-- Start Admin Review -->
+                    <ng-container matColumnDef="AdmincitationNumber">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Ticket#" | translate}}</th>
+                        <td mat-cell *matCellDef="let row">
+                            <a class="plate-info-link text-left" (click)="findByTicketNumber(row.AdmincitationNumber)">{{row.AdmincitationNumber ? row.AdmincitationNumber : '-'}}</a>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Adminviolationt">
+                        <th mat-header-cell *matHeaderCellDef  style=" vertical-align: middle;">
+                            {{"Violation/IssueDate" | translate}}</th>
+                        <td mat-cell *matCellDef="let row">
+                            <div class="text-left">{{row.Adminviolationt ? row.Adminviolationt : '-'}}</div>
+                            <div class="text-left" *ngIf="row.AdminissueDate">{{row.AdminissueDate | date : 'mediumDate'}}</div>
+                            <div class="text-left" *ngIf="!row.AdminissueDate">-</div>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="lastContestDate">
+                        <th mat-header-cell *matHeaderCellDef  style=" vertical-align: middle;">
+                            {{"Last Contest Date/Disposition" | translate}}</th>
+                        <td mat-cell *matCellDef="let row">
+                            <div class="text-center" *ngIf="row.AdminissueDate">{{row.lastContestDate | date : 'mediumDate'}}</div>
+                            <div class="text-center" *ngIf="!row.AdminissueDate">-</div>
+                           
+                            <div class="text-center">{{row.disposition ?  row.disposition : '-'}}</div>
+                            <!-- <div class="text-left" *ngIf="row.disposition !== 0">{{row.disposition }}</div> -->
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="aadminsuspendClass">
+                        <th mat-header-cell *matHeaderCellDef  style=" vertical-align: middle;">
+                            {{"Suspend Class /Untimely Review" | translate}}</th>
+                        <td mat-cell *matCellDef="let row">
+                            <div class="text-left">{{row.aadminsuspendClass ? row.aadminsuspendClass : '-'}}</div>
+                            <div class="text-left">{{row.untimelyReview ? row.untimelyReview : '-'}}</div>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="adminsuspendCode">
+                        <th mat-header-cell *matHeaderCellDef  style=" vertical-align: middle;">
+                            {{"Suspend Code /Badge" | translate}}</th>
+                        <td mat-cell *matCellDef="let row">
+                            <div class="text-left" *ngIf="row.adminsuspendCode">{{row.adminsuspendCode }}</div>
+                            <div class="text-left" *ngIf="!row.adminsuspendCode">-</div>
+                            
+                            <div class="text-left">{{row.badgeNumber ? row.badgeNumber : '-'}}</div>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="suspendStart">
+                        <th mat-header-cell *matHeaderCellDef  style=" vertical-align: middle;">
+                            {{"Suspend Start /Suspend Until" | translate}}</th>
+                        <td mat-cell *matCellDef="let row">
+                            <div class="text-center" *ngIf="row.suspendStart">{{row.suspendStart | date : 'mediumDate'}}</div>
+                            <div class="text-center" *ngIf="!row.suspendStart">-</div>
+                            <div class="text-center"  *ngIf="row.suspendUntil">{{row.suspendUntil | date : 'mediumDate'}}</div>
+                            <div class="text-center" *ngIf="!row.suspendUntil">-</div>
+                        </td>
+                    </ng-container>
+
+                    <!-- End Admin Review -->
+
+                    <!--Start Collection Tab-->
+                    <ng-container matColumnDef="nixieStatus">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            {{"Nixie status/Trace source" | translate}}</th>
+                        <td mat-cell *matCellDef="let row">
+                            <div>{{row.nixieStatus? row.nixieStatus:'-'}}</div>
+                            <div>{{row.traceSource? row.traceSource:'-'}}</div>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="amountDue" *ngIf="isCollection">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="vertical-align: middle;">
+                            {{"Amount Due/Paid" | translate}}</th>
+                        <td mat-cell *matCellDef="let row">
+                            <div class="text-right">{{(row.amountDue ? row.amountDue : 0) | currency}}</div>
+                            <div class="text-right">{{(row.amountPaid ? row.amountPaid : 0) | currency}}</div>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="costOfCollection">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="vertical-align: middle;">
+                            {{"Cost Of Collection" | translate}}</th>
+                        <td mat-cell *matCellDef="let row">
+                            <div class="text-right">{{(row.costOfCollection ? row.costOfCollection : 0) | currency}}</div>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="assingedAgency">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="vertical-align: middle;">
+                            {{"Agency Assigned To/Recall Date" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-center">
+                            <div>{{row.assingedAgency? row.assingedAgency:'-'}}</div>
+                            <div>{{row.recallDate | date : globalFormats.dateOnly}}</div>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="category">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            {{"Contingency Code/Category" | translate}}</th>
+                        <td mat-cell *matCellDef="let row">
+                            <div>{{row.category? row.category:'-'}}</div>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="lastActivityDate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="vertical-align: middle;">
+                            {{"Activity Code/Last Activity Date" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-center">
+                            <div>{{row.activity? row.activity:'-'}}</div>
+                            <div>{{row.lastActivityDate | date : globalFormats.dateOnly}}</div>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="lastMailDate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="vertical-align: middle;">
+                            {{"Last Notice Mailed" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-center">
+                            <div>{{row.lastMailType ? row.lastMailType : '-'}}</div>
+                            <div>{{row.lastMailDate | date : globalFormats.dateOnly}}</div>
+                        </td>
+                    </ng-container>
+                    <!--End Collection Tab-->
+
+                    <!--Start Notice Tab-->
+                    <ng-container matColumnDef="mailSentDate1">
+                        <th mat-header-cell *matHeaderCellDef>
+                            {{"Mail 1 sent / Processed" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-center">
+                            <div>{{row.mailSentDate1 ? (row.mailSentDate1 | date : globalFormats.dateOnly) : '-'}}</div>
+                            <div>{{row.mailProcessDate1 ? (row.mailProcessDate1 | date : globalFormats.dateOnly) : '-'}}</div>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="mailSentDate2">
+                        <th mat-header-cell *matHeaderCellDef style="vertical-align: middle;">
+                            {{"Mail 2 sent / Processed" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-center">
+                            <div>{{row.mailSentDate2 ? (row.mailSentDate2 | date : globalFormats.dateOnly) : '-'}}</div>
+                            <div>{{row.mailProcessDate2 ? (row.mailProcessDate2 | date : globalFormats.dateOnly) : '-'}}</div>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="mailSentDate3">
+                        <th mat-header-cell *matHeaderCellDef style="vertical-align: middle;">
+                            {{"Mail 3 sent / Processed" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-center">
+                            <div>{{row.mailSentDate3 ? (row.mailSentDate3 | date : globalFormats.dateOnly) : '-'}}</div>
+                            <div>{{row.mailProcessDate3 ? (row.mailProcessDate3 | date : globalFormats.dateOnly) : '-'}}</div>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="mailSentDate4">
+                        <th mat-header-cell *matHeaderCellDef style="vertical-align: middle;">
+                            {{"Mail 4 sent / Processed" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-center">
+                            <div>{{row.mailSentDate4 ? (row.mailSentDate4 | date : globalFormats.dateOnly) : '-'}}</div>
+                            <div>{{row.mailSentDate4 ? (row.mailProcessDate4 | date : globalFormats.dateOnly) : '-'}}</div>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="mailSentDate5">
+                        <th mat-header-cell *matHeaderCellDef>
+                            {{"Mail 5 sent / Processed" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-center">
+                            <div>{{row.mailSentDate5 ? (row.mailSentDate5 | date : globalFormats.dateOnly) : '-'}}</div>
+                            <div>{{row.mailProcessDate5 ? (row.mailProcessDate5 | date : globalFormats.dateOnly) : '-'}}</div>
+                        </td>
+                    </ng-container>
+                    <!--End Notice Tab-->
+
+                    <!--Start System View Tab-->
+                    <ng-container matColumnDef="next/Action">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="vertical-align: middle;">
+                            {{"Next/Action" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-center">
+                            <span>{{(row.nextActionDate ? row.nextActionDate : 0) }}</span><br>
+                            <span>{{(row.nextActionType ? row.nextActionType : 0) }}</span>
+                        </td>
+                    </ng-container>
+              <ng-container matColumnDef="event/event2" >
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="vertical-align: middle;">
+                    {{"event/event2" | translate}}</th>
+                    <td mat-cell *matCellDef="let row" class="text-center">
+                        <span>{{(row.event ? row.event : 0) }}</span><br>
+                        <span>{{(row.event2 ? row.event2 : 0) }}</span>
+                    </td>
+            </ng-container>
+          <ng-container matColumnDef="error">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header style="vertical-align: middle;">
+                {{"error" | translate}}</th>
+                <td mat-cell *matCellDef="let row" class="text-center">
+                  <div >{{(row.error ? row.error: 0) }}</div>
+              </td>
+        </ng-container>
+        <ng-container matColumnDef="sPCIND">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header style="vertical-align: middle;">
+              {{"SPC/IND" | translate}}</th>
+              <td mat-cell *matCellDef="let row" class="text-center">
+                <div >{{(row.sPCIND ? row.sPCIND: 0) }}</div>
+            </td>
+      </ng-container>
+      <ng-container matColumnDef="seizeBoot" >
+        <th mat-header-cell *matHeaderCellDef mat-sort-header style="vertical-align: middle;">
+            {{"seize/Boot" | translate}}</th>
+            <td mat-cell *matCellDef="let row" class="text-center">
+              <div>{{(row.seizeBoot ? row.seizeBoot: 0) }}</div>
+          </td>
+    </ng-container>
+    <ng-container matColumnDef="iPPDefault" >
+      <th mat-header-cell *matHeaderCellDef mat-sort-header style="vertical-align: middle;">
+          {{"IPP/Default" | translate}}</th>
+          <td mat-cell *matCellDef="let row" class="text-center">
+            <div >{{(row.iPPDefault ? row.iPPDefault: 0) }}</div>
+        </td>
+  </ng-container>
+  <ng-container matColumnDef="backlogSample" >
+    <th mat-header-cell *matHeaderCellDef mat-sort-header style="vertical-align: middle;">
+        {{"Backlog/Sample" | translate}}</th>
+        <td mat-cell *matCellDef="let row" class="text-center">
+          <div >{{(row.backlogSample ? row.backlogSample: 0) }}</div>
+      </td>
+</ng-container>
+                    <!--End System View  Tab-->
+
+                    <!-- Payment Tab START -->
+                    <ng-container matColumnDef="amountPaid" *ngIf="!hearingRequestTable && !isRevenueDistribution">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="vertical-align: middle;">
+                            {{"Amount/Payment Date" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-center"><span>{{(row.amountPaid? row.amountPaid:
+                                0) |
+                                currency}}</span> <br> <span>{{row.paymentDate| date: globalFormats.dateOnly}}</span>
+                            <span *ngIf="!row.paymentDate">-</span>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="paymentType">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="vertical-align: middle;">
+                            {{"Type/Method" | translate}}</th>
+                        <td mat-cell *matCellDef="let row">{{row.paymentType? row.paymentType:'-'}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="account">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="vertical-align: middle;">
+                            {{"Account" | translate}}</th>
+                        <td mat-cell *matCellDef="let row">{{row.account? row.account: '-'}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="processedOn">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="vertical-align: middle;"
+                            class="w-150px">
+                            {{"Processed On/User ID" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-center">
+                            <span>{{row.processedOn | date : globalFormats.dateOnly}}</span>
+                            <span *ngIf="!row.processedOn">-</span><br>{{ row.userId? row.userId: '-' }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="ippInd">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="vertical-align: middle;">
+                            {{"IPP" | translate}}</th>
+                        <td mat-cell *matCellDef="let row">{{row.ippInd? row.ippInd: '-'}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="overPaid">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="vertical-align: middle;">
+                            {{"Overpaid" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-right">{{(row.overPaid? row.overPaid: 0) |
+                            currency}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="totalDue" *ngIf="paymentDetails">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="vertical-align: middle;">
+                            {{"Total Due" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-right">{{(row.totalDue? row.totalDue: 0) |
+                            currency}}</td>
+                    </ng-container>
+                    <!--Payment Tab END -->
+
+        <!-- Moving 1 START -->
+                    <ng-container matColumnDef="ticket">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="vertical-align: middle;" class="w-150px">
+                            {{"Ticket#" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-left">
+                            <span>{{row.ticket}} &nbsp; <mat-icon class="color-light-gray align-middle" *ngIf="row?.imageIndicator==='Y'" (click)="viewCitationImage(imgDialog,row?.imageUrl)">image</mat-icon></span>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="issueDate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="vertical-align: middle;">
+                            {{"Violation/Issue Date" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-center">
+                            <span>{{row.violation}}</span> <br>
+                            <span>{{row.issueDate | date : globalFormats.dateOnly}}</span>
+                            <span *ngIf="!row.issueDate">-</span>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="speedZone">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="vertical-align: middle;">
+                            {{"Speed Zone/Actual Speed" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-center"><span>{{(row.speedZone? row.speedZone: '-')}}</span> <br>
+                            <span>{{(row.actaualSpeed? row.actaualSpeed: '-')}}</span>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="overweight">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="vertical-align: middle;"
+                            class="w-150px">
+                            {{"Overweight/Radar Indicator" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-center">
+                            <span>{{ row.overweight? row.overweight: '-' }}</span><br>
+                            <span>{{ row.radarIndication? row.radarIndication: '-' }}</span>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="bookedInd">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="vertical-align: middle;" class="w-150px">
+                            {{"Booked Ind/Accident" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-center">
+                            <span>{{ row.bookedInd? row.bookedInd: '-' }}</span><br>
+                            <span>{{ row.accident? row.accident: '-' }}</span>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="hazard">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="vertical-align: middle;" class="w-150px">
+                            {{"Hazard/Owner" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-center">
+                            <span>{{ row.hazard? row.hazard: '-' }}</span><br>
+                            <span>{{ row.owner? row.owner: '-' }}</span>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="filed">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="vertical-align: middle;" class="w-150px">
+                            {{"Filed/Misc" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-center">
+                            <span>{{ row.filed? row.filed: '-' }}</span><br>
+                            <span>{{ row.misc? row.misc: '-' }}</span>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="microfilmNumber" class="w-150px">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="vertical-align: middle;">
+                            {{"Microfilm Number/Sample" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-center">
+                            <span>{{ row.microfilmNumber? row.microfilmNumber: '-' }}</span><br>
+                            <span>{{ row.sample? row.sample: '-' }}</span>
+                        </td>
+                    </ng-container>
+     <!--Moving 1 END -->
+
+     <!-- Moving 2 START -->
+
+    <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header style="vertical-align: middle;">
+            {{"Violation/Description" | translate}}</th>
+        <td mat-cell *matCellDef="let row" class="text-center">
+            <span>{{row.violation?row.violation:'-'}}</span> <br>
+            <span>{{row.description? row.description:'-'}}</span>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="plate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header style="vertical-align: middle;">
+            {{"Plate/VIN" | translate}}</th>
+        <td mat-cell *matCellDef="let row" class="text-center"><span>{{(row.plate? row.plate: '-')}}</span> <br>
+            <span>{{(row.vin? row.vin: '-')}}</span>
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="assignDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header style="vertical-align: middle;"
+            class="w-150px">
+            {{"Assign Date/Assign Agency" | translate}}</th>
+        <td mat-cell *matCellDef="let row" class="text-center">
+            <span>{{row.assignDate | date : globalFormats.dateOnly}}</span>
+            <span *ngIf="!row.assignDate">-</span> <br>
+            <span>{{ row.assignAgency? row.assignAgency: '-' }}</span>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="sex">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header style="vertical-align: middle;" class="w-150px">
+            {{"Sex/Race" | translate}}</th>
+        <td mat-cell *matCellDef="let row" class="text-center">
+            <span>{{ row.sex? row.sex: '-' }}</span><br>
+            <span>{{ row.race? row.race: '-' }}</span>
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="height">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header style="vertical-align: middle;" class="w-150px">
+            {{"Height/Weight" | translate}}</th>
+        <td mat-cell *matCellDef="let row" class="text-center">
+            <span>{{ row.height? row.height: '-' }}</span><br>
+            <span>{{ row.weight? row.weight: '-' }}</span>
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="eyes">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header style="vertical-align: middle;" class="w-150px">
+            {{"Eyes/Hair" | translate}}</th>
+        <td mat-cell *matCellDef="let row" class="text-center">
+            <span>{{ row.eyes? row.eyes: '-' }}</span><br>
+            <span>{{ row.hair? row.hair: '-' }}</span>
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="dateOfBirth" class="w-150px">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header style="vertical-align: middle;">
+            {{"Date of Birth / Issuing Agency" | translate}}</th>
+        <td mat-cell *matCellDef="let row" class="text-center">
+            <span>{{row.dateOfBirth | date : globalFormats.dateOnly}}</span>
+            <span *ngIf="!row.dateOfBirth">-</span> <br>
+            <span>{{ row.issuingAgency? row.issuingAgency: '-' }}</span>
+        </td>
+    </ng-container>
+<!--Moving 2 END -->
+
+
+
+                    <!--Hearing request start--->
+
+                    <ng-container matColumnDef="suspendClass">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"suspendClass" | translate}}</th>
+                        <td mat-cell *matCellDef="let row">{{(row.suspendClass ? row.suspendClass : '-')}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="suspendStartDate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Suspend Start Date" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class=" align-center">
+                            <span *ngIf="hearingShow">{{(row.suspendStartDate ? row.suspendStartDate : '-' ) | date :
+                                globalFormats.dateOnly}}</span>
+                            <span *ngIf="!row.hearingShow">-</span>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="lastDateToRequest">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Last Date to Request" | translate}}</th>
+                        <td mat-cell *matCellDef="let row">{{(row.lastDateToRequest ? row.lastDateToRequest : '-')}}
+                        </td>
+
+                    </ng-container>
+
+                    <ng-container matColumnDef="amountPaid" *ngIf="hearingRequestTable && !isRevenueDistribution">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Amount Due / Amount Paid" | translate}}</th>
+                        <td mat-cell *matCellDef="let row">
+                            <div class="text-right">{{(row.totalDue ? row.totalDue : 0) | currency}} <br>
+                                {{(row.amountPaid ? row.amountPaid : 0) | currency}}</div>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="paymentWaiver">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Payment Waiver" | translate}}</th>
+                        <td mat-cell *matCellDef="let row">{{(row.paymentWaiver ? row.paymentWaiver : '-')}}
+                        </td>
+                    </ng-container>
+
+                    <!--Hearing request End--->
+
+                    <!--Revenue Distribution Start--->
+                    <ng-container matColumnDef="amountPaid" *ngIf="isRevenueDistribution">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Amount Paid" | translate}}</th>
+                        <td mat-cell *matCellDef="let row">
+                            <div class="text-right">{{(row.amountPaid ? row.amountPaid : 0) | currency}}</div>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="collectionFees">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Collection Fees" | translate}}</th>
+                        <td mat-cell class="text-right" *matCellDef="let row">{{(row.collectionFees ? row.collectionFees : 0) | currency}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="courtFees">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Court Fees" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-right">{{(row.courtFees ? row.courtFees : 0) | currency}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="justiceFees">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Justice Fees" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-right">{{(row.justiceFees ? row.justiceFees : 0) | currency}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="specialFees">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Special Fees" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-right">{{(row.specialFees ? row.specialFees : 0) | currency}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="handicapFees">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Handicap Fees" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-right">{{(row.handicapFees ? row.handicapFees : 0) | currency}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="countryAndStateShare">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Country/State Share" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-right">{{(row.countryAndStateShare ? row.countryAndStateShare : 0) | currency}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="cityShare">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"City Share" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-right">{{(row.cityShare ? row.cityShare : 0) | currency}}
+                        </td>
+                    </ng-container>
+                    <!--Revenue Distribution End--->
+
+                    <!--Hearing Status Start--->
+                    <ng-container matColumnDef="scheduledDate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Schedule Date / Received Date" | translate}}</th>
+                        <td mat-cell *matCellDef="let row">
+                            <span *ngIf="row.scheduledDate">{{row.scheduledDate | date :
+                                globalFormats.dateOnly}}</span>
+                            <span *ngIf="!row.scheduledDate">-</span><br>
+                            <span *ngIf="row.receivedDate">{{row.receivedDate | date :
+                                globalFormats.dateOnly}}</span>
+                            <span *ngIf="!row.receivedDate">-</span>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="hearingLocation">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Hearing Location / Hearing Date Time" | translate}}</th>
+                        <td mat-cell *matCellDef="let row">
+                            {{(row.hearingLocation ? row.hearingLocation : '-')}}<br>{{(row.hearingDateTime ?
+                            row.hearingDateTime : '-') | date :
+                            globalFormats.dateAndTime}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="dispClass">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Disposition Class/ Description" | translate}}</th>
+                        <td mat-cell *matCellDef="let row">
+                            {{(row.dispClass ? row.dispClass : '-')}}
+                            <br>
+                            {{(row.dispDescription ? row.dispDescription : '-')}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="adjudicator">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Adjudicator" | translate}}</th>
+                        <td mat-cell *matCellDef="let row">{{(row.adjudicator ? row.adjudicator : '-')}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="decisionDate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Decision Date" | translate}}</th>
+                        <td mat-cell *matCellDef="let row">
+                            <span *ngIf="hearingShow">{{(row.decisionDate ? row.decisionDate : '-') | date :
+                                globalFormats.dateOnly}}</span>
+                            <span *ngIf="!row.hearingShow">-</span>
+
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="untimelyHearing">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Untimely Hearing" | translate}}</th>
+                        <td mat-cell *matCellDef="let row">{{(row.untimelyHearing ? row.untimelyHearing : '-')}}
+                        </td>
+                    </ng-container>
+
+
+                    <!--Hearing Status End--->
+
+                    <!--Hearing Start--->
+                    <ng-container matColumnDef="hearingOfficer">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Hearing Officer" | translate}}</th>
+                        <td mat-cell *matCellDef="let row">{{(row.hearingOfficer ? row.hearingOfficer : '-')}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="hearingDateTime">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Hearing Date Time" | translate}}</th>
+                        <td mat-cell *matCellDef="let row">
+                            <span *ngIf="hearingShow && row.hearingDateTime">{{row.hearingDateTime | date :
+                                globalFormats.dateAndTime}}</span>
+                            <span *ngIf="hearingShow && !row.hearingDateTime">-</span>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="dispositionDateTime">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Disposition Date Time" | translate}}</th>
+                        <td mat-cell *matCellDef="let row">
+                            <span *ngIf="hearingShow && row.dispositionDateTime"> {{row.dispositionDateTime | date
+                                : globalFormats.dateAndTime}}</span>
+                            <span *ngIf="hearingShow && !row.dispositionDateTime">-</span>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="dispositionUserID">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Disposition/ User ID" | translate}}</th>
+                        <td mat-cell *matCellDef="let row">{{(row.dispositionName ? row.dispositionName :
+                            '-')}}<br>{{(row.userId ? row.userId : '-')}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="suspendDesc">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Suspend / Suspend Until" | translate}}</th>
+                        <td mat-cell *matCellDef="let row">{{(row.suspendCode ? row.suspendCode :
+                            '-')}}<br>{{(row.suspendDesc ? row.suspendDesc : '-')}}<br>
+                            <span *ngIf="hearingShow && row.suspendEndDate">{{row.suspendEndDate | date :
+                                globalFormats.dateOnly}}</span>
+                            <span *ngIf="hearingShow && !row.suspendEndDate">-</span>
+
+
+                        </td>
+                    </ng-container>
+                    <!--Hearing End--->
+
+                    <!-- SURCHARGE TAB STARTS -->
+
+                    <ng-container matColumnDef="suspEvent">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Susp Event/ Proc Date" | translate}}</th>
+                            <td mat-cell *matCellDef="let row" class="text-center">{{(row.suspendCode!)}}{{(row.suspendNameLong!)}}<br>
+                                <span *ngIf="row.processDate"> {{row.processDate | date :
+                                    globalFormats.dateOnly}}</span><span *ngIf="!row.processDate">-</span></td>
+                    </ng-container>
+                    <ng-container matColumnDef="surchargeStatus">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: left;">
+                            {{"Status" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-left">{{(row.status ? row.status : '-')}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="lastNoticeSusp">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Last Notice Susp/ Proposed Judge" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-center">{{(row.proposedJudgment ? row.proposedJudgment :
+                            '-')}}<br><span *ngIf="row.lastNoticeDate"> {{row.lastNoticeDate | date :
+                                globalFormats.dateOnly}}</span><span *ngIf="!row.lastNoticeDate">-</span></td>
+                    </ng-container>
+                    <ng-container matColumnDef="judgeStatus">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: middle;">
+                            {{"Judge Status/ Date" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-center">{{(row.judgeStatus ? row.judgeStatus :
+                            '-')}}<br><span *ngIf="row.judgeDate"> {{row.judgeDate | date :
+                                globalFormats.dateOnly}}</span><span *ngIf="!row.judgeDate">-</span></td>
+                    </ng-container>
+                    <ng-container matColumnDef="judgeDocket">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: left;">
+                            {{"Judge Docket" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-left">{{(row.judgeDocket ? row.judgeDocket : '-')}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="cancelledProcess">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: left;">
+                            {{"Cancelled Proc Date/ Disp Date" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-center">{{(row.cancelledProcessDate ? (row.cancelledProcessDate |
+                            date: globalFormats.dateOnly) : '-')}}<br>
+                            {{(row.dispositionDate ? (row.dispositionDate | date: globalFormats.dateOnly) : '-')}}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="cancelledClerk">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: left;">
+                            {{"Cancelled Clerk" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-left">{{(row.cancelledClerk ? row.cancelledClerk : '-')}}
+                        </td>
+                    </ng-container>
+
+                    <!-- SURCHARGE TAB ENDS -->
+
+                    <!-- ENFORCEMENT TAB STARTS -->
+
+                    <ng-container matColumnDef="civilNum">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: left;">
+                            {{"Civil Number/ Lien Released" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-center">{{(row.civilNumber ? row.civilNumber :
+                            '-')}}<br><span *ngIf="row.lienReleased"> {{row.lienReleased | date :
+                                globalFormats.dateOnly}}</span><span *ngIf="!row.lienReleased">-</span></td>
+                    </ng-container>
+                    <ng-container matColumnDef="warrantReason">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: left;">
+                            {{"Warrant Reason" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-left">{{(row.warrantReason ? row.warrantReason : '-')}}
+                        </td>
+                    </ng-container>
+
+                    <!-- ENFORCEMENT TAB STARTS -->
+
+                    <ng-container matColumnDef="alternateName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: left;">
+                            {{"AlternateName" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-left">{{(row.alternateName ? row.alternateName : '-')}}
+                        </td>
+                    </ng-container>
+                    
+                    <ng-container matColumnDef="vinnumber">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="vertical-align: left;">
+                            {{"vinnumber" | translate}}</th>
+                            <td mat-cell *matCellDef="let row" class="text-left">
+                                <div *ngIf="row.vinnumber?.trim().length === 0">-</div> 
+                                <div *ngIf="row.vinnumber.trim().length !== 0">{{(row.vinnumber.trim() ? row.vinnumber : '-')}}  </div>
+                            </td>
+                    </ng-container>
+                    
+
+                    <ng-container matColumnDef="effectiveDate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style=" vertical-align: left;">
+                            {{"effectiveDate" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-center">{{(row.effectiveDate ? (row.effectiveDate | date: globalFormats.dateOnly) : '-')}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="rentalData">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="vertical-align: left;">
+                            {{"rentalDate" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-left">{{(row.rentalData ? row.rentalData  : '-')}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="terminationDate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="vertical-align: left;">
+                            {{"terminationDate" | translate}}</th>
+                        <td mat-cell *matCellDef="let row" class="text-center">{{(row.terminationDate ? (row.terminationDate | date: globalFormats.dateOnly ): '-')}}
+                        </td>
+                    </ng-container>
+
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                <div class="col-sm-12 text-center" [hidden]="dataSource.filteredData?.length !== 0">
+                    {{'No records found' | translate}}</div>
+                <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" [pageSize]="10" showFirstLastButtons
+                    aria-label="Select page of periodic elements">
+                </mat-paginator>
+            </div>
+        </div>
+    </div>
+</div>
+<div *ngIf="hideEntity">
+    <router-outlet></router-outlet>
+</div>
+
+<app-plate-history *ngIf="isplateHistoryView" [customerInformation]="customerInformation"
+    [registryInformation]="registryInformation" (hidePlatehistory)="removePlatehistroy($event)"></app-plate-history>
+
+<!-- gallery-customize layout popup -->
+<ng-template #myDialog>
+    <mat-dialog-content class="shuffle-gallery-scroll">
+        <div class="custom-suffle">
+            <app-gallery-customize [galleryDetails]="galleryDetails"></app-gallery-customize>
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button mat-button matDialogClose color="primary">{{"Dismiss" | translate }}</button>
+    </mat-dialog-actions>
+</ng-template>
+<!-- Dialog template -->
+<ng-template #imgDialog>
+    <h2 matDialogTitle>{{'Image' | translate}}</h2>
+    <mat-dialog-content>
+        <img [src]="imgSrc" alt="image" class="w-100" />
+       
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button mat-button color="primary" (click)="dialogClose()">{{'Cancel' | translate}}</button>
+      </mat-dialog-actions>
+</ng-template>

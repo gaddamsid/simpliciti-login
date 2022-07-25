@@ -1,0 +1,92 @@
+
+<mat-card-content class="mat-card-content p-2 pt-0">
+    <div class="innergrid border-0">
+        <table>
+            <tr>
+                <td>{{"Fine" | translate}}</td>
+                <td class="font-weight-bold">{{(paymentDetails?.fine ? paymentDetails?.fine : 0) | currency }}</td>
+            </tr>
+            <tr>
+                <td>{{"Penalty 1" | translate}}</td>
+                <td class="font-weight-bold">{{(paymentDetails?.penalty1 ? paymentDetails?.penalty1 : 0) | currency }}</td>
+            </tr>
+            <tr>
+                <td>{{"Penalty 2" |translate}}</td>
+                <td class="font-weight-bold">{{(paymentDetails?.penalty2 ? paymentDetails?.penalty2 : 0) | currency }}</td>
+            </tr>
+            <tr>
+                <td>{{"Penalty 3" | translate}}</td>
+                <td class="font-weight-bold">{{(paymentDetails?.penalty3 ? paymentDetails?.penalty3 : 0) | currency }}</td>
+            </tr>
+            <tr>
+                <td>{{"Penalty 4" |translate}}</td>
+                <td class="font-weight-bold">{{(paymentDetails?.penalty4 ? paymentDetails?.penalty4 : 0) | currency }}</td>
+            </tr>
+            <tr>
+                <td>{{"Penalty 5" |translate}}</td>
+                <td class="font-weight-bold">{{(paymentDetails?.penalty5 ? paymentDetails?.penalty5 : 0) | currency }}</td>
+            </tr>
+
+            
+            <tr>
+                <td>{{"Reduction" | translate}}</td>
+                <td class="font-weight-bold">{{(paymentDetails?.reduction ? paymentDetails?.reduction : 0) | currency }}</td>
+            </tr>
+
+            <tr>
+                <td>{{"Interest" | translate}}</td>
+                <td class="font-weight-bold">{{(paymentDetails?.interest ? paymentDetails?.interest : 0) | currency }}</td>
+            </tr>
+
+            <tr>
+                <td>{{"Batch Number" | translate}}</td>
+                <td class="font-weight-bold">{{(paymentDetails?.batchNumber ? paymentDetails?.batchNumber : 0) }}</td>
+            </tr>
+
+
+            <tr>
+                <td>{{"Account" | translate}}</td>
+                <td class="font-weight-bold">{{(paymentDetails?.account ? paymentDetails?.account : '-')}}</td>
+            </tr>
+
+
+            <tr>
+                <td>{{"Type" | translate}}</td>
+                <td class="font-weight-bold">{{(paymentDetails?.type ? paymentDetails?.type : '-')}}</td>
+            </tr>
+
+            <tr>
+                <td>{{"Process Date" | translate}}</td>
+                <td class="font-weight-bold" *ngIf="paymentDetails?.processDate">{{paymentDetails?.processDate | date : globalFormats.dateOnly}}</td>
+                <td class="font-weight-bold" *ngIf="!paymentDetails?.processDate">-</td>
+            </tr>
+
+
+            <tr>
+                <td>{{"Payment Dept." | translate}}</td>
+                <td class="font-weight-bold">{{(paymentDetails?.paymentDept ? paymentDetails?.paymentDept : '-')}}</td>
+            </tr>
+
+            <tr>
+                <td>{{"Method" | translate}}</td>
+                <td class="font-weight-bold">{{(paymentDetails?.method ? paymentDetails?.method : '-')}}</td>
+            </tr>
+
+
+            <tr>
+                <td>{{"Amount" | translate}}</td>
+                <td class="font-weight-bold">{{(paymentDetails?.amount ? paymentDetails?.amount : 0) | currency }}</td>
+            </tr>
+
+            <tr>
+                <td>{{"Refund Check Number" | translate}}</td>
+                <td class="font-weight-bold">{{(paymentDetails?.refundCheckNumber ? paymentDetails?.refundCheckNumber : '-')}}</td>
+            </tr>
+
+            <tr>
+                <td>{{"Reapply Source" | translate}}</td>
+                <td class="font-weight-bold">{{(paymentDetails?.reapplySource ? paymentDetails?.reapplySource : '-')}}</td>
+            </tr>
+        </table>
+    </div>
+</mat-card-content>

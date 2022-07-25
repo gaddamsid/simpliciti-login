@@ -1,0 +1,144 @@
+<h3 class="header-title"> {{'Crew Table' | translate}}</h3>
+<div class="container-fluid" *ngIf="showAddForm">
+  <form [formGroup]="CrewForm" (ngSubmit)="addCrew(CrewForm.value)">
+    <div class="row">
+      <div class="col-md-3">
+        <mat-form-field appearance="fill" class="w-100" [disabled]="showEditForm"
+          [ngClass]="showEditForm === true ? 'disable-field pb-0 border-bottom-black' : ''">
+          <mat-label>{{ "Crew Code" | translate }}</mat-label>
+          <input matInput digitOnly formControlName="crewCode" minlength="4" maxlength="4" tabindex="-1"
+            appNotAllowWhiteSpaceStart [id]="'crewCode'" (blur)="checkZeroValue($event.target)" />
+          <!-- ERRORS -->
+          <mat-error *ngIf="CrewForm.get('crewCode')?.hasError('required')" [id]="'crewCode1'">
+            {{ 'Crew Code is Required' | translate }}
+          </mat-error>
+          <mat-error *ngIf="CrewForm.get('crewCode')?.hasError('minlength')" [id]="'crewCode2'">
+            {{'Crew Code Should be 4 digits' | translate}}
+          </mat-error>
+          <mat-error *ngIf="CrewForm.get('crewCode')?.hasError('invalidcode')" [id]="'CrewForm3'">
+            {{'Please Enter Valid Error Code' | translate}}
+          </mat-error>
+          <mat-error *ngIf="CrewForm.get('crewCode')?.hasError('invalid')" [id]="'crewCode4'">
+            {{ CrewForm.get('crewCode')?.getError('invalid') |
+            translate }}
+          </mat-error>
+
+          <!-- ERRORS -->
+        </mat-form-field>
+      </div>
+      <div class="col-md-3">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>{{ "Crew Chief Name" | translate }}</mat-label>
+          <input matInput formControlName="crewChief" maxlength="40" appNotAllowWhiteSpaceStart [id]="'crewChief'" />
+          <!-- ERRORS -->
+          <mat-error *ngIf="CrewForm.get('crewChief')?.hasError('required')" [id]="'crewChief1'">
+            {{ 'Crew Chief Name is Required' | translate }}
+          </mat-error>
+          <!-- ERRORS -->
+        </mat-form-field>
+      </div>
+      <div class="col-md-3">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>{{ "Crew Type" | translate }}</mat-label>
+          <input matInput digitOnly maxlength="1" formControlName="crewType" appNotAllowWhiteSpaceStart
+            [id]="'crewType'" />
+        </mat-form-field>
+      </div>
+      <div class="col-md-3">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>{{ "Authorization Level" | translate }}</mat-label>
+          <input matInput digitOnly maxlength="1" formControlName="crewAuthLevel" appNotAllowWhiteSpaceStart
+            [id]="'crewAuthLevel'" />
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="d-flex justify-content-end">
+          <button mat-raised-button class="m-1 color-blue" [id]="'Cancel'" (click)="cancelAdd_Save()">{{'Cancel'|
+            translate}}</button>
+          <button type="submit" mat-raised-button class="color-blue m-1" *ngIf="addBtn" [id]="'addBtn'">{{'Add' |
+            translate}}</button>
+          <button type="button" mat-raised-button class="m-1 color-blue" [id]="'Searchbtn'" *ngIf="!addBtn"
+            (click)="updateRecord(CrewForm.value)">
+            {{'Save' |translate}}
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </form>
+</div>
+
+<div class="container-fluid" [hidden]="showAddForm">
+  <!-- add form -->
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="align-items-center d-flex row">
+        <div class="col-6">
+          <mat-form-field appearance="fill">
+            <mat-label>{{ "Search" | translate }}</mat-label>
+            <input matInput #search matInput [id]="'Search1'" placeholder="Type" (keyup)="applyFilter($event)" />
+          </mat-form-field>
+        </div>
+        <div class="col-6">
+          <div class="text-right">
+            <button mat-raised-button appearance="fill" class="m-1 color-blue" [id]="'Add2'"
+              (click)="showAddFormPage()">
+              {{ "Add" | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
+      <!-- Position Column -->
+      <ng-container matColumnDef="crewCode">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef>{{ "Crew Code" | translate }}</th>
+        <td mat-cell *matCellDef="let element"> {{element.crewCode}} </td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="crewChief">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef>{{ "Crew Chief Name" | translate }}</th>
+        <td mat-cell *matCellDef="let element"> {{element.crewChief}} </td>
+      </ng-container>
+
+
+      <ng-container matColumnDef="crewType">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef>{{ "Crew Type" | translate }}</th>
+        <td mat-cell *matCellDef="let element"> {{element.crewType}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="crewAuthLevel">
+        <th mat-header-cell mat-sort-header *matHeaderCellDef>{{ "Authorization Level" | translate }}</th>
+        <td mat-cell *matCellDef="let element"> {{element.crewAuthLevel}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef>{{ "Action" | translate }}</th>
+        <td mat-cell *matCellDef="let row" class="text-center">
+          <button mat-icon-button color="dark-grey" [id]="'Edit'" (click)="editIconClicked(row)"
+            title="{{'Edit' | translate }}">
+            <mat-icon class="edit-blue">edit</mat-icon>
+          </button>
+          <button mat-icon-button color="dark-grey" [id]="'Delete'" title="{{'Delete' | translate }}"
+            (click)="deleteRecord(row)">
+            <mat-icon class="color-light-gray">delete</mat-icon>
+          </button>
+
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <div class="col-sm-12 text-center" *ngIf="dataSource.filteredData?.length === 0"> {{'No records found' | translate}}
+    </div>
+
+    <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons [hidden]="showAddForm"></mat-paginator>
+  </div>
+
+</div>

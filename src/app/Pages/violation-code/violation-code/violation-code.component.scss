@@ -1,0 +1,26 @@
+table {
+  width: 100%;
+}
+
+.w-110px {
+  width: 110px;
+}
+
+.mat-sort-header-container {
+  width: 100% !important;
+  justify-content: center !important;
+}
+
+.dec-tooldata {
+  white-space: nowrap;
+  width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+.textlenth {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

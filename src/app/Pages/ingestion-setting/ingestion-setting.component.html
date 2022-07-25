@@ -1,0 +1,289 @@
+<div class="" *ngIf="displaySpinner">
+    <!-- <mat-spinner></mat-spinner> -->
+</div>
+
+<!-- Injection Setting starts -->
+<h3 class="header-title">
+    {{"INGESTION_SETTING"  | translate}}
+</h3>
+
+<div class="container-fluid">
+    <form [formGroup]="ingestionForm">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="injection-card card p-2">
+                    <mat-checkbox  class="ellipsis" title='{{"Auto-Reject_Events_Exceeding_Speed" | translate}}' [id]="'eventsExceedingSpeed'" name="eventsExceedingSpeed" 
+                    formControlName="eventsExceedingSpeed" (change)="updateValidation($event,'exceedingSpeedCategory',
+                    'exceedingSpeedQueue','exceedingSpeed')" color="primary">
+                        {{"Auto-Reject_Events_Exceeding_Speed" | translate}} </mat-checkbox>
+                   
+                    <mat-form-field appearance="fill" class="w-100">
+                        <mat-label>{{"Exceeding_Speed_Value_(MPH)" | translate}}</mat-label>
+                        <input type="number" min="0" maxlength="3" 
+                        oninput="this.value=this.value.slice(0,this.maxLength)" name="exceedingSpeed" formControlName="exceedingSpeed" matInput
+                        [id]="'exceedingSpeed'"  maxlength="3" />
+                        <mat-error *ngIf="ingestionForm.get('exceedingSpeed')?.hasError('required')">
+                            {{'Auto-Reject_Events_Exceeding_Speed_Required' | translate}}
+                        </mat-error>
+                        <mat-error *ngIf="ingestionForm.get('exceedingSpeed')?.hasError('pattern')">
+                            {{ 'invalid' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field ngDefaultControl appearance="fill" class="w-100">
+                        <mat-label>{{"Reject_Exceeding_Speed_Category" | translate}}</mat-label>
+                        <mat-select [id]="'exceedingSpeedCategory'" name="exceedingSpeedCategory"
+                         formControlName="exceedingSpeedCategory">
+                         <mat-option  value=""> {{'Select' | translate}}</mat-option>
+                            <mat-option *ngFor="let item of categoriesList" value="{{item.categoriesID}}">{{item.categoriesName}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="ingestionForm.get('exceedingSpeedCategory')?.hasError('required')">
+                            {{'Reject_Exceeding_Speed_Category_Required' | translate}}
+                        </mat-error>
+                    </mat-form-field>
+                    
+                    <mat-form-field ngDefaultControl appearance="fill" class="w-100">
+                        <mat-label>{{"Reject_Exceeding_Speed_Queue" | translate}}</mat-label>
+                        <mat-select [id]="'exceedingSpeedQueue'" name="exceedingSpeedQueue"
+                         formControlName="exceedingSpeedQueue">
+                         <mat-option  value=""> {{'Select' | translate}}</mat-option>
+                            <mat-option *ngFor="let item of queueList" value="{{item.workflowStatesID}}">
+                                {{item.workflowStatesName}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="ingestionForm.get('exceedingSpeedQueue')?.hasError('required')">
+                            {{'Reject_Exceeding_Speed_Queue_Required' | translate}}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="injection-card card p-2">
+                    <mat-checkbox  class="ellipsis" title='{{"Auto-Reject_Events_Below_Speed" | translate}}' [id]="'eventsBelowSpeed'" name="eventsBelowSpeed" 
+                    formControlName="eventsBelowSpeed" (change)="updateValidation($event,'belowSpeedCategory',
+                    'belowSpeedQueue','belowSpeed')" color="primary">
+                        {{"Auto-Reject_Events_Below_Speed" | translate}} </mat-checkbox>
+                    <mat-form-field appearance="fill" class="w-100">
+                        <mat-label>{{"Below_Speed_Value(MPH)" | translate}}</mat-label>
+                        <input type="number" min="0" maxlength="3" 
+                        oninput="this.value=this.value.slice(0,this.maxLength)" name="belowSpeed" formControlName="belowSpeed" matInput
+                        [id]="'belowSpeed'" />
+                        <mat-error *ngIf="ingestionForm.get('belowSpeed')?.hasError('required')">
+                            {{'Auto-Reject_Events_Below_Speed_Required' | translate}}
+                        </mat-error>
+                        <mat-error *ngIf="ingestionForm.get('belowSpeed')?.hasError('pattern')">
+                            {{ 'invalid' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field ngDefaultControl appearance="fill" class="w-100">
+                        <mat-label>{{"Reject_Below_Speed_Category" | translate}}</mat-label>
+                        <mat-select [id]="'belowSpeedCategory'" name="belowSpeedCategory"
+                         formControlName="belowSpeedCategory">
+                         <mat-option  value=""> {{'Select' | translate}}</mat-option>
+                            <mat-option *ngFor="let item of categoriesList" value="{{item.categoriesID}}">{{item.categoriesName}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="ingestionForm.get('belowSpeedCategory')?.hasError('required')">
+                            {{'Reject_Below_Speed_Category_Required' | translate}}
+                        </mat-error>
+                    </mat-form-field>
+                    
+                    <mat-form-field ngDefaultControl appearance="fill" class="w-100">
+                        <mat-label>{{"Reject_Below_Speed_Queue" | translate}}</mat-label>
+                        <mat-select [id]="'belowSpeedQueue'" name="belowSpeedQueue"
+                         formControlName="belowSpeedQueue">
+                         <mat-option  value=""> {{'Select' | translate}}</mat-option>
+                            <mat-option *ngFor="let item of queueList" value="{{item.workflowStatesID}}">
+                                {{item.workflowStatesName}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="ingestionForm.get('belowSpeedQueue')?.hasError('required')">
+                            {{'Reject_Below_Speed_Queue_Required' | translate}}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="injection-card card p-2">
+                    <mat-checkbox  class="ellipsis" title='{{"Auto-Reject_Events_Red_Seconds_Below" | translate}}' [id]="'eventsRedSecondsBelow'" name="eventsRedSecondsBelow" 
+                    formControlName="eventsRedSecondsBelow" (change)="updateValidation($event,'redSecondsBelowCategory',
+                    'redSecondsBelowQueue','redSecondsBelow')" color="primary">
+                        {{"Auto-Reject_Events_Red_Seconds_Below" | translate}} </mat-checkbox>
+                   
+                    <mat-form-field appearance="fill" class="w-100">
+                        <mat-label>{{"Below_Seconds_Value(s)" | translate}}</mat-label>
+                        <input type="number" min="0" maxlength="3" 
+                        oninput="this.value=this.value.slice(0,this.maxLength)" name="redSecondsBelow" formControlName="redSecondsBelow" matInput
+                        [id]="'redSecondsBelow'"   />
+                        <mat-error *ngIf="ingestionForm.get('redSecondsBelow')?.hasError('required')">
+                            {{'Auto-Reject_Events_Red_Seconds_Below_Required' | translate}}
+                        </mat-error>
+                        <mat-error *ngIf="ingestionForm.get('redSecondsBelow')?.hasError('pattern')">
+                            {{ 'invalid' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field ngDefaultControl appearance="fill" class="w-100">
+                        <mat-label>{{"Reject_Red_Seconds_Below_Category" | translate}}</mat-label>
+                        <mat-select [id]="'redSecondsBelowCategory'" name="redSecondsBelowCategory"
+                         formControlName="redSecondsBelowCategory">
+                         <mat-option  value=""> {{'Select' | translate}}</mat-option>
+                            <mat-option *ngFor="let item of categoriesList" value="{{item.categoriesID}}">{{item.categoriesName}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="ingestionForm.get('redSecondsBelowCategory')?.hasError('required')">
+                            {{'Reject_Red_Seconds_Below_Category_Required' | translate}}
+                        </mat-error>
+                    </mat-form-field>
+                    
+                    <mat-form-field ngDefaultControl appearance="fill" class="w-100">
+                        <mat-label>{{"Reject_Red_Seconds_Below_Queue" | translate}}</mat-label>
+                        <mat-select [id]="'redSecondsBelowQueue'" name="redSecondsBelowQueue"
+                         formControlName="redSecondsBelowQueue">
+                         <mat-option  value=""> {{'Select' | translate}}</mat-option>
+                            <mat-option *ngFor="let item of queueList" value="{{item.workflowStatesID}}">
+                                {{item.workflowStatesName}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="ingestionForm.get('redSecondsBelowQueue')?.hasError('required')">
+                            {{'Reject_Red_Seconds_Below_Queue_Required' | translate}}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="injection-card card p-2">
+                    <mat-checkbox  class="ellipsis" title='{{"Auto-Reject_Events_Green_Speed_Below" | translate}} ' [id]="'eventsGreenSecondsBelow'" name="eventsGreenSecondsBelow" 
+                    formControlName="eventsGreenSecondsBelow" (change)="updateValidation($event,'greenSecondsBelowCategory',
+                    'greenSecondsBelowQueue','greenSecondsBelow')" color="primary">
+                        {{"Auto-Reject_Events_Green_Speed_Below" | translate}} </mat-checkbox>
+                    <mat-form-field appearance="fill" class="w-100">
+                        <mat-label>{{"Below_Speed_Value(MPH)" | translate}}</mat-label>
+                        <input type="number" min="0" maxlength="3" 
+                        oninput="this.value=this.value.slice(0,this.maxLength)" name="greenSecondsBelow" formControlName="greenSecondsBelow" matInput
+                        [id]="'greenSecondsBelow'"  />
+                        <mat-error *ngIf="ingestionForm.get('greenSecondsBelow')?.hasError('required')">
+                            {{'Auto-Reject_Events_Green_Speed_Below_Required' | translate}}
+                        </mat-error>
+                        <mat-error *ngIf="ingestionForm.get('greenSecondsBelow')?.hasError('pattern')">
+                            {{ 'invalid' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field ngDefaultControl appearance="fill" class="w-100">
+                        <mat-label>{{"Reject_Green_Minimum_Speed_Category" | translate}}</mat-label>
+                        <mat-select [id]="'greenSecondsBelowCategory'" name="greenSecondsBelowCategory"
+                         formControlName="greenSecondsBelowCategory">
+                         <mat-option  value=""> {{'Select' | translate}}</mat-option>
+                            <mat-option *ngFor="let item of categoriesList" value="{{item.categoriesID}}">{{item.categoriesName}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="ingestionForm.get('greenSecondsBelowCategory')?.hasError('required')">
+                            {{'Reject_Green_Minimum_Speed_Category_Required' | translate}}
+                        </mat-error>
+                    </mat-form-field>
+                    
+                    <mat-form-field ngDefaultControl appearance="fill" class="w-100">
+                        <mat-label>{{"Reject_Green_Minimum_Speed_Queue" | translate}}</mat-label>
+                        <mat-select [id]="'greenSecondsBelowQueue'" name="greenSecondsBelowQueue"
+                         formControlName="greenSecondsBelowQueue">
+                         <mat-option  value=""> {{'Select' | translate}}</mat-option>
+                            <mat-option *ngFor="let item of queueList" value="{{item.workflowStatesID}}">
+                                {{item.workflowStatesName}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="ingestionForm.get('greenSecondsBelowQueue')?.hasError('required')">
+                            {{'Reject_Green_Minimum_Speed_Queue_Required' | translate}}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="injection-card card p-2">
+                    <mat-checkbox  class="ellipsis" title='{{"Auto-Reject_Events_Test_Shots" | translate}}' [id]="'eventsTestShots'" name="eventsTestShots" 
+                    formControlName="eventsTestShots" (change)="updateValidation($event,'testShotsCategory',
+                    'testShotsQueue')" color="primary">
+                        {{"Auto-Reject_Events_Test_Shots" | translate}} </mat-checkbox>
+                    <mat-form-field ngDefaultControl appearance="fill" class="w-100">
+                        <mat-label>{{"Reject_Test_Shots_Category" | translate}}</mat-label>
+                        <mat-select [id]="'testShotsCategory'" name="testShotsCategory"
+                         formControlName="testShotsCategory">
+                         <mat-option  value=""> {{'Select' | translate}}</mat-option>
+                            <mat-option *ngFor="let item of categoriesList" value="{{item.categoriesID}}">{{item.categoriesName}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="ingestionForm.get('testShotsCategory')?.hasError('required')">
+                            {{'Reject_Test_Shots_Category_Required' | translate}}
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field ngDefaultControl appearance="fill" class="w-100">
+                        <mat-label>{{"Reject_Test_Shots_Queue" | translate}}</mat-label>
+                        <mat-select [id]="'testShotsQueue'" name="testShotsQueue"
+                         formControlName="testShotsQueue">
+                         <mat-option  value=""> {{'Select' | translate}}</mat-option>
+                            <mat-option *ngFor="let item of queueList" value="{{item.workflowStatesID}}">
+                                {{item.workflowStatesName}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="ingestionForm.get('testShotsQueue')?.hasError('required')">
+                            {{'Reject_Test_Shots_Queue_Required' | translate}}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="injection-card card p-2">
+                    <mat-checkbox  class="ellipsis" title='{{"Auto-Reject_Events_With_Zero_Velocity" | translate}}' [id]="'eventsZeroVelocity'" name="eventsZeroVelocity" 
+                    formControlName="eventsZeroVelocity" (change)="updateValidation($event,'zeroVelocityCategory',
+                    'zeroVelocityQueue')" color="primary">
+                        {{"Auto-Reject_Events_With_Zero_Velocity" | translate}} </mat-checkbox>
+                    <mat-form-field ngDefaultControl appearance="fill" class="w-100">
+                        <mat-label>{{"Reject_Zero_Velocity_Category" | translate}}</mat-label>
+                        <mat-select [id]="'zeroVelocityCategory'" name="zeroVelocityCategory"
+                         formControlName="zeroVelocityCategory">
+                         <mat-option  value=""> {{'Select' | translate}}</mat-option>
+                            <mat-option *ngFor="let item of categoriesList" value="{{item.categoriesID}}">{{item.categoriesName}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="ingestionForm.get('zeroVelocityCategory')?.hasError('required')">
+                            {{'Reject_Zero_Velocity_Category_Required' | translate}}
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field ngDefaultControl appearance="fill" class="w-100">
+                        <mat-label>{{"Reject_Zero_Velocity_Queue" | translate}}</mat-label>
+                        <mat-select [id]="'zeroVelocityQueue'" name="zeroVelocityQueue"
+                         formControlName="zeroVelocityQueue">
+                         <mat-option  value=""> {{'Select' | translate}}</mat-option>
+                            <mat-option *ngFor="let item of queueList" value="{{item.workflowStatesID}}">
+                                {{item.workflowStatesName}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="ingestionForm.get('zeroVelocityQueue')?.hasError('required')">
+                            {{'Reject_Zero_Velocity_Queue_Required' | translate}}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="injection-card card p-2">
+                    <mat-checkbox  class="ellipsis" title='{{"Auto_Snapshot_Time_(ms)" | translate}}' [id]="'snapshotTime'" name="snapshotTime" 
+                    formControlName="snapshotTime" (change)="updateMilliValidation($event,'snapshotTimeMilli')" color="primary">
+                        {{"Auto_Snapshot_Time_(ms)" | translate}} </mat-checkbox>
+                    
+                        <mat-form-field appearance="fill" class="w-100">
+                            <mat-label>{{"Milliseconds" | translate}}</mat-label>
+                            <input type="number" min="0" maxlength="3" 
+                            oninput="this.value=this.value.slice(0,this.maxLength)" name="snapshotTimeMilli" formControlName="snapshotTimeMilli" matInput
+                            [id]="'snapshotTimeMilli'" />
+                            <mat-error *ngIf="ingestionForm.get('snapshotTimeMilli')?.hasError('required')">
+                                {{'Auto_Snapshot_Time_(ms)_Required' | translate}}
+                            </mat-error>
+                            <mat-error *ngIf="ingestionForm.get('snapshotTimeMilli')?.hasError('pattern')">
+                                {{ 'invalid' | translate }}
+                            </mat-error>
+                        </mat-form-field>
+                </div>
+            </div>
+
+            <div class="col-md-8 align-items-end justify-content-end d-flex">
+                <button [id]="'clearForm'" mat-raised-button (click)="clearForm()" class="color-blue ml-2">{{'Clear' | translate}}</button>
+                <button [id]="'saveData'" mat-raised-button (click)="saveData(ingestionForm.value)" class="color-blue ml-2">{{'Save' | translate}}</button>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- Injection Setting ends -->

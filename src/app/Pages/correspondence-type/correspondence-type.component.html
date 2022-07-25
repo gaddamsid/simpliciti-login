@@ -1,0 +1,295 @@
+<h3 class="header-title">
+    {{"CORRESPONDENCE_TYPE" | translate }}
+</h3>
+<div class="container-fluid">
+    <div *ngIf="showAddForm">
+        <form [formGroup]="correspondenceForm" (ngSubmit)="addcorrespondence(correspondenceForm.value)">
+            <div class="row">
+                <div class="col-md-4">
+                    <mat-form-field appearance="fill"
+                        [ngClass]="{'disable-field pb-0 border-bottom-black': !addCorressButton}" class="w-100">
+                        <mat-label>{{ "CORRESPONDENCE_TYPE_CODE" | translate }}</mat-label>
+                        <input matInput placeholder="Type" [readonly]="!addCorressButton" formControlName="typeCode"
+                            [id]="'typeCode'" maxlength="3" appNotAllowWhiteSpaceStart />
+                        <mat-error *ngIf="correspondenceForm.get('typeCode')?.hasError('required')">
+                            {{'CORRESPONDENCE_TYPE_CODE_REQUIRED' | translate}}
+                        </mat-error>
+                        <mat-error *ngIf="correspondenceForm.get('typeCode')?.hasError('invalid') ">
+                            {{ 'invalid' | translate }}
+                        </mat-error>
+                        <mat-error *ngIf="correspondenceForm.get('typeCode')?.hasError('duplicateKey') ">
+                            {{ 'duplicateTypeCodeFound' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                    <mat-form-field appearance="fill" class="w-100">
+                        <mat-label>{{ "CORR_CLASS" | translate }}</mat-label>
+                        <input matInput placeholder="Type" formControlName="corresClass" name="corresClass"
+                            [id]="'corresClassId'" maxlength="1" />
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                    <mat-form-field appearance="fill" class="w-100">
+                        <mat-label>{{ "FULL_NAME" | translate }}</mat-label>
+                        <input matInput placeholder="Type" formControlName="fullName" [id]="'fullName'" maxlength="20"
+                            appNotAllowWhiteSpaceStart />
+                        <mat-error *ngIf="correspondenceForm.get('fullName')?.hasError('required')">
+                            {{'FULL_NAME_REQUIRED' | translate}}
+                        </mat-error>
+                        <mat-error *ngIf="correspondenceForm.get('fullName')?.hasError('invalid')">
+                            {{ 'invalid' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <mat-form-field appearance="fill" class="w-100">
+                        <mat-label>{{ "SHORT_NAME" | translate }}</mat-label>
+                        <input matInput placeholder="Type" formControlName="shortName" name="shortName"
+                            [id]="'shortName'" maxlength="8" appNotAllowWhiteSpaceStart />
+                        <mat-error *ngIf="correspondenceForm.get('shortName')?.hasError('required')">
+                            {{'SHORT_NAME_REQUIRED' | translate}}
+                        </mat-error>
+                        <mat-error *ngIf="correspondenceForm.get('shortName')?.hasError('invalid')">
+                            {{ 'invalid' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                    <mat-form-field ngDefaultControl appearance="fill" class="w-100">
+                        <mat-label>{{"ACTIVE" | translate}}</mat-label>
+                        <mat-select [id]="'corresActiveId'" name="corresActive" formControlName="corresActive">
+                            <mat-option value="Yes">Y - Active</mat-option>
+                            <mat-option value="No">N - In-Active</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="correspondenceForm.get('corresActive')?.hasError('required')">
+                            {{'THIS_FIELD_IS_REQUIRED' | translate}}
+                        </mat-error>
+                        <mat-error *ngIf="correspondenceForm.get('corresActive')?.hasError('invalid')">
+                            {{ 'invalid' | translate }}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                    <mat-form-field appearance="fill" ngDefaultControl class="w-100">
+                        <mat-label>{{"CALL_IND" | translate}}</mat-label>
+                        <mat-select name="callInd" formControlName="callInd" [id]="'callInd'">
+                            <mat-option value=" ">Spaces</mat-option>
+                            <mat-option value="Y">Y - Active</mat-option>
+                            <mat-option value="N">N - In-Active</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="mat-card p-3">
+                <!-- *ngFor="let container of containers" -->
+                <div class="row">
+                    <div class="col-md-12 align-items-center header-title template-upload-title mb-3">
+                        <h4>{{'Template Upload' | translate}} <span>{{'(Please upload .pdf format)' | translate}}</span></h4>
+                    </div>
+                    <ng-container formArrayName="contacts" class="mt-3"
+                        *ngFor="let contact of getControls(); index as i">
+                        <ng-container [formGroupName]="i">
+                            <div class="col-md-5 align-items-center ">
+
+                                <mat-form-field appearance="fill" ngDefaultControl class="w-100">
+                                    <mat-label>{{"Select Language" | translate}}</mat-label>
+
+                                    <mat-select [id]="'LanguageID_'+ getIndex(i)" class="" formControlName="language"
+                                        (selectionChange)="onLanguageChange($event,i)">
+                                        <mat-option [id]="'LangSelect'+ getIndex(i)" *ngFor="let item of languageList" [value]="item.languageId">
+                                            {{item.languagesDescription}}</mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="getConactControls(i)?.hasError('required')">
+                                        {{'language_required' | translate}}
+                                    </mat-error>
+                                    <!-- <mat-error *ngIf="correspondenceForm.controls['contacts'].get('language')?.hasError('invalid') ">
+                                        {{ 'invalid' | translate }}
+                                    </mat-error> -->
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-5 align-items-center mt-1 h-45 d-flex justify-content-between">
+
+                                <!-- <input type="file" id="file" title=" " formControlName="fileName" accept=".pdf"
+                                    (change)="handleFileInput($event.target,i)"> -->
+
+                                <!-- <mat-label>{{getFileHref(i)}}</mat-label> -->
+
+                                <!-- <a  class="btn btn-border"
+                                    download="{{getFileHref(i)}}">{{getFileHref(i)}}</a> -->
+                                <!-- <button (click)="modify(i)">Modify</button> -->
+                                <div class="button-wrap position-relative">
+                                    <div class="d-flex">
+                                        <label for="signature-upload"
+                                            class="custom-file-upload bg-file mt-1 h-45 d-flex ">
+
+                                            <input #fileInput type="file" accept=".pdf" hidden [id]="'fileName_' + getIndex(i)"
+                                                (change)="handleFileInput($event.target,i)" formControlName="fileName">
+
+                                            <button mat-raised-button type="button" class="m-1 color-blue" [id]="'chooseFile_' + getIndex(i)"
+                                                [id]="'chooseFile'" (click)="fileInput.click()">{{"Choose File" |
+                                                translate}}</button>
+                                            <!-- *ngIf="isFileAvilable(i)" -->
+
+                                            <input matInput formControlName="name" name="name" readonly [id]="'name_' + getIndex(i)" class="input-ellipsis"  matTooltip="{{getFileHref(i)}}"/>
+
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </ng-container>
+
+                </div>
+                <button mat-raised-button type="button" (click)="addContactField()" appearance="fill"
+                    class="m-1 color-blue"> {{ "Add More" |
+                    translate }} </button>
+            </div>
+
+
+            <div class="row mt-3">
+                <div class="col-md-12 align-items-end justify-content-end d-flex">
+                    <button mat-raised-button [id]="'cancelCorrespondence'" (click)="cancelCorrespondence()"
+                        class="color-blue">{{'Cancel' | translate}}</button>
+                    <button mat-raised-button class="color-blue ml-2" *ngIf="addCorressButton"
+                        [id]="'saveCorrespondece'" (click)="saveCorrespondece(correspondenceForm.value)">{{'Add' |
+                        translate}}</button>
+                    <button [id]="'updateCorres'" mat-raised-button type="button" class="color-blue ml-2"
+                        (click)="updateCorres(correspondenceForm.value)" *ngIf="!addCorressButton">{{'Save' |
+                        translate}}</button>
+
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="tab-pane fade active show" id="globalCorrespondencePanel" role="tabpanel"
+        aria-labelledby="globalCorrespondenceTab" [hidden]="showAddForm">
+        <div class="data-region">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="align-items-center d-flex row">
+                        <div class="col-6">
+                            <mat-form-field appearance="fill">
+                                <mat-label>{{ "Search" | translate }}</mat-label>
+                                <input matInput [(ngModel)]="searchData" [id]="'searchData'" placeholder="Type"
+                                    (keyup)="applyFilter($event)" />
+                            </mat-form-field>
+                        </div>
+                        <div class="col-6">
+                            <div class="text-right">
+                                <button [id]="'addButton'" mat-raised-button class="m-1 color-blue"
+                                    (click)="addGlobalcorrespondence()" title="Add">
+                                    {{ "Add" | translate }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mat-elevation-z8">
+                <table mat-table [dataSource]="dataSource" matSortDisableClear matSort>
+                    <ng-container matColumnDef="corrTypeNumber">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ "CORRESPONDENCE_TYPE_CODE" | translate
+                            }}</th>
+                        <td mat-cell *matCellDef="let element" class="text-right"> {{element.corrTypeNumber}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="corrClass">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ "CORR_CLASS" | translate }}</th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.corrClass}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="corrLongName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ "FULL_NAME" | translate }}</th>
+                        <td mat-cell *matCellDef="let element" class="text-left"> {{element.corrLongName}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="corrShortName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ "Short Name" | translate }}</th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.corrShortName}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="active">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ "Active" | translate }}</th>
+                        <td mat-cell *matCellDef="let element" class="text-center">
+                            <!-- <div *ngIf="element.active==='Y';else other_content">
+                                Yes
+                            </div>
+                            <ng-template #other_content>No</ng-template> -->
+                            <div>{{element.active}}</div>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="corrPhoneInd">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ "CALL_IND" | translate }}</th>
+                        <td mat-cell *matCellDef="let element" class="text-center"> {{element.corrPhoneInd}} </td>
+                    </ng-container>
+                    <ng-container matColumnDef="action">
+                        <tr>
+                            <th mat-header-cell *matHeaderCellDef class="text-center">{{'Action' | translate}}</th>
+                        </tr>
+                        <tr>
+                            <td mat-cell *matCellDef="let row" class="text-center">
+                                <div class="table-icon-container">
+                                    <button [id]="'editButtonSmall'" mat-icon-button color="dark-grey" title="Edit"
+                                        title="{{'Edit' | translate }}">
+                                        <mat-icon class="edit-blue" (click)="editCorressData(row)">edit</mat-icon>
+                                    </button>
+                                    <button [id]="'deleteButtonSmall'" mat-icon-button color="dark-grey" title="Delete"
+                                        title="{{'Delete' | translate }}" class="text-center">
+                                        <mat-icon class="color-light-gray" (click)="deleteCorres(row)">delete</mat-icon>
+                                    </button>
+                                    <button mat-icon-button *ngIf="row.isUploaded === 'Y'" color="dark-grey"
+                                        title="{{'File' | translate }}">
+                                        <mat-icon (click)="openDialogWithTemplateRef(myDialog,row)"
+                                            class="color-light-gray">file_copy</mat-icon>
+                                    </button>
+                                </div>
+                            </td>
+                        <tr>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                <div class="col-sm-12 text-center" *ngIf="dataSource?.filteredData?.length === 0"> {{'No records found'
+                    |
+                    translate}}</div>
+                <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons
+                    aria-label="Select page of periodic elements">
+                </mat-paginator>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Dialog template -->
+
+<ng-template #myDialog>
+    <h2 matDialogTitle>{{'Uploaded Files' | translate}}</h2>
+    <mat-dialog-content>
+        <!-- <img [src]="pdfSrc" alt="image" class="w-100"> -->
+        <table class="pop-table" id="pop-table">
+            <tr>
+                <th>{{'Language'  | translate}}</th>
+                <th>{{'File' | translate}}</th>
+
+            </tr>
+            <tr *ngFor="let item of langFileList">
+                <td>{{item.languageDesc}}</td>
+                <td><a [href]="item.url" target="_blank" class="btn btn-border" [id]="'URL_' + getIndex(item.dcoID)"
+                        download="item.url">{{item.fileName}}</a></td>
+                <!-- <td><img [src]="item.url" alt="image" class="w-100"></td> -->
+            </tr>
+        </table>
+       
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button mat-button matDialogClose color="primary" id="img_cancel">{{'Cancel' | translate}}</button>
+    </mat-dialog-actions>
+</ng-template>

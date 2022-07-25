@@ -1,0 +1,78 @@
+.search-wrapper {
+  padding: 15px 0.5rem 0;
+  background: #55585a;
+  position: relative;
+
+  .search-container {
+    display: flex;
+    display: flex;
+  }
+  button {
+    border-radius: 0 4px 4px 0;
+    height: 51px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .mat-form-field {
+    width: 150px;
+  }
+  .flex {
+    display: flex;
+    justify-content: space-between;
+    color: #fff;
+    font-family: "Open Sans", sans-serif;
+  }
+  .advance-search-form {
+    .advance-search-modal {
+      position: absolute;
+      right: 0;
+      left: 0;
+      background: #fff;
+      z-index: 1;
+      width: 100%;
+      padding: 20px;
+      margin-top: 27px;
+      box-sizing: border-box;
+      height: 580px;
+      z-index: 2;
+      width: 215px;
+      min-width: 215px;
+      max-width: 215px;
+      .mat-grid-tile {
+        display: block;
+        overflow: unset;
+
+        ::ng-deep {
+          .mat-grid-tile-content {
+            display: block;
+
+            mat-form-field {
+              width: 80%;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+.advance-sarch {
+  span {
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: 300;
+    letter-spacing: 1px;
+  }
+  mat-icon.mat-icon.notranslate.material-icons.mat-icon-no-color {
+    font-size: 20px;
+  }
+}
+
+.right-btns button {
+  height: auto;
+  text-transform: capitalize;
+  border-radius: 0;
+  background: none;
+  font-weight: 300;
+  letter-spacing: 1px;
+}

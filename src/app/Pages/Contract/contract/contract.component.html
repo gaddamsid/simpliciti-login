@@ -1,0 +1,1084 @@
+<!-- Contract Wizard - starts here-->
+<h3 class="header-title" *ngIf="!showSettingForm">
+    {{"Contract" | translate}} 
+</h3>
+
+<h3 class="header-title" *ngIf="showSettingForm">
+    {{"Contract Settings" | translate}} &nbsp;<span *ngIf="showSettingForm">- {{showClientName}}</span>
+</h3>
+
+<div class="container-fluid" [hidden]="hideTable && (!showSettingForm || !showAddForm || !showEditForm)">
+
+    <!-- table -->
+    <div id="list-table">
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="align-items-center d-flex row">
+                    <div class="col-6">
+                        <mat-form-field appearance="fill">
+                            <mat-label>{{ "Search" | translate }}</mat-label>
+                            <input matInput placeholder="Type" [id]="'Search'" (keyup)="applyFilter($event)"/>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-6">
+                        <div class="text-right">
+                            <button mat-raised-button appearance="fill" [id]="'Add'"class="m-1 color-blue" (click)="createNewContract(data)">
+                                {{ "Add" | translate }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort (matSortChange)="announceSortChange($event)">
+
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'Client Name' | translate}}</th>
+                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="contractName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'Contract Name' | translate}}</th>
+                <td mat-cell *matCellDef="let element" width="100px"> {{element.contractName}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="identifierName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'Identifier' | translate}}</th>
+                <td mat-cell *matCellDef="let element"> {{element.identifierName}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="stateProvinceName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'State/Province' | translate}}</th>
+                <td mat-cell *matCellDef="let element"> {{element.stateProvinceName}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="programManagerName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'Program Manager' | translate}}</th>
+                <td mat-cell *matCellDef="let element"> {{element.programManagerName}} </td>
+            </ng-container>
+            <ng-container matColumnDef="action">
+                <tr>
+                    <th mat-header-cell *matHeaderCellDef >{{'Action' | translate}}</th>
+                </tr>
+                <tr>
+                    <td mat-cell *matCellDef="let row" class="text-center">
+                        <button mat-icon-button color="dark-grey" title="Edit" (click)="editContract(row)">
+                            <mat-icon class="edit-blue">edit</mat-icon>
+                        </button>
+                        <button mat-icon-button color="dark-grey" title="Settings" (click)="openSettingForm(row)">
+                            <mat-icon class="edit-blue">settings</mat-icon>
+                        </button>
+                        <button mat-icon-button color="dark-grey" title="Disable" title="{{'Disable' | translate }}" (click)="toggleContract(row, row.active)" *ngIf="row.active">
+                            <mat-icon class="color-red">block</mat-icon>
+                        </button>
+                        <button mat-icon-button color="dark-grey" [id]="'btn'" title="{{'Enable' | translate }}" (click)="toggleContract(row, row.active)" *ngIf="!row.active">
+                            <mat-icon class="color-green">done_outline</mat-icon>
+                          </button>
+
+
+                        <button mat-icon-button color="dark-grey" title="Download">
+                            <mat-icon class="color-light-green">download</mat-icon>
+                        </button>
+                    </td>
+                <tr>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div>
+    <div class="col-sm-12 text-center" *ngIf="dataSource.filteredData?.length === 0"> {{'No records found' | translate}}</div>
+    <mat-paginator #paginator [pageSizeOptions]="[10,20,50,100]" showFirstLastButtons [hidden]="showAddForm"></mat-paginator>
+</div>
+<!-- <p>Add contract</p> -->
+<div class="container-fluid" *ngIf="showAddForm">
+
+    <form [formGroup]="addContractForm" (ngSubmit)="addContract(addContractForm.value)">
+        <mat-form-field appearance="fill" [disabled]="showEditForm" [ngClass]="showEditForm === true ? 'disable-field pb-0 border-bottom-black' : ''">
+            <mat-label>{{"Client" | translate}}</mat-label>
+            <!-- <input type="number" matInput formControlName="clientsID" placeholder="Client" /> -->
+            <mat-select tabindex="-1" [id]="'clientsID'" formControlName="clientsID"  (selectionChange)="onClientChange($event)">
+                <mat-option  *ngFor="let item of ClientMaster" [value]="item.clientsId">{{item.clientsName}}</mat-option>
+              </mat-select>
+              <mat-error [id]="'err_clientsID'" *ngIf="addContractForm.get('clientsID')?.hasError('required')">{{'clientsID Required' | translate}}</mat-error>
+        </mat-form-field>
+        <div class="row">
+            <div class="col-md-4">
+                <mat-form-field appearance="fill" class="w-100" [disabled]="showEditForm" [ngClass]="showEditForm === true ? 'disable-field pb-0 border-bottom-black' : ''">
+                    <mat-label>{{"Name" | translate}}</mat-label>
+                    <input tabindex="-1" type="string" matInput maxlength="150"[id]="'name'" formControlName="name"  specialIsAlphaNumeric/>                    
+                    <mat-error [id]="'err_name'"  *ngIf="addContractForm.get('name')?.hasError('required')">{{'name Required' | translate}}</mat-error>
+                </mat-form-field>
+               
+             
+            </div>
+            <div class="col-md-4">
+                <mat-form-field appearance="fill" class="w-100" [disabled]="showEditForm" [ngClass]="showEditForm === true ? 'disable-field pb-0 border-bottom-black' : ''">
+                    <mat-label>{{"Identifier" | translate}}</mat-label>
+                    <input tabindex="-1" maxlength="150" matInput [id]="'identifier'" formControlName="identifier" specialIsAlphaNumeric/>
+                    <mat-error [id]="'err_identifier'"  *ngIf="addContractForm.get('identifier')?.hasError('required')">{{'identifier Required' | translate}}</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <mat-form-field appearance="fill" class="w-100" [disabled]="showEditForm" [ngClass]="showEditForm === true ? 'disable-field pb-0 border-bottom-black' : ''">
+                    <mat-label>{{"Code" | translate}}</mat-label>
+                    <input tabindex="-1" maxlength="3" matInput [id]="'code'" formControlName="code"  specialIsAlphaNumeric/>
+                    <mat-error [id]="'err_code'" *ngIf="addContractForm.get('code')?.hasError('required')">{{'codeRequired' | translate}}</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <mat-form-field appearance="fill" class="w-100" [disabled]="showEditForm" [ngClass]="showEditForm === true ? 'disable-field pb-0 border-bottom-black' : ''">
+                    <mat-label>{{ "PayByWeb/PinCode" | translate }}</mat-label>
+                    <input tabindex="-1" type="number" max="9999" matInput [id]="'payByWebCode'" formControlName="payByWebCode"  min="0" oninput="this.value=this.value.slice(0,this.max)"/>
+                    <mat-error [id]="'err_payByWebCode'" *ngIf="addContractForm.get('payByWebCode')?.hasError('required')">{{'PayByWebCode Required' | translate}}</mat-error>
+                    <mat-error [id]="'err_payByWebCode2'" *ngIf="addContractForm.get('payByWebCode')?.hasError('max')">
+                        {{ 'PayByWebPinCodeMaxlength4' | translate }}
+                      </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <mat-form-field appearance="fill" class="w-100"[disabled]="showEditForm" [ngClass]="showEditForm === true ? 'disable-field pb-0 border-bottom-black' : ''">
+                    <mat-label>{{"Contract Type" | translate}}</mat-label>
+                    <!-- <input type="number" matInput  formControlName="contractType"  placeholder="contractType"/> -->
+                    <mat-select tabindex="-1" [id]="'contractType'" formControlName="contractType" >
+                        <mat-option *ngFor="let item of ContractMaster" [value]="item.contractTypesId">{{item.contractTypesName}}</mat-option>
+                   </mat-select>
+                    <mat-error [id]="'err_contractType'" *ngIf="addContractForm.get('contractType')?.hasError('required')">{{'ContractTypeRequired' | translate}}</mat-error>
+                   
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{"Program Manager" | translate}}</mat-label>
+                    <!-- <input type="number" matInput  formControlName="programManagerUserID"  placeholder="programManagerUserID"/> -->
+                    
+                    <mat-select tabindex="-1" [id]="'programManagerUserID'" formControlName="programManagerUserID" >
+                        <mat-option *ngFor="let item of managerList" [value]="item.id">{{item.firstName}} {{item.lastName}}</mat-option>
+                   </mat-select>
+                    <mat-error [id]="'err_programManagerUserID'" *ngIf="addContractForm.get('programManagerUserID')?.hasError('required')">{{'programManagerUserID Required' | translate}}</mat-error>
+
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <mat-form-field appearance="fill"  [disabled]="true" class="disable-field pb-0 border-bottom-black w-100"  >
+                    <mat-label>{{"State/Province" | translate}}</mat-label>
+                    <!-- <input type="number" matInput  formControlName="stateProvincesID" placeholder="stateProvincesID" /> -->
+                    <mat-select tabindex="-1" [id]="'stateProvincesID'" formControlName="stateProvincesID" [disabled]="disableSelect.value">
+                        <mat-option *ngFor="let item of StateProvincesMaster" [value]="item.stateProvincesID" disabled>{{item.stateProvincesName}} </mat-option>
+                   </mat-select>
+                    <mat-error [id]="'err_stateProvincesID'" *ngIf="addContractForm.get('stateProvincesID')?.hasError('required')">{{'State Provinces Required' | translate}}</mat-error>
+                   
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <mat-form-field appearance="fill"  [disabled]="true" class="disable-field pb-0 border-bottom-black w-100"  >
+                    <mat-label>{{"Time Zone" | translate}}</mat-label>
+                    <!-- <input type="number" matInput  formControlName="timeZonesID" placeholder="timeZonesID" /> -->
+                    <mat-select tabindex="-1" [id]="'timeZonesID'" formControlName="timeZonesID" [disabled]="disableSelect.value">
+                        <mat-option *ngFor="let item of TimeZoneMaster" [value]="item.timeZonesID" disabled>{{item.name}}</mat-option>
+                   </mat-select>
+                    <mat-error [id]="'err_timeZonesID'" *ngIf="addContractForm.get('timeZonesID')?.hasError('required')">{{'Time Zones Required' | translate}}</mat-error>
+            
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{"CBI Dashboard Link" | translate}}</mat-label>
+                    <input matInput maxlength="50"[id]="'cbiDashboardLink'" formControlName="cbiDashboardLink"  />            
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <mat-form-field appearance="fill" class="w-100" >
+                    <mat-label>{{"Password Expiration Length" | translate}}</mat-label>
+                    <input type="number" max="9999" matInput [id]="'passwordExpirationLength'" formControlName="passwordExpirationLength"
+                    min="0" oninput="this.value=this.value.slice(0,this.max)" />
+                       <mat-error [id]="'err_passwordExpirationLength'" *ngIf="addContractForm.get('passwordExpirationLength')?.hasError('max')">
+                        {{ 'Password Expiration  Max length 4' | translate }}
+                      </mat-error>
+                 
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{ "Mavro Code" | translate }}</mat-label>
+                    <input maxlength="150" matInput [id]="'mavroCode'" formControlName="mavroCode" />               
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5">
+                <mat-checkbox color="primary"[id]="'twoFactorEnabled'" formControlName="twoFactorEnabled">{{"Enable Two-Factor Authentication" | translate}} </mat-checkbox>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5">
+                <mat-checkbox color="primary"[id]="'partialPaymentDueValidation'" formControlName="partialPaymentDueValidation" >{{"Full Payment Validation" |
+                    translate}}</mat-checkbox>
+              
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5">
+                <mat-checkbox color="primary"[id]="'partialPaymentValidation'" formControlName="partialPaymentValidation">{{"Partial Payment Validation"
+                    | translate}}</mat-checkbox>
+               
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-right">
+                <button type="button" mat-raised-button class="m-1 color-blue" [id]="'Cancel'" (click)="cancelContract()">{{'Cancel' | translate}}</button>
+                <button mat-raised-button class="color-blue" [id]="'Add1'" *ngIf="!showEditForm">{{'Add' | translate}}</button>
+                <button type="button" mat-raised-button class="color-blue" [id]="'Save'" *ngIf="showEditForm" (click)="saveEditContract(addContractForm.value)">{{ "Save" | translate }}</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+<!-- CONTRACT Setting -->
+<div class="container-fluid" *ngIf="showSettingForm">
+
+    
+    <form [formGroup]="contractSettingForm" (ngSubmit)="addContractSetiing(contractSettingForm.value)">
+        <div class="row">
+            <div class="col-md-4">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{ "Event Sequence Number" | translate }}</mat-label>
+                    <input matInput value="0" min="0" type="number" oninput="this.value=this.value.slice(0,this.maxLength)" formControlName="eventSequenceNumber" [id]="'eventSequenceNumber'" required maxlength="10"/>
+                    <mat-error *ngIf="contractSettingForm.get('eventSequenceNumber')?.hasError('required')" [id]="'error_eventSequenceNumber'">{{'EventSequenceNumber is Required!' | translate}}</mat-error>
+                    <mat-error *ngIf="contractSettingForm.get('eventSequenceNumber')?.hasError('max')">{{'Please Enter a value below 2147483648' | translate}}</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100 ">
+                     <mat-label class="control-label position-relative" for="ContractSetting_CitationNumberFormat">{{ "Citation Number Format" | translate }}
+                        </mat-label>
+       
+                    <input matInput formControlName="citationNumberFormat" [id]="'citationNumberFormat'" required maxlength="30">
+                    <mat-error *ngIf="contractSettingForm.get('citationNumberFormat')?.hasError('required')" [id]="'error_citationNumberFormat'">{{'citationNumberFormat is Required!' | translate}}</mat-error>
+                        
+                    <i class="fa fa-fw fa-question-circle toolbox tip">
+                        <div class="custom-tooltip">
+                            <span>To build the citation number format, type the
+                                letter of each desired entry. For year or text, follow that letter with single quotes
+                                enclosed text.</span>
+                        <ul>
+                            <li>
+                                Y 2 or 4 Digit Year (Example: Y'4')
+                            </li>
+                            <li>
+                                M 2 Digit Month (Example M'2')
+                            </li>
+                            <li>
+                                D 2 Digit Day (Example D'2')
+                            </li>
+                            <li>
+                                T Text (Example: T'PREFIX')
+                            </li>
+                            <li>
+                                J Jurisdiction
+                            </li>
+                            <li>
+                                C Court ID
+                            </li>
+                            <li>
+                                X Check Digit
+                            </li>
+                            <li>
+                                S Sequence Seed Number Total Characters with Preceeding Zeros (Example: S'8')
+                            </li>
+                            <li>
+                                L 4 Digit Location (Example: L'4')
+
+                            </li>
+                            <li>
+                                E Sequence Seed Number Per Location(Example: E'8')
+
+                            </li>
+                            <li>
+                                I Alphanumeric Incrementing Character (Example I'A' or I'0')
+                                (Completed Example: T'PREFIX'Y'4'M'2'D'2'JCX'5'S'8'E'8'T'SUFFIX'I'9')
+                            </li>
+                        </ul>
+
+                    </div></i>
+                </mat-form-field>
+
+                
+
+
+            </div>
+            <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label >{{ "Citation Sequence Number" | translate }}</mat-label>
+                    <input matInput min="0" type="number" formControlName="citationSequenceNumber" [id]="'citationSequenceNumber'" oninput="this.value=this.value.slice(0,this.maxLength)" maxlength="10" required />
+                    <mat-error *ngIf="contractSettingForm.get('citationSequenceNumber')?.hasError('required')" [id]="'error_citationSequenceNumber'">{{'citationSequenceNumber is Required!' | translate}}</mat-error>
+                    <mat-error *ngIf="contractSettingForm.get('citationSequenceNumber')?.hasError('max')">{{'Please Enter a value below 2147483648' | translate}}</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100" >
+                    <mat-label class="control-label" for="ContractSetting_CitationNumberFormat">{{ "Second Citation Number Format" | translate }}
+                                          
+                    </mat-label>
+      
+                    <input matInput   oninput="this.value=this.value.slice(0,this.maxLength)" formControlName="secondCitationNumberFormat" [id]="'secondCitationNumberFormat'" maxlength="10"/>
+                    <i class="fa fa-fw fa-question-circle toolbox tip">
+                        <div class="custom-tooltip">
+                            <span>To build the citation number format, type the
+                                letter of each desired entry. For year or text, follow that letter with single quotes
+                                enclosed text.</span>
+                        <ul>
+                            <li>
+                                Y 2 or 4 Digit Year (Example: Y'4')
+                            </li>
+                            <li>
+                                M 2 Digit Month (Example M'2')
+                            </li>
+                            <li>
+                                D 2 Digit Day (Example D'2')
+                            </li>
+                            <li>
+                                T Text (Example: T'PREFIX')
+                            </li>
+                            <li>
+                                J Jurisdiction
+                            </li>
+                            <li>
+                                C Court ID
+                            </li>
+                            <li>
+                                X Check Digit
+                            </li>
+                            <li>
+                                S Sequence Seed Number Total Characters with Preceeding Zeros (Example: S'8')
+                            </li>
+                            <li>
+                                L 4 Digit Location (Example: L'4')
+
+                            </li>
+                            <li>
+                                E Sequence Seed Number Per Location(Example: E'8')
+
+                            </li>
+                            <li>
+                                I Alphanumeric Incrementing Character (Example I'A' or I'0')
+                                (Completed Example: T'PREFIX'Y'4'M'2'D'2'JCX'5'S'8'E'8'T'SUFFIX'I'9')
+                            </li>
+                        </ul>
+
+                    </div></i>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label >{{ "Second Citation Sequence Number" | translate }}</mat-label>
+                    <input matInput min="0" type="number" oninput="this.value=this.value.slice(0,this.maxLength)" formControlName="secondCitationSequenceNumber" [id]="'secondCitationSequenceNumber'" maxlength="10"/>
+                    <mat-error *ngIf="contractSettingForm.get('secondCitationSequenceNumber')?.hasError('max')">{{'Please Enter a value below 2147483648' | translate}}</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label class="control-label" for="ContractSetting_CitationNumberFormat">{{"Warning Citation Number Format" | translate}}
+                        
+
+                    </mat-label>
+                   
+                    <input matInput  oninput="this.value=this.value.slice(0,this.maxLength)" tabindex="-1" formControlName="warningCitationNumberFormat" [id]="'warningCitationNumberFormat'" maxlength="10"/>
+                    <i class="fa fa-fw fa-question-circle toolbox tip">
+                        <div class="custom-tooltip">
+                            <span>To build the citation number format, type the
+                                letter of each desired entry. For year or text, follow that letter with single quotes
+                                enclosed text.</span>
+                        <ul>
+                            <li>
+                                Y 2 or 4 Digit Year (Example: Y'4')
+                            </li>
+                            <li>
+                                M 2 Digit Month (Example M'2')
+                            </li>
+                            <li>
+                                D 2 Digit Day (Example D'2')
+                            </li>
+                            <li>
+                                T Text (Example: T'PREFIX')
+                            </li>
+                            <li>
+                                J Jurisdiction
+                            </li>
+                            <li>
+                                C Court ID
+                            </li>
+                            <li>
+                                X Check Digit
+                            </li>
+                            <li>
+                                S Sequence Seed Number Total Characters with Preceeding Zeros (Example: S'8')
+                            </li>
+                            <li>
+                                L 4 Digit Location (Example: L'4')
+
+                            </li>
+                            <li>
+                                E Sequence Seed Number Per Location(Example: E'8')
+
+                            </li>
+                            <li>
+                                I Alphanumeric Incrementing Character (Example I'A' or I'0')
+                                (Completed Example: T'PREFIX'Y'4'M'2'D'2'JCX'5'S'8'E'8'T'SUFFIX'I'9')
+                            </li>
+                        </ul>
+
+                    </div></i>
+    
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100" [disabled]="showEditForm" [ngClass]="showEditForm === true ? 'disable-field pb-0 border-bottom-black' : ''">
+                    <mat-label >{{"Warning Citation Sequence Number" | translate}}
+                    </mat-label>
+                    
+                    <input matInput   oninput="this.value=this.value.slice(0,this.maxLength)" [disabled]="showEditForm" tabindex="-1" formControlName="warningCitationSequenceNumber" [id]="'warningCitationSequenceNumber'" maxlength="10"/>
+                    <mat-error *ngIf="contractSettingForm.get('warningCitationSequenceNumber')?.hasError('max')">{{'Please Enter a value below 2147483648' | translate}}</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label class="control-label" for="ContractSetting_CitationNumberFormat">{{"TolCitationNumberFormat" | translate}}
+                       
+                    </mat-label>
+
+                    <input matInput   oninput="this.value=this.value.slice(0,this.maxLength)" formControlName="tolCitationNumberFormat" [id]="'tolCitationNumberFormat'" maxlength="10"/>
+                    <i class="fa fa-fw fa-question-circle toolbox tip">
+                        <div class="custom-tooltip">
+                            <span>To build the citation number format, type the
+                                letter of each desired entry. For year or text, follow that letter with single quotes
+                                enclosed text.</span>
+                        <ul>
+                            <li>
+                                Y 2 or 4 Digit Year (Example: Y'4')
+                            </li>
+                            <li>
+                                M 2 Digit Month (Example M'2')
+                            </li>
+                            <li>
+                                D 2 Digit Day (Example D'2')
+                            </li>
+                            <li>
+                                T Text (Example: T'PREFIX')
+                            </li>
+                            <li>
+                                J Jurisdiction
+                            </li>
+                            <li>
+                                C Court ID
+                            </li>
+                            <li>
+                                X Check Digit
+                            </li>
+                            <li>
+                                S Sequence Seed Number Total Characters with Preceeding Zeros (Example: S'8')
+                            </li>
+                            <li>
+                                L 4 Digit Location (Example: L'4')
+
+                            </li>
+                            <li>
+                                E Sequence Seed Number Per Location(Example: E'8')
+
+                            </li>
+                            <li>
+                                I Alphanumeric Incrementing Character (Example I'A' or I'0')
+                                (Completed Example: T'PREFIX'Y'4'M'2'D'2'JCX'5'S'8'E'8'T'SUFFIX'I'9')
+                            </li>
+                        </ul>
+
+                    </div></i>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{ "TolCitationSequenceNumber" | translate }}</mat-label>
+                    <input matInput min="0" type="number"  oninput="this.value=this.value.slice(0,this.maxLength)"   formControlName="tolCitationSequenceNumber" [id]="'tolCitationSequenceNumber'" maxlength="10"/>
+                    <mat-error *ngIf="contractSettingForm.get('tolCitationSequenceNumber')?.hasError('max')">{{'Please Enter a value below 2147483648' | translate}}</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{ "Convenience Fee" | translate }}</mat-label>
+                    <input matInput   formControlName="convenienceFee" [id]="'convenienceFee'" appDecimal/>
+                    <mat-error *ngIf="contractSettingForm.get('convenienceFee')?.hasError('required')" [id]="'error_convenienceFee'">{{'convenienceFee is Required!' | translate}}</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{ "Percentage Convenience Fee ( % Amount )" | translate }}</mat-label>
+                    <input matInput  oninput="this.value=this.value.slice(0,this.maxLength)"   formControlName="percentageConvenienceFee" onkeypress='return event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)' [id]="'percentageConvenienceFee'" required maxlength="3" />
+                    <!-- <input matInput type="number"  formControlName="percentageConvenienceFee" required maxlength="3"/> -->
+                    <mat-error *ngIf="contractSettingForm.get('percentageConvenienceFee')?.hasError('required')" [id]="'error_percentageConvenienceFee'">{{'percentageConvenienceFee is Required!' | translate}}</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{
+                        "Threshold Amount For Percentage Convenience Fee" | translate
+                        }}</mat-label>
+                    <input matInput   oninput="this.value=this.value.slice(0,this.maxLength)"  formControlName="thresholdAmountConvenienceFee" onkeypress='return event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)' [id]="'thresholdAmountConvenienceFee'" required maxlength="3"/>
+                    <mat-error *ngIf="contractSettingForm.get('thresholdAmountConvenienceFee')?.hasError('required')" [id]="'error_thresholdAmountConvenienceFee'">{{'thresholdAmountConvenienceFee is Required!' | translate}}</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{ "Maximum Batch Size" | translate }}</mat-label>
+                    <input matInput min="0" type="number" oninput="this.value=this.value.slice(0,this.maxLength)" required  formControlName="maximumBatchSize" [id]="'maximumBatchSize'" maxlength="5" />
+                    <mat-error *ngIf="contractSettingForm.get('thresholdAmountConvenienceFee')?.hasError('required')"  [id]="'error_maximumBatchSize'">{{'Maximum Batch size is Required!' | translate}}</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{ "Offline Batch Limit" | translate }}</mat-label>
+                    <input matInput min="0" type="number" oninput="this.value=this.value.slice(0,this.maxLength)" formControlName="offlineBatchLimit" [id]="'offlineBatchLimit'" required maxlength="5"/>
+                    <mat-error *ngIf="contractSettingForm.get('offlineBatchLimit')?.hasError('required')" [id]="'error_offlineBatchLimit'">{{'Offline Batch is Required!' | translate}}</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{ "Batch Sequence Number" | translate }}</mat-label>
+                    <input matInput min="0" type="number"  oninput="this.value=this.value.slice(0,this.maxLength)"  formControlName="batchSequenceNumber" [id]="'batchSequenceNumber'" required maxlength="3"/>
+                    <mat-error *ngIf="contractSettingForm.get('batchSequenceNumber')?.hasError('required')" [id]="'error_batchSequenceNumber'">{{'Batch SequenceNO is Required!' | translate}}</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{ "Batch Encryption Password" | translate }}</mat-label>
+                    <input matInput   formControlName="batchEncryptionPassword" minLength="8"  oninput="this.value=this.value.slice(0,this.maxLength)" [id]="'batchEncryptionPassword'" maxlength="20" required/>
+                    <mat-error *ngIf="contractSettingForm.get('batchEncryptionPassword')?.hasError('required')" [id]="'error_batchEncryptionPassword'">{{'Batch Encryption is Required!' | translate}}</mat-error>
+                    <mat-error *ngIf="contractSettingForm.get('batchEncryptionPassword')?.hasError('minlength')" [id]="'error_batchEncryptionPassword'">{{'Password Length must be between 8 to 20 Characters' | translate}}</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100 position-relative timepicker" >
+                    <mat-label>{{ "Overtime Cutoff Time (EST/EDT)" | translate }}</mat-label>
+                    <input matInput  formControlName="overtimeCutoffTime" [id]="'overtimeCutoffTime'" readonly [ngxTimepicker]="picker" required matTooltip="Click on inputput box to set time" />
+                    <ngx-material-timepicker #picker></ngx-material-timepicker>
+                    <ngx-material-timepicker-toggle [for]="picker"></ngx-material-timepicker-toggle>
+                        <ngx-material-timepicker  #picker></ngx-material-timepicker>
+                    <!-- <mat-icon class="position-absolute timepicker-icon">access_time</mat-icon> -->
+                    <mat-error *ngIf="contractSettingForm.get('overtimeCutoffTime')?.hasError('required')" [id]="'error_overtimeCutoffTime'">{{'Overtime Cutoff Time is Required!' | translate}}</mat-error>
+                    <!-- <mat-error *ngIf="overtimeCutoffTime == 'invalid Data'" [id]="'error_overtimeCutoffTime'">{{'Overtime Cutoff is Required!' | translate}}</mat-error> -->
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{ "Neighbor Threshold (Seconds)" | translate }}</mat-label>
+                    <input matInput min="0" type="number" oninput="this.value=this.value.slice(0,this.maxLength)"  formControlName="neighborThreshold" [id]="'neighborThreshold'"  maxlength="5" required/>
+                    <mat-error *ngIf="contractSettingForm.get('neighborThreshold')?.hasError('required')" [id]="'error_neighborThreshold'">{{'Neighbor Threshold is Required!' | translate}}</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{ "Point of Contact Name" | translate }}</mat-label>
+                    <input matInput type="text" formControlName="pointOfContactName" [id]="'pointOfContactName'" required/>
+                    <mat-error *ngIf="contractSettingForm.get('pointOfContactName')?.hasError('required')" [id]="'error_pointOfContactName'">{{'Point Of ContactName is Required!' | translate}}</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{ "Point of Contact Email" | translate }}</mat-label>
+                    <input matInput type="email" formControlName="pointOfContactEmail" [id]="'pointOfContactEmail'" required/>
+                    <mat-error *ngIf="contractSettingForm.get('pointOfContactEmail')?.hasError('required')" [id]="'error_pointOfContactEmail'">{{'Contact Email is Required!' | translate}}</mat-error>
+                    <mat-error *ngIf="contractSettingForm.get('pointOfContactEmail')?.hasError('email')" [id]="'error_pointOfContactEmail'">{{'Email address is invalid' | translate}}</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{"Maximum results in Advanced Search(Max 20000 for better Performance)"| translate }}</mat-label>
+                    <input matInput min="0" type="number" oninput="this.value=this.value.slice(0,this.maxLength)" formControlName="maxoutAdvanceSearchResults" [id]="'maxoutAdvanceSearchResults'" required maxlength="5"/>
+                    <mat-error *ngIf="contractSettingForm.get('maxoutAdvanceSearchResults')?.hasError('required')" [id]="'error_maxoutAdvanceSearchResults'">{{'Maximum Results In Advanced is Required!' | translate}}</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{ "Maximum results in printing archive (Max 20000 for better Performance)" | translate }}
+                    </mat-label>
+                    <input matInput min="0" type="number" oninput="this.value=this.value.slice(0,this.maxLength)" formControlName="maxoutPrintingArchiveResults" [id]="'maxoutPrintingArchiveResults'" required maxlength="5"/>
+                    <mat-error *ngIf="contractSettingForm.get('maxoutPrintingArchiveResults')?.hasError('required')" [id]="'error_maxoutPrintingArchiveResults'">{{'Maximum Results In printing archive is Required!' | translate}}</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+    
+        <div class="row">
+            <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{ "Contract Timeout (In Minutes)" | translate }}</mat-label>
+                    <input matInput type="number" formControlName="appTimeout" [id]="'appTimeout'" oninput="this.value=this.value.slice(0,this.maxLength)" maxlength="10"/>
+                    <mat-error *ngIf="contractSettingForm.get('appTimeout')?.hasError('required')" [id]="'error_appTimeout'">{{'Contract Timeout (In Minutes) is Required!' | translate}}</mat-error>
+                    <mat-error *ngIf="contractSettingForm.get('appTimeout')?.hasError('max')">{{'Please Enter a value below 2147483648' | translate}}</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{ "Court Events Cut Off Days" | translate }}</mat-label>
+                    <input matInput min="0" type="number" oninput="this.value=this.value.slice(0,this.maxLength)" formControlName="courtEventsCutOffDays"  [id]="'courtEventsCutOffDays'" required maxlength="3"/>
+                    <mat-error *ngIf="contractSettingForm.get('courtEventsCutOffDays')?.hasError('required')" [id]="'error_courtEventsCutOffDays'">{{'Courts Events CuttOff is Required!' | translate}}</mat-error>
+                </mat-form-field>
+            </div>
+            
+        </div>
+            <div class="form-group row">
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <mat-checkbox color="primary" formControlName="partialPayment" [id]="'partialPayment'">{{"Partial Payment" | translate}}
+                        </mat-checkbox>
+                    </div>
+                </div>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <mat-checkbox color="primary" formControlName="percentageBasedConvenienceFee" [id]="'percentageBasedConvenienceFee'">{{"Percentage
+                            Based Convenience Fee" | translate}}</mat-checkbox>
+                    </div>
+                </div>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <mat-checkbox color="primary" formControlName="convenienceFeePerCitation" [id]="'convenienceFeePerCitation'">{{"Convenience Fee Per
+                            Citation" | translate}}</mat-checkbox>
+                    </div>
+                </div>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <mat-checkbox color="primary" formControlName="clearPlate" [id]="'clearPlate'">{{"Clear Plate on Reject" |
+                            translate}}</mat-checkbox>
+                    </div>
+                </div>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <mat-checkbox color="primary" formControlName="showDLBasic" [id]="'showDLBasic'">{{"Show DL Basic Information" |
+                            translate}}</mat-checkbox>
+                    </div>
+                </div>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <mat-checkbox color="primary" formControlName="showDOBGender" [id]="'showDOBGender'" >{{"Show DOB and Gender" |
+                            translate}}</mat-checkbox>
+                    </div>
+                </div>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <mat-checkbox color="primary" formControlName="showheightweight" [id]="'showheightweight'">{{"Show Height/Weight
+                            etc." | translate}}</mat-checkbox>
+                    </div>
+                </div>
+                <div class="col-sm-10">
+                    <div class="form-check"  [id]="'showCoOwner'">
+                        <mat-checkbox color="primary" formControlName="showCoOwner" [id]="'showCoOwner'">{{"Show Co-Owner Informationow" |
+                            translate}}</mat-checkbox>
+                    </div>
+                </div>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <mat-checkbox color="primary" formControlName="enableCustomerServiceTracking" [id]="'enableCustomerServiceTracking'">{{"Enable Customer
+                            Service Tracking" | translate}}</mat-checkbox>
+                    </div>
+                </div>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <mat-checkbox color="primary" formControlName="enableOmniChannel" [id]="'enableOmniChannel'">{{"Enable OmniChannel" |
+                            translate}}</mat-checkbox>
+                    </div>
+                </div>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <mat-checkbox color="primary"formControlName="enablePlateExample" [id]="'enablePlateExample'">{{"Enable Plate Example File"
+                            | translate}}</mat-checkbox>
+                    </div>
+                </div>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <mat-checkbox color="primary" formControlName="enableOfflinePrintingContract" [id]="'enableOfflinePrintingContract'">{{"Enable Offline
+                            Printing Contract" | translate}}</mat-checkbox>
+                    </div>
+                </div>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <mat-checkbox color="primary" formControlName="enableDistribution" [id]="'enableDistribution'">{{"Enable Cashiering
+                            Distribution" | translate}}</mat-checkbox>
+                    </div>
+                </div>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <mat-checkbox color="primary" formControlName="enableDistributionDisplay" [id]="'enableDistributionDisplay'">{{"Enable Distribution
+                            Display" | translate }}</mat-checkbox>
+                    </div>
+                </div>
+            </div>
+            
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <button mat-raised-button class="m-1 color-blue" [id]="'cancelSettings'" (click)="cancelSettingForm()">{{'Cancel' | translate}}</button>
+            <button mat-raised-button  class="color-blue"  [id]="'addSettings'" *ngIf="saveSettings">{{'Save' | translate}}</button>
+            <button mat-raised-button type="button" class="color-blue" [id]="'saveSettings'" *ngIf="!saveSettings" (click)="UpdateSettings(contractSettingForm.value)">{{'Save' | translate}}</button>
+        </div>
+    </div>
+    </form>
+<!-- dsfdsff -->
+
+
+
+</div>
+<!-- 
+
+<div class="row">
+    <div class="col-md-12 text-right">
+        <button mat-raised-button class="m-1 color-blue" (click)="cancelSettingForm()">Cancel</button>
+        <button mat-raised-button class="color-blue">Add</button>
+    </div>
+</div>
+ -->
+
+<!-- 
+<div class="container-fluid">
+    <h3>
+        {{"Contract Setting" | translate}}
+    </h3>
+    <form>
+        <div class="row">
+            <div class="col-md-4">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{ "Event Sequence Number" | translate }}</mat-label>
+                    <input matInput formControlName="eventSequenceNumber" value="0" />
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{ "Citation Number Format" | translate }}</mat-label>
+                    <input matInput formControlName="citationNumberFormat" />
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{ "Citation Sequence Number" | translate }}</mat-label>
+                    <input matInput formControlName="citationSequenceNumber" />
+
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{ "Second Citation Number Format" | translate }}</mat-label>
+                    <input matInput formControlName="secondCitationNumberFormat" />
+
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{ "Second Citation Sequence Number" | translate }}</mat-label>
+                    <input matInput formControlName="secondCitationSequenceNumber" />
+
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{
+                        "Warning Citation Number Format" | translate
+                        }}</mat-label>
+                    <input matInput formControlName="warningCitationNumberFormat" />
+
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{
+                        "Warning Citation Sequence Number" | translate
+                        }}</mat-label>
+                    <input matInput formControlName="warningCitationSequenceNumber" />
+
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{ "TolCitationNumberFormat" | translate }}</mat-label>
+                    <input matInput formControlName="tolCitationNumberFormat" />
+
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>TolCitationSequenceNumber</mat-label>
+                    <input matInput formControlName="tolCitationSequenceNumber" type="number" min="10" />
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{ "Convenience Fee" | translate }}</mat-label>
+                    <input matInput formControlName="convenienceFee" />
+
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>Percentage Convenience Fee ( % Amount )</mat-label>
+                    <input matInput type="number" formControlName="percentageConvenienceFee" min="10" />
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{
+                        "Threshold Amount For Percentage Convenience Fee" | translate
+                        }}</mat-label>
+                    <input matInput formControlName="thresholdAmountConvenienceFee" />
+
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>Maximum Batch Size</mat-label>
+                    <input matInput type="maximumBatchSize" min="10" />
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{ "Offline Batch Limit" | translate }}</mat-label>
+                    <input matInput formControlName="offlineBatchLimit" />
+
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{ "Batch Sequence Number" | translate }}</mat-label>
+                    <input matInput formControlName="batchSequenceNumber" />
+
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>Batch Encryption Password</mat-label>
+                    <input matInput type="batchEncryptionPassword" min="10" />
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{ "Overtime Cutoff Time (EST/EDT)" | translate }}</mat-label>
+                    <input matInput formControlName="OvertimeCutoffTime" />
+
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>Neighbor Threshold (Seconds)</mat-label>
+                    <input matInput formControlName="neighborThreshold" type="number" min="10" />
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{ "Points of Contact Name" | translate }}</mat-label>
+                    <input matInput formControlName="pointOfContactName" />
+
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{ "Points of Contact Email" | translate }}</mat-label>
+                    <input matInput formControlName="pointOfContactEmail" />
+
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{"Maximum results in Advanced Search(Enter below 20000 for better Performance)"|
+                        translate }}</mat-label>
+                    <input matInput type="number" formControlName="maxoutAdvanceSearchResults" min="10" />
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{ "Maximum results in printing archive (Enter below 20000 for better Performence)" |
+                        translate }}
+                    </mat-label>
+                    <input matInput formControlName="maxoutPrintingArchiveResults" />
+
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{ "Court Events Cut Off Days" | translate }}</mat-label>
+                    <input matInput formControlName="courtEventsCutOffDays" />
+
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{ "Court Events Cut Off Days" | translate }}</mat-label>
+                    <input matInput formControlName="courtEventsCutOffDays" />
+                </mat-form-field>
+            </div>
+        </div>
+        <form>
+            <div class="form-group row">
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <mat-checkbox color="primary" formControlName="partialPayment">{{"Partial Payment" | translate}}
+                        </mat-checkbox>
+                    </div>
+                </div>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <mat-checkbox color="primary" formControlName="percentageBasedConvenienceFee">{{"Percentage
+                            Based Convenience Fee" | translate}}</mat-checkbox>
+                    </div>
+                </div>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <mat-checkbox color="primary" formControlName="convenienceFeePerCitation">{{"Convenience Fee Per
+                            Citation" | translate}}</mat-checkbox>
+                    </div>
+                </div>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <mat-checkbox color="primary" formControlName="clearPlate">{{"Clear Plate on Reject" |
+                            translate}}</mat-checkbox>
+                    </div>
+                </div>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <mat-checkbox color="primary" formControlName="showDLBasic">{{"Show DL Basic Information" |
+                            translate}}</mat-checkbox>
+                    </div>
+                </div>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <mat-checkbox color="primary" formControlName="showDOBGender">{{"Show DOB and Gender" |
+                            translate}}</mat-checkbox>
+                    </div>
+                </div>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <mat-checkbox color="primary" formControlName="showDriverDescriptors">{{"Show Height/Weight
+                            etc." | translate}}</mat-checkbox>
+                    </div>
+                </div>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <mat-checkbox color="primary" formControlName="showCoOwner">{{"Show Co-Owner Informationow" |
+                            translate}}</mat-checkbox>
+                    </div>
+                </div>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <mat-checkbox color="primary" formControlName="enableCustomerServiceTracking">{{"Enable Customer
+                            Service Tracking" | translate}}</mat-checkbox>
+                    </div>
+                </div>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <mat-checkbox color="primary" formControlName="enableOmniChannel">{{"Enable OmniChannel" |
+                            translate}}</mat-checkbox>
+                    </div>
+                </div>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <mat-checkbox color="primary" formControlName="enablePlateExample">{{"Enable Plate Example File"
+                            | translate}}</mat-checkbox>
+                    </div>
+                </div>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <mat-checkbox color="primary" formControlName="enableOfflinePrintingContract">{{"Enable Offline
+                            Printing Contract" | translate}}</mat-checkbox>
+                    </div>
+                </div>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <mat-checkbox color="primary" formControlName="enableDistribution">{{"Enable Cashiering
+                            Distribution" | translate}}</mat-checkbox>
+                    </div>
+                </div>
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <mat-checkbox color="primary" formControlName="enableDistributionDisplay">{{"Enable Distribution
+                            Display" | translate }}</mat-checkbox>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </form>
+    <div class="row">
+        <div class="align-items-end col-md-12 mb-3 d-flex justify-content-end">
+            <button mat-raised-button class="m-1 color-blue">{{"Save" | translate
+                }}</button>
+        </div>
+    </div>
+</div> -->
+
+
+
+
+<!-- net page Workflow Selection 
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-6">
+      <mat-form-field appearance="fill" class="w-100">
+        <mat-label>Select Default Workflow or Duplicate of Another Contract</mat-label>
+        <mat-select>
+          <mat-option value="one">Y</mat-option>
+          <mat-option value="two">N</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+</div> 
+net page Workflow Selection ends  -->

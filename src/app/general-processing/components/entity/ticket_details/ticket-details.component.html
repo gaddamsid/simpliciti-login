@@ -1,0 +1,104 @@
+<!-- Ticket Details Component Rendered Here -->
+<div class="right-wrp mt-3">
+    <div class="row" [ngClass]="[(eventLayout?.layoutType === '3') ? 'flex-column-reverse' : '']">
+        <div class="col-md-6" [ngClass]="[(eventLayout?.layoutType === '2') ? 'col-md-12' : '', 
+          (eventLayout?.layoutType === '3') ? 'col-md-12' : '']">
+            <div class="outer-box mb-3" [hidden]="eventLayout?.image !== 'Y'">
+                <div fxLayout="row" fxLayoutAlign="center center">
+                    <div class="gallery-wrapper">
+                        <app-gp-gallery></app-gp-gallery>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 toggled-flex" [ngClass]="[(eventLayout?.layoutType === '2') ? 'col-md-12' : '', 
+          (eventLayout?.layoutType === '3') ? 'col-md-12' : '']">
+
+            <div class="outer-box item-grid  mb-3" *ngIf="eventLayout?.processing  === 'Y'">
+                <div class="d-flex flex-wrap w-100">
+                    <div class="align-items-center blacked-title w-100 d-flex justify-content-between m-0">
+                        <p class="align-items-center d-flex m-0">
+                            <mat-icon role="img" class="mat-icon mr-2 notranslate" aria-hidden="true"><span
+                                    class="material-icons">location_on</span>
+                            </mat-icon><span>{{"Processing" | translate}}</span>
+                        </p>
+                    </div>
+                    <mat-card class="w-100 mat-card mat-focus-indicator p-0 overflow-auto-y"
+                        [ngStyle]="{'height.px': eventLayout?.processingHeight}">
+                        <app-processing></app-processing>
+                    </mat-card>
+                </div>
+            </div>
+            <div class="outer-box item-grid  mb-3" *ngIf="eventLayout?.violation  === 'Y'">
+                <div class="d-flex flex-wrap w-100">
+                    <div class="align-items-center blacked-title  w-100 d-flex justify-content-between m-0">
+                        <p class="align-items-center d-flex m-0">
+                            <mat-icon role="img" class="mat-icon mr-2 notranslate" aria-hidden="true"><span
+                                    class="material-icons">location_on</span>
+                            </mat-icon><span> {{"Violation Detail" | translate}} </span>
+                        </p>
+                        <mat-icon role="img" class="mat-icon notranslate" aria-hidden="true"><span
+                                class="material-icons">edit</span>
+                        </mat-icon>
+                    </div>
+                    <mat-card class="w-100 mat-card mat-focus-indicator mb-3 p-0 overflow-auto-y"
+                        [ngStyle]="{'height.px': eventLayout?.violationHeight}">
+                        <app-violation-details></app-violation-details>
+                    </mat-card>
+                </div>
+            </div>
+            <div class="outer-box item-grid  mb-3" *ngIf="eventLayout?.nameAddress  === 'Y'">
+                <div class="d-flex flex-wrap w-100">
+                    <div class="align-items-center blacked-title  w-100 d-flex justify-content-between m-0">
+                        <p class="align-items-center d-flex m-0">
+                            <mat-icon role="img" class="mat-icon mr-2 notranslate" aria-hidden="true"><span
+                                    class="material-icons">location_on</span>
+                            </mat-icon><span>{{"Name and Address in Ticket" | translate}}</span>
+                        </p>
+                        <mat-icon role="img" class="mat-icon notranslate" aria-hidden="true"><span
+                                class="material-icons">edit</span>
+                        </mat-icon>
+                    </div>
+                    <mat-card class="w-100 mat-card mat-focus-indicator mb-3 p-0 overflow-auto-y"
+                        [ngStyle]="{'height.px': eventLayout?.nameAddressHeight}">
+                        <app-address></app-address>
+                    </mat-card>
+                </div>
+            </div>
+            <div class="outer-box item-grid  mb-3" *ngIf="eventLayout?.citation  === 'Y'">
+                <div class="d-flex flex-wrap w-100">
+                    <div class="align-items-center blacked-title  w-100 d-flex justify-content-between m-0">
+                        <p class="align-items-center d-flex m-0">
+                            <mat-icon role="img" class="mat-icon mr-2 notranslate" aria-hidden="true"><span
+                                    class="material-icons">location_on</span>
+                            </mat-icon><span>{{"Citation Details" | translate}}</span>
+                        </p>
+                        <mat-icon role="img" class="mat-icon notranslate" aria-hidden="true"><span
+                                class="material-icons">edit</span>
+                        </mat-icon>
+                    </div>
+                    <mat-card class="w-100 mat-card mat-focus-indicator mb-3 p-0 overflow-auto-y"
+                        [ngStyle]="{'height.px': eventLayout?.citationHeight}">
+                        <app-citation-details></app-citation-details>
+                    </mat-card>
+                </div>
+            </div>
+            <div class="outer-box item-grid  mb-3" *ngIf="eventLayout?.payments  === 'Y'">
+                <div class="d-flex flex-wrap w-100">
+                    <div class="align-items-center blacked-title w-100 d-flex justify-content-between m-0">
+                        <p class="align-items-center d-flex m-0">
+                            <mat-icon role="img" class="mat-icon mr-2 notranslate" aria-hidden="true"><span
+                                    class="material-icons">location_on</span>
+                            </mat-icon><span>{{"Payments" | translate }}</span>
+                        </p>
+                    </div>
+                    <mat-card class="w-100 mat-card mat-focus-indicator p-0 overflow-auto-y"
+                        [ngStyle]="{'height.px': eventLayout?.payementHeight}">
+                        <app-payments></app-payments>
+                    </mat-card>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,939 @@
+[
+    {
+        "pageName": "",
+        "pageId": "payment-mode-master-controller",
+        "apiConfigList": [
+            {
+                "type": "POST",
+                "url": "paymentModeMaster",
+                "CW5type": false,
+                "paramters": [
+                    {
+                        "paymentModeCD": "string"
+                    },
+                    {
+                        "paymentModeDesc": "string"
+                    },
+                    {
+                        "posCode": 0
+                    }
+                ]
+            },
+            {
+                "type": "PUT",
+                "url": "paymentModeMaster",
+                "CW5type": false,
+                "paramters": {
+                    "paymentModeCD": "string",
+                    "paymentModeDesc": "string",
+                    "paymentModeMasterId": 0,
+                    "posCode": 0
+                  }
+            }
+        ],
+        "uiElementList": [
+            {
+                "row": [
+                    {
+                        "elementType": "text",
+                        "elementName": "paymentModeCD",
+                        "formControlName": "paymentModeCD",
+                        "translateName": "paymentModeCD",
+                        "translateReuiredError": "paymentModeCDError",
+                        "duplicateFoundError":"Duplicate Record Found",
+                        "uniqueId": "paymentModeCD",
+                        "placeholderTrans": "",
+                        "class": "col-md-4",
+                        "validation": "",
+                        "required": true,
+                        "disabled": false,
+                        "regEx": null,
+                        "maxlength": "2",
+                        "minlength": ""
+                    },
+                    {
+                        "elementType": "text",
+                        "elementName": "paymentModeDesc",
+                        "formControlName": "paymentModeDesc",
+                        "translateName": "paymentModeDesc",
+                        "translateReuiredError": "paymentModeDescError",
+                        "uniqueId": "paymentModeDesc",
+                        "placeholderTrans": "",
+                        "class": "col-md-4",
+                        "validation": "",
+                        "required": true,
+                        "disabled": false,
+                        "regEx": null,
+                        "maxlength": "50",
+                        "minlength": null
+                    },
+                    {
+                        "elementType": "number",
+                        "translateName": "posCode",
+                        "translateReuiredError": "posCodeError",
+                        "uniqueId": "posCode",
+                        "elementName": "posCode",
+                        "inavlidLengthError" :"posCodeInvalidLength",
+                        "formControlName": "posCode",
+                        "class": "col-md-4",
+                        "validation": "",
+                        "required": true,
+                        "disabled": false,
+                        "regEx": null,
+                        "maxlength": "2",
+                        "minlength": "0"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "pageName": "",
+        "pageId": "payment-tran-types-master-controller",
+        "apiConfigList": [
+            {
+                "type": "POST",
+                "url": "paymentTranTypesMaster",
+                "CW5type": false,
+                "paramters": [
+                    {
+                        "paymentTypesCode": "string"
+                    },
+                    {
+                        "paymentTypesName": "string"
+                    }
+                ]
+            },
+            {
+                "type": "PUT",
+                "url": "paymentTranTypesMaster",
+                "CW5type": false,
+                "paramters": {
+                        "paymentTypesCode": "string",
+                        "paymentTypesName": "string"
+                    },
+                 "paramtersInUrl": "paymentTranTypesMasterId"   
+            }
+        ],
+        "uiElementList": [
+            {
+                "row": [
+                    {
+                        "elementType": "text",
+                        "elementName": "paymentTypesCode",
+                        "formControlName": "paymentTypesCode",
+                        "translateName": "paymentTypesCode",
+                        "translateReuiredError": "paymentTypesCodeError",
+                        "duplicateFoundError":"Duplicate Record Found",
+                        "uniqueId": "paymentTypesCode",
+                        "placeholderTrans": "",
+                        "class": "col-md-4",
+                        "validation": "",
+                        "required": true,
+                        "disabled": false,
+                        "regEx": null,
+                        "maxlength": "2",
+                        "minlength": null
+                    },
+                    {
+                        "elementType": "text",
+                        "elementName": "paymentTypesName",
+                        "formControlName": "paymentTypesName",
+                        "translateName": "paymentTypesName",
+                        "translateReuiredError": "paymentTypesNameError",
+                        "uniqueId": "paymentTypesName",
+                        "placeholderTrans": "",
+                        "class": "col-md-4",
+                        "validation": "",
+                        "required": true,
+                        "disabled": false,
+                        "regEx": null,
+                        "maxlength": "50",
+                        "minlength": ""
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "pageName": "",
+        "pageId": "noticeType",
+        "apiConfigList": [
+            {
+                "type": "POST",
+                "url": "NoticeType/addNoticeType",
+                "CW5type": true,
+                "paramtersStructure":"noticeTypeModel",
+                "paramters": {
+                    "noticeTypeModel": {
+                      "createUserID": 1,
+                      "updateUserID": 1,
+                      "createDatetime": "2022-07-12T08:29:51.067Z",
+                      "updateDatetime": "",
+                      "isDeleted": "N", 
+                      "noticeTypeID": 0,
+                      "contractID": 2,
+                      "noticeType": 4,
+                      "noticeTypeLongName": "Test",
+                      "noticeTypeShortName": "Te",
+                      "noticeCountMAX": 4,
+                      "noticeMAXTicketCount": 1,
+                      "noticeMINTicketCount": 2,
+                      "noticeConditionStatus": "",
+                      "noticeConditionDateType": 12,
+                      "noticeCutOffIssueDate": "",
+                      "noticeRule": "",
+                      "noticeEncrypted": "",
+                      "noticeInternalExternalInd": "",
+                      "ftpSite": "",
+                      "active": true
+                    }
+                  }
+            },
+            {
+                "type": "PUT",
+                "url": "NoticeType/updateNoticeType",
+                "CW5type": true,
+                "paramtersStructure":"noticeTypeModel",
+                "paramters": {
+                    "noticeTypeModel": {
+                        "createUserID": 0,
+                        "updateUserID": 0,
+                        "createDatetime": "",
+                        "updateDatetime": "2022-07-15T14:20:55.673Z",
+                        "isDeleted": "N",
+                        "noticeTypeID": 0,
+                        "contractID": 0,
+                        "noticeType": 0,
+                        "noticeTypeLongName": "",
+                        "noticeTypeShortName": "",
+                        "noticeCountMAX": 0,
+                        "noticeMAXTicketCount": 0,
+                        "noticeMINTicketCount": 0,
+                        "noticeConditionStatus": "",
+                        "noticeConditionDateType": 0,
+                        "noticeCutOffIssueDate": "",
+                        "noticeRule": "",
+                        "noticeEncrypted": "",
+                        "noticeInternalExternalInd": "",
+                        "ftpSite": "",
+                        "active": true
+                      }
+                    }
+            }
+        ],
+        "uiElementList": [
+            {
+                "row": [
+                    {
+                        "elementType": "hidden",
+                        "elementName": "active",
+                        "formControlName": "active",
+                        "translateName": "active",
+                        "translateReuiredError": "activeError",
+                        "uniqueId": "active",
+                        "placeholderTrans": "",
+                        "class": "hidden",
+                        "validation": "",
+                        "required": false,
+                        "disabled": false,
+                        "maxlength": "3",
+                        "minlength": ""
+                    },
+                    {
+                        "elementType": "hidden",
+                        "elementName": "noticeTypeID",
+                        "formControlName": "noticeTypeID",
+                        "translateName": "noticeTypeID",
+                        "translateReuiredError": "noticeTypeIDError",
+                        "uniqueId": "noticeTypeID",
+                        "placeholderTrans": "",
+                        "class": "hidden",
+                        "validation": "",
+                        "required": false,
+                        "disabled": false,
+                        "maxlength": "3",
+                        "minlength": ""
+                    },
+                    {
+                        "elementType": "number",
+                        "elementName": "noticeType",
+                        "formControlName": "noticeType",
+                        "translateName": "noticeType",
+                        "translateReuiredError": "noticeTypeError",
+                        "uniqueId": "noticeType",
+                        "placeholderTrans": "",
+                        "regEx": "^[0-9]\\d*$",
+                        "invalidError":"negativeNumNotAllowed",
+                        "customValidation": "positiveNumValiWithZero",
+                        "class": "col-md-4",
+                        "validation": "",
+                        "required": true,
+                        "disabled": false,
+                        "maxlength": "3",
+                        "minlength": ""
+                    },
+                    {
+                        "elementType": "text",
+                        "elementName": "noticeTypeShortName",
+                        "formControlName": "noticeTypeShortName",
+                        "translateName": "noticeTypeShortName",
+                        "translateReuiredError": "noticeTypeShortNameError",
+                        "uniqueId": "noticeTypeShortName",
+                        "placeholderTrans": "",
+                        "class": "col-md-4",
+                        "validation": "",
+                        "required": true,
+                        "disabled": false,
+                        "regEx": null,
+                        "maxlength": "20",
+                        "minlength": ""
+                    },
+                    {
+                        "elementType": "text",
+                        "elementName": "noticeTypeLongName",
+                        "formControlName": "noticeTypeLongName",
+                        "translateName": "noticeTypeLongName",
+                        "translateReuiredError": "noticeTypeLongNameError",
+                        "uniqueId": "noticeTypeLongName",
+                        "placeholderTrans": "",
+                        "class": "col-md-4",
+                        "validation": "",
+                        "required": true,
+                        "disabled": false,
+                        "regEx": null,
+                        "maxlength": "50",
+                        "minlength": ""
+                    },
+                    {
+                        "elementType": "number",
+                        "elementName": "noticeCountMAX",
+                        "formControlName": "noticeCountMAX",
+                        "translateName": "noticeCountMAX",
+                        "translateReuiredError": "noticeCountMAXError",
+                        "uniqueId": "noticeCountMAX",
+                        "invalidError":"negativeNumNotAllowed",
+                        "customValidation": "positiveNumValiWithZero",
+                        "placeholderTrans": "",
+                        "class": "col-md-4",
+                        "validation": "",
+                        "required": true,
+                        "defaultValue": "0",
+                        "disabled": false,
+                        "regEx": "^[0-9]\\d*$",
+                        "maxlength": "4",
+                        "minlength": "0"
+                    },
+                    {
+                        "elementType": "number",
+                        "elementName": "noticeMAXTicketCount",
+                        "formControlName": "noticeMAXTicketCount",
+                        "translateName": "noticeMAXTicketCount",
+                        "translateReuiredError": "noticeMAXTicketCountError",
+                        "uniqueId": "noticeMAXTicketCount",
+                        "invalidError":"negativeNumNotAllowed",
+                        "customValidation": "positiveNumValiWithZero",
+                        "placeholderTrans": "",
+                        "class": "col-md-4",
+                        "validation": "",
+                        "required": true,
+                        "disabled": false,
+                        "regEx": "^[0-9]\\d*$",
+                        "defaultValue": "0",
+                        "maxlength": "4",
+                        "minlength": "0"
+                    },
+                    {
+                        "elementType": "number",
+                        "elementName": "noticeMINTicketCount",
+                        "formControlName": "noticeMINTicketCount",
+                        "translateName": "noticeMINTicketCount",
+                        "translateReuiredError": "noticeMINTicketCountError",
+                        "uniqueId": "noticeMINTicketCount",
+                        "invalidError":"negativeNumNotAllowed",
+                        "customValidation": "positiveNumValiWithZero",
+                        "placeholderTrans": "",
+                        "class": "col-md-4",
+                        "validation": "",
+                        "defaultValue": "0",
+                        "required": true,
+                        "disabled": false,
+                        "regEx": "^[0-9]\\d*$",
+                        "maxlength": "4",
+                        "minlength": "0"
+                    },
+                    {   
+                        "elementType": "text",
+                        "elementName": "noticeConditionStatus",
+                        "formControlName": "noticeConditionStatus",
+                        "translateName": "noticeConditionStatus",
+                        "translateReuiredError": "noticeConditionStatusError",
+                        "uniqueId": "noticeConditionStatus",
+                        "placeholderTrans": "",
+                        "class": "col-md-4",
+                        "validation": "",
+                        "required": false,
+                        "disabled": false,
+                        "regEx": null,
+                        "maxlength": "1",
+                        "minlength": ""
+                    },{
+                        "elementType": "number",
+                        "elementName": "noticeConditionDateType",
+                        "formControlName": "noticeConditionDateType",
+                        "translateName": "noticeConditionDateType",
+                        "translateReuiredError": "noticeConditionDateTypeError",
+                        "uniqueId": "noticeConditionDateType",
+                        "invalidError":"negativeNumNotAllowed",
+                        "customValidation": "positiveNumValiWithZero",
+                        "placeholderTrans": "",
+                        "class": "col-md-4",
+                        "validation": "",
+                        "required": true,
+                        "defaultValue": "0",
+                        "disabled": false,
+                        "regEx": "^[0-9]\\d*$",
+                        "maxlength": "4",
+                        "minlength": "0"
+                    },{
+                        "elementType": "date",
+                        "elementName": "noticeCutOffIssueDate",
+                        "formControlName": "noticeCutOffIssueDate",
+                        "translateName": "noticeCutOffIssueDate",
+                        "translateReuiredError": "noticeCutOffIssueDateError",
+                        "uniqueId": "noticeCutOffIssueDate",
+                        "placeholderTrans": "",
+                        "class": "col-md-4",
+                        "defaultValue":"Today",
+                        "validation": "",
+                        "required": true,
+                        "disabled": false,
+                        "regEx": null,
+                        "maxlength": "50",
+                        "minlength": "",
+                        "invalidDateError": "invalidDateError"
+                    },{
+                        "elementType": "text",
+                        "elementName": "noticeRule",
+                        "formControlName": "noticeRule",
+                        "translateName": "noticeRule",
+                        "translateReuiredError": "noticeRuleError",
+                        "uniqueId": "noticeRule",
+                        "placeholderTrans": "",
+                        "class": "col-md-4",
+                        "validation": "",
+                        "required": true,
+                        "disabled": false,
+                        "regEx": null,
+                        "maxlength": "1",
+                        "minlength": "0"
+                    },{
+                        "elementType": "text",
+                        "elementName": "noticeInternalExternalInd",
+                        "formControlName": "noticeInternalExternalInd",
+                        "translateName": "noticeInternalExternalInd",
+                        "translateReuiredError": "noticeInternalExternalIndError",
+                        "uniqueId": "noticeInternalExternalInd",
+                        "placeholderTrans": "",
+                        "class": "col-md-4",
+                        "validation": "",
+                        "required": false,
+                        "disabled": false,
+                        "regEx": null,
+                        "maxlength": "1",
+                        "minlength": ""
+                    },{
+                        "elementType": "text",
+                        "elementName": "noticeEncrypted",
+                        "formControlName": "noticeEncrypted",
+                        "translateName": "noticeEncrypted",
+                        "translateReuiredError": "noticeEncryptedError",
+                        "uniqueId": "noticeEncrypted",
+                        "placeholderTrans": "",
+                        "class": "col-md-4",
+                        "validation": "",
+                        "required": false,
+                        "disabled": false,
+                        "regEx": null,
+                        "maxlength": "1",
+                        "minlength": ""
+                    },{
+                        "elementType": "text",
+                        "elementName": "ftpSite",
+                        "formControlName": "ftpSite",
+                        "translateName": "ftpSite",
+                        "translateReuiredError": "ftpSiteError",
+                        "regExPatternError":"Enter correct IP address",
+                        "uniqueId": "ftpSite",
+                        "placeholderTrans": "",
+                        "class": "col-md-4",
+                        "validation": "",
+                        "customValidation":"regEx",
+                        "required": false,
+                        "disabled": false,
+                        "regEx": "(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)",
+                        "maxlength": "50",
+                        "minlength": ""
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "pageName": "",
+        "pageId": "ticketAddressInformRes",
+        "pageConfig": [
+            {"forceEditMode": true}
+        ],
+        "apiConfigList": [
+            {
+                "type": "GET",
+                "url": "addressInformation",
+                "CW5type": false,
+                "violation": "v1",
+                "paramters": [
+                    {
+                        "paymentTypesCode": "string"
+                    },
+                    {
+                        "paymentTypesName": "string"
+                    }
+                ]
+            },
+            {
+                "type": "PUT",
+                "url": "addressInformation",
+                "CW5type": null,
+                "envType": "violation/v1/",
+                "violationType": true,
+                "paramters": {
+                    "address1": "string",
+                    "address2": "string",
+                    "city": "string",
+                    "firstName": "string",
+                    "lastName": "string",
+                    "registrationExpiration": "string",
+                    "rentalIndicatior": "string",
+                    "state": "string",
+                    "ticketList": "array",
+                    "zip": "string"
+                  },
+                 "matchParameters": true  
+            }
+        ],
+        "uiElementList": [
+            {
+                "column": [
+                    {
+                        "elementType": "text",
+                        "elementName": "effectiveDate",
+                        "formControlName": "effectiveDate",
+                        "translateName": "effectiveDate",
+                        "translateReuiredError": "effectiveDateError",
+                        "duplicateFoundError":"Duplicate Record Found",
+                        "uniqueId": "effectiveDate",
+                        "placeholderTrans": "",
+                        "class": "",
+                        "validation": "",
+                        "required": false,
+                        "disabled": true,
+                        "regEx": null,
+                        "maxlength": null,
+                        "minlength": null
+                    },
+                    {
+                        "elementType": "text",
+                        "elementName": "driversLicense",
+                        "formControlName": "driversLicense",
+                        "translateName": "driversLicense",
+                        "translateReuiredError": "driversLicenseError",
+                        "uniqueId": "driversLicense",
+                        "placeholderTrans": "",
+                        "class": "",
+                        "validation": "",
+                        "required": false,
+                        "disabled": true,
+                        "regEx": null,
+                        "maxlength": "150",
+                        "minlength": ""
+                    },
+                    {
+                        "elementType": "text",
+                        "elementName": "customerAcclastName",
+                        "formControlName": "customerAcclastName",
+                        "translateName": "customerAcclastName",
+                        "translateReuiredError": "customerAcclastNameError",
+                        "uniqueId": "customerAcclastName",
+                        "placeholderTrans": "",
+                        "class": "",
+                        "validation": "",
+                        "required": false,
+                        "disabled": true,
+                        "regEx": null,
+                        "maxlength": "150",
+                        "minlength": ""
+                    },
+                    {
+                        "elementType": "text",
+                        "elementName": "customerAccfirstName",
+                        "formControlName": "customerAccfirstName",
+                        "translateName": "customerAccfirstName",
+                        "translateReuiredError": "customerAccfirstNameError",
+                        "uniqueId": "customerAccfirstName",
+                        "placeholderTrans": "",
+                        "class": "",
+                        "validation": "",
+                        "required": false,
+                        "disabled": true,
+                        "regEx": null,
+                        "maxlength": "150",
+                        "minlength": ""
+                    },
+                    {
+                        "elementType": "text",
+                        "elementName": "customerAccaddress1",
+                        "formControlName": "customerAccaddress1",
+                        "translateName": "customerAccaddress1",
+                        "translateReuiredError": "customerAccaddress1Error",
+                        "uniqueId": "customerAccaddress1",
+                        "placeholderTrans": "",
+                        "class": "",
+                        "validation": "",
+                        "required": false,
+                        "disabled": true,
+                        "regEx": null,
+                        "maxlength": "150",
+                        "minlength": ""
+                    },
+                    {
+                        "elementType": "text",
+                        "elementName": "customerAccaddress2",
+                        "formControlName": "customerAccaddress2",
+                        "translateName": "customerAccaddress2",
+                        "translateReuiredError": "customerAccaddress2Error",
+                        "uniqueId": "customerAccaddress2",
+                        "placeholderTrans": "",
+                        "class": "",
+                        "validation": "",
+                        "required": false,
+                        "disabled": true,
+                        "regEx": null,
+                        "maxlength": "150",
+                        "minlength": ""
+                    },
+                    {
+                        "elementType": "text",
+                        "elementName": "customerAcccity",
+                        "formControlName": "customerAcccity",
+                        "translateName": "customerAcccity",
+                        "translateReuiredError": "customerAcccityError",
+                        "uniqueId": "customerAcccity",
+                        "placeholderTrans": "",
+                        "class": "",
+                        "validation": "",
+                        "required": false,
+                        "disabled": true,
+                        "regEx": null,
+                        "maxlength": "150",
+                        "minlength": ""
+                    },
+                    {
+                        "elementType": "select",
+                        "elementName": "customerAccstate",
+                        "formControlName": "customerAccstate",
+                        "translateName": "customerAccstate",
+                        "translateReuiredError": "customerAccstateError",
+                        "uniqueId": "customerAccstate",
+                        "placeholderTrans": "",
+                        "class": "",
+                        "validation": "",
+                        "required": false,
+                        "disabled": true,
+                        "regEx": null,
+                        "maxlength": null,
+                        "minlength": "",
+                        "urlConfig": [{
+                            "url": "StateProvinces/getAllStateProvinces",
+                            "type":"GET",
+                            "envType": "api/v1/"
+                        }],
+                        "renderValueKey":"stateProvincesName",
+                        "renderDisplayKey":"stateProvincesName"
+                    },
+                    {
+                        "elementType": "text",
+                        "elementName": "customerAcczip",
+                        "formControlName": "customerAcczip",
+                        "translateName": "customerAcczip",
+                        "translateReuiredError": "customerAcczipError",
+                        "uniqueId": "customerAcczip",
+                        "placeholderTrans": "",
+                        "class": "",
+                        "validation": "",
+                        "required": false,
+                        "disabled": true,
+                        "regEx": null,
+                        "maxlength": "9",
+                        "minlength": "5"
+                    },
+                    {
+                        "elementType": "text",
+                        "elementName": "dateofBirth",
+                        "formControlName": "dateofBirth",
+                        "translateName": "dateofBirth",
+                        "translateReuiredError": "dateofBirthError",
+                        "uniqueId": "dateofBirth",
+                        "placeholderTrans": "",
+                        "class": "",
+                        "validation": "",
+                        "required": false,
+                        "disabled": true,
+                        "regEx": null,
+                        "maxlength": null,
+                        "minlength": ""
+                    },
+                    {
+                        "elementType": "text",
+                        "elementName": "ssn",
+                        "formControlName": "ssn",
+                        "translateName": "ssn",
+                        "translateReuiredError": "ssnError",
+                        "uniqueId": "ssn",
+                        "placeholderTrans": "",
+                        "class": "",
+                        "validation": "",
+                        "required": false,
+                        "disabled": true,
+                        "regEx": null,
+                        "maxlength": null,
+                        "minlength": ""
+                    },
+                    {
+                        "elementType": "checkbox",
+                        "elementName": "confirmSsn",
+                        "formControlName": "confirmSsn",
+                        "translateName": "confirmSsn",
+                        "translateReuiredError": "confirmSsnError",
+                        "titleTranslate": "confirmSsn",
+                        "uniqueId": "confirmSsn",
+                        "placeholderTrans": "",
+                        "class": "",
+                        "validation": "",
+                        "required": false,
+                        "disabled": true,
+                        "regEx": null,
+                        "maxlength": null,
+                        "minlength": "",
+                        "defaultValue": false
+                    },
+                    {
+                        "elementType": "text",
+                        "elementName": "addressSource",
+                        "formControlName": "addressSource",
+                        "translateName": "addressSource",
+                        "translateReuiredError": "addressSourceError",
+                        "titleTranslate": "addressSource",
+                        "uniqueId": "addressSource",
+                        "placeholderTrans": "",
+                        "class": "",
+                        "validation": "",
+                        "required": false,
+                        "disabled": true,
+                        "regEx": null,
+                        "maxlength": null,
+                        "minlength": ""
+                    }
+                ],
+                "titleTranslate": "customerAccountInformRes",
+                "class": "col-md-4 d-flex flex-column w-100"
+            },
+            {
+                "column": [
+                    {
+                        "elementType": "text",
+                        "elementName": "lastName",
+                        "formControlName": "lastName",
+                        "translateName": "lastName",
+                        "translateReuiredError": "lastNameError",
+                        "uniqueId": "lastName",
+                        "placeholderTrans": "",
+                        "class": "",
+                        "validation": "",
+                        "required": true,
+                        "disabled": false,
+                        "regEx": null,
+                        "maxlength": "150",
+                        "minlength": ""
+                    },
+                    {
+                        "elementType": "text",
+                        "elementName": "firstName",
+                        "formControlName": "firstName",
+                        "translateName": "firstName",
+                        "translateReuiredError": "firstNameError",
+                        "uniqueId": "firstName",
+                        "placeholderTrans": "",
+                        "class": "",
+                        "validation": "",
+                        "required": true,
+                        "disabled": false,
+                        "regEx": null,
+                        "maxlength": "150",
+                        "minlength": ""
+                    },
+                    {
+                        "elementType": "text",
+                        "elementName": "address1",
+                        "formControlName": "address1",
+                        "translateName": "address1",
+                        "translateReuiredError": "address1Error",
+                        "uniqueId": "address1",
+                        "placeholderTrans": "",
+                        "class": "",
+                        "validation": "",
+                        "required": true,
+                        "disabled": false,
+                        "regEx": null,
+                        "maxlength": "150",
+                        "minlength": ""
+                    },
+                    {
+                        "elementType": "text",
+                        "elementName": "address2",
+                        "formControlName": "address2",
+                        "translateName": "address2",
+                        "translateReuiredError": "address2Error",
+                        "uniqueId": "address2",
+                        "placeholderTrans": "",
+                        "class": "",
+                        "validation": "",
+                        "required": false,
+                        "disabled": false,
+                        "regEx": null,
+                        "maxlength": "150",
+                        "minlength": "",
+                        "defaultValue":""
+                    },
+                    {
+                        "elementType": "text",
+                        "elementName": "city",
+                        "formControlName": "city",
+                        "translateName": "city",
+                        "translateReuiredError": "cityError",
+                        "uniqueId": "city",
+                        "placeholderTrans": "",
+                        "class": "",
+                        "validation": "",
+                        "required": true,
+                        "disabled": false,
+                        "regEx": null,
+                        "maxlength": "150",
+                        "minlength": ""
+                    },
+                    {
+                        "elementType": "select",
+                        "elementName": "state",
+                        "formControlName": "state",
+                        "translateName": "state",
+                        "translateReuiredError": "stateError",
+                        "uniqueId": "state",
+                        "placeholderTrans": "",
+                        "class": "",
+                        "validation": "",
+                        "required": true,
+                        "disabled": false,
+                        "regEx": null,
+                        "maxlength": null,
+                        "minlength": "",
+                        "urlConfig": [{
+                            "url": "StateProvinces/getAllStateProvinces",
+                            "type":"GET",
+                            "envType": "api/v1/"
+                        }],
+                        "renderValueKey":"stateProvincesName",
+                        "renderDisplayKey":"stateProvincesName"
+                    },
+                    {
+                        "elementType": "number",
+                        "elementName": "zip",
+                        "formControlName": "zip",
+                        "translateName": "zip",
+                        "translateReuiredError": "zipError",
+                        "uniqueId": "zip",
+                        "placeholderTrans": "",
+                        "class": "",
+                        "validation": "",
+                        "required": true,
+                        "disabled": false,
+                        "regEx": "^[0-9]*$",
+                        "maxlength": "9",
+                        "minlength": "5",
+                        "inavlidMinLengthError": "zipMinLengthError",
+                        "customValidation": "9",
+                        "invalidError": "zipMinLengthError"
+                    },
+                    {
+                        "elementType": "date",
+                        "elementName": "registrationExpiration",
+                        "formControlName": "registrationExpiration",
+                        "translateName": "registrationExpiration",
+                        "translateReuiredError": "registrationExpirationError",
+                        "uniqueId": "registrationExpiration",
+                        "placeholderTrans": "",
+                        "class": "",
+                        "validation": "",
+                        "required": false,
+                        "disabled": false,
+                        "regEx": null,
+                        "maxlength": null,
+                        "minlength": ""
+                    }
+                    ,
+                    {
+                        "elementType": "select",
+                        "elementName": "rentalIndicatior",
+                        "formControlName": "rentalIndicatior",
+                        "translateName": "rentalIndicatior",
+                        "translateReuiredError": "rentalIndicatiorError",
+                        "uniqueId": "rentalIndicatior",
+                        "placeholderTrans": "",
+                        "class": "",
+                        "validation": "",
+                        "required": true,
+                        "disabled": false,
+                        "regEx": null,
+                        "maxlength": null,
+                        "minlength": "",
+                        "renderValueKey":"rentalIndicatior",
+                        "renderDisplayKey":"rentalIndicatior"
+                    }
+                ],
+                "titleTranslate": "ticketAddressInformRes",
+                "class": "col-md-4 d-flex flex-column w-100"
+            },
+            {
+                "column": [
+                    {
+                        "elementType": "multiSelect",
+                        "elementName": "ticketList",
+                        "formControlName": "ticketList",
+                        "translateName": "ticketList",
+                        "translateReuiredError": "ticketListError",
+                        "uniqueId": "ticketList",
+                        "placeholderTrans": "selectTicket",
+                        "class": "",
+                        "validation": "",
+                        "required": true,
+                        "disabled": false,
+                        "regEx": null,
+                        "multiple": true,
+                        "searchable": null,
+                        "multiSelectData": []
+                    }
+                ],
+                "titleTranslate": "ticketAddressInformRes",
+                "class": "col-md-4 d-flex flex-column w-100"
+            }
+        ]
+    }
+]

@@ -1,0 +1,153 @@
+<h3 class="header-title"> {{'Weather Types' | translate}}</h3>
+<div class="container-fluid">
+  <div *ngIf="showAddForm">
+    <form [formGroup]="createWTForm" (ngSubmit)="addWeatherType(createWTForm.value)">
+      <div class="row">
+        <div class="col-md-3">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>{{'Name' | translate}}</mat-label>
+            <input type="text" matInput formControlName="weatherTypesName" maxlength="20" [id]="'weatherTypesName'" appNotAllowWhiteSpaceStart/>
+            <mat-error *ngIf="createWTForm.get('weatherTypesName')?.hasError('required')" [id]="'error_weatherTypesName1'">
+              {{ titleAlert | translate }}
+            </mat-error>
+            <mat-error *ngIf="createWTForm.get('weatherTypesName')?.hasError('minlength')" [id]="'error_weatherTypesName2'">
+              {{'Weather Type Name Must Be Minimum 4 Characters' | translate}}
+            </mat-error>
+            <mat-error *ngIf="createWTForm.get('weatherTypesName')?.hasError('invalid')" [id]="'error_weatherTypesName3'">
+              {{ createWTForm.get('weatherTypesName')?.getError('invalid') | translate }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 justify-content-start">
+          <!-- <p style="color: red;" *ngIf="alertMsg">{{alertMsg | translate}}</p> -->
+        </div>
+        <div class="align-items-center col-md-6 d-flex justify-content-end text-center">
+          <button mat-raised-button [id]="'btn'" class="m-1 color-blue" (click)="cancelAddingWT()">{{'Cancel'| translate}}</button>
+          <button mat-raised-button [id]="'AddSubmit'" class="color-blue">{{'Add' | translate}}</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <!-- EDIT WEATHER TYPE START -->
+  <div *ngIf="showEditForm">
+    <form [formGroup]="createWTForm" (ngSubmit)="saveWeatherType(createWTForm.value)">
+      <div class="row">
+        <div class="col-md-3">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>{{'Name' | translate}}</mat-label>
+            <input type="text" matInput formControlName="weatherTypesName" maxlength="20" [id]="'weatherTypesName'"/>
+            <mat-error *ngIf="createWTForm.get('weatherTypesName')?.hasError('required')" [id]="'error_weatherTypesName1'">
+              {{ titleAlert | translate }}
+            </mat-error>
+            <mat-error *ngIf="createWTForm.get('weatherTypesName')?.hasError('minlength')" [id]="'error_weatherTypesName2'">
+              {{'Weather Type Name Must Be Minimum 4 Characters' | translate}}
+            </mat-error>
+            <mat-error *ngIf="createWTForm.get('weatherTypesName')?.hasError('invalid')" [id]="'error_weatherTypesName3'">
+              {{ createWTForm.get('weatherTypesName')?.getError('invalid') | translate }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 justify-content-start">
+          <!-- <p style="color: red;" *ngIf="alertMsg">{{alertMsg | translate}}</p> -->
+        </div>
+        <div class="align-items-center col-md-6 d-flex justify-content-end text-center">
+          <button mat-raised-button [id]="'btn'" class="m-1 color-blue" (click)="cancelAddingWT()">{{'Cancel'| translate}}</button>
+          <button mat-raised-button [id]="'SaveSubmit'" class="color-blue">{{'Save' | translate}}</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <!-- EDIT WEATHER TYPE END -->
+  <div [hidden]="!showDataTable">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="align-items-center d-flex row">
+          <div class="col-6">
+            <mat-form-field appearance="fill">
+              <mat-label>{{ "Search" | translate }}</mat-label>
+
+              <input matInput placeholder="Type"  #searchField  (keyup)="applyFilter($event)" />
+            </mat-form-field>
+          </div>
+          <div class="col-6">
+            <div class="text-right">
+              <button mat-raised-button appearance="fill" [id]="'AddNew'" class="m-1 color-blue" (click)="createWeatherType()">
+                {{ "Add" | translate }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
+        <!-- Position Column -->
+        <ng-container matColumnDef="weatherTypesName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="w-75">{{ "Name" | translate }}</th>
+          <td mat-cell *matCellDef="let element" class="text-left">
+            {{ element.weatherTypesName }}
+          </td>
+        </ng-container>
+        <!-- Name Column -->
+        <!-- <ng-container matColumnDef="createDatetime">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ "Last Change Date UTC" | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element" class="text-center">{{ element.createDatetime | date:'MMM d, y'}}</td>
+        </ng-container> -->
+  
+        <!-- Weight Column -->
+        <!-- <ng-container matColumnDef="updateUserID">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ "Last Change User" | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element" class="text-right">{{ element.updateUserID }}</td>
+        </ng-container> -->
+  
+          <!-- Weight Column -->
+          <!-- <ng-container matColumnDef="updateUserID">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              {{ "Last Change User" | translate }}
+            </th>
+            <td mat-cell *matCellDef="let element" class="text-right">{{ element.updateUserID }}</td>
+          </ng-container> -->
+  
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="Action">
+            <tr>
+              <th mat-header-cell *matHeaderCellDef>{{ "Action" | translate }}</th>
+            </tr>
+            <tr>
+              <td mat-cell *matCellDef="let element" class="text-center">
+                <button mat-icon-button color="dark-grey" title="{{'Edit' | translate }}">
+                  <mat-icon class="edit-blue" (click)="editWeatherType(element)">edit</mat-icon>
+                </button>
+                <!-- <button mat-icon-button color="dark-grey" title="Delete">
+                  <mat-icon class="color-light-gray">delete</mat-icon>
+                </button> -->
+                <button mat-icon-button color="dark-grey" [id]="'btn'" title="{{'Disable' | translate }}" (click)="toggleWeatherType(element.weatherTypesId, element.active)" *ngIf="element.active">
+                  <mat-icon class="color-red">block</mat-icon>
+                </button>
+                <button mat-icon-button color="dark-grey" [id]="'btn'" title="{{'Enable' | translate }}" (click)="toggleWeatherType(element.weatherTypesId, element.active)" *ngIf="!element.active">
+                  <mat-icon class="color-green">done_outline</mat-icon>
+                </button>
+              </td>
+            </tr>
+  
+            <tr></tr>
+          </ng-container>
+  
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let element; columns: displayedColumns"></tr>
+        </table>
+        <div class="col-sm-12 text-center" [hidden]="dataSource.filteredData?.length !== 0"> {{'No records found' | translate}}</div>
+        <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons
+          aria-label="Select page of periodic elements">
+        </mat-paginator>
+      </div>
+  </div>
+  </div>

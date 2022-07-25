@@ -1,0 +1,55 @@
+.plate-info-link {
+    color: #007bff !important;
+    cursor: pointer;
+}
+
+.open-account {
+    margin-left: 10px;
+    box-sizing: border-box;
+
+    ::ng-deep {
+        .mat-form-field-flex {
+            padding: 0.4em 0.35em 0.1em 0.35em;
+            box-sizing: border-box;
+            height: 44px;
+        }
+    }
+}
+
+
+
+.search-event-entity {
+    ::ng-deep {
+        .mat-form-field-flex {
+            padding: 0.4em 0.35em 0.1em 0.35em;
+            box-sizing: border-box;
+            height: 44px;
+        }
+    }
+}
+
+.action-icons-search {
+    padding-left: 180px;
+    margin-top: 18px;
+    z-index: 1;
+}
+
+.entity-icons-group.eventicons button {
+    height: 40px;
+}
+
+.header-checkbox {
+    ::ng-deep {
+        label {
+            margin: 0;
+        }
+    }
+    ::ng-deep {
+        .mat-checkbox-frame {
+            border-color: white
+        }
+    }
+}
+.w-200px{
+    width: 200px !important;
+}

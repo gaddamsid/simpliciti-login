@@ -1,0 +1,356 @@
+<div class="spinner-wrapper" *ngIf="isLoading">
+  <mat-spinner></mat-spinner>
+</div>
+<form [formGroup]="paymentCartForm" (keydown.enter)="$event.preventDefault()">
+  <div class="payment-cart">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-7">
+          <div class="mt-2">
+            <div class="total-amount-bar d-flex justify-content-between blacked-title border-0">
+              <div class="cart-item">
+                <p class="m-0">{{"Cart Item" | translate}}: {{ cartLength }}</p>
+              </div>
+              <div class="total-price">
+                <p class="m-0">{{"Total Due" | translate}}: <span>{{cartTotal | currency}}</span></p>
+              </div>
+            </div>
+          </div>
+          <ng-container formArrayName="plateDetails">
+            <div class="mt-2" *ngFor="let item of plateDetails.controls; let k=index;" [formGroupName]="k">
+              <div class="total-amount-bar d-flex justify-content-between blacked-title border-0">
+                <div class="cart-item">
+                  <p class="m-0">{{"Plate Number" | translate}}: {{ item.value.statePlate }}</p>
+                </div>
+              </div>
+              <ng-container formArrayName="ticketDetails">
+                <mat-card class="mt-2" *ngFor="let item of ticketDetails(k).controls; let i=index;" [formGroupName]="i">
+                  <mat-card-content class="pb-1">
+                    <div class="container-fluid">
+                      <div class="row">
+                        <div class="col-md-3 d-flex flex-column justify-content-between bg-light pt-2 pb-2">
+                          <div class="mb-3">
+                            <h4 class="font-weight-bold m-0">{{"Ticket" | translate}}:
+                              <span>{{item.value?.citationNumber}}</span>
+                            </h4>
+                            <p class="f-12 m-0">{{item.value?.locationAndDescription }}
+                              - <span>{{item.value?.date | date}}</span></p>
+                          </div>
+                          <div>
+                            <span class="f-12">{{"Amount Due" | translate}}</span>
+                            <h3 class="font-weight-bold m-0"><span>{{(item.value?.amountDue ? item.value?.amountDue : 0)
+                                |
+                                currency}}</span></h3>
+                          </div>
+                        </div>
+                        <div class="col-md-4 d-flex flex-column justify-content-between pt-2 pb-2">
+                          <div class="mb-3">
+                            <div class="d-flex justify-content-between fines-amount">
+                              <p>{{"Fines"| translate }}</p>
+                              <span>{{item.value?.fines | currency}}</span>
+                            </div>
+                            <div class="d-flex justify-content-between fines-amount">
+                              <p>{{"Penalties" | translate}}</p>
+                              <span>{{item.value?.penalties | currency}}</span>
+                            </div>
+                          </div>
+                          <div>
+                            <div class="d-flex justify-content-between fines-amount">
+                              <p class="f-12">{{"Total Charges" | translate}}</p>
+                              <span>{{item.value?.totalCharges | currency}}</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-4 d-flex flex-column justify-content-between pt-2 pb-2 pr-1 border-left-1">
+                          <div class="mb-3">
+                            <div class="d-flex justify-content-between fines-amount">
+                              <p>{{"Partial Payments" | translate}}</p>
+                              <span>{{item.value?.partialPayments | currency}}</span>
+                            </div>
+                            <div class="d-flex justify-content-between fines-amount">
+                              <p>{{"Total Charges" | translate}}</p>
+                              <span>{{item.value?.totalCharges | currency}}</span>
+                            </div>
+                          </div>
+                          <div>
+                            <div class="d-flex justify-content-between  align-items-center fines-amount">
+                              <p class="w-100px f-12 m-0 mt-4 text-right pr-1">{{"Pay This Amount" | translate}}</p>
+                              <mat-form-field appearance="fill" class="w-50">
+                                <mat-label>{{ 'Payment' | translate }}</mat-label>
+                                <input matInput type="number" [id]="'payThisAmount' + i"
+                                  placeholder="{{ 'Payment' | translate }}" formControlName="payThisAmount"
+                                  oninput="this.value < 0 ? this.value = null : ''"
+                                  (change)="onChangePayment();onChangeAmount(item?.get('payThisAmount'))" />
+                                <mat-icon matSuffix class="mt-1 mat-error-icon" id="payThisAmountRequired" *ngIf="item.get('payThisAmount')?.invalid && 
+                                (item.get('payThisAmount')?.dirty || item.get('payThisAmount')?.touched)
+                                    && item.get('payThisAmount')?.errors?.['required']"
+                                  matTooltip="{{'Payment is Required' | translate}}">info</mat-icon>
+                                <mat-icon matSuffix class="mt-1 mat-error-icon" id="payThisAmountMin" *ngIf="item.get('payThisAmount')?.invalid && 
+                                (item.get('payThisAmount')?.dirty || item.get('payThisAmount')?.touched)
+                                    && item.get('payThisAmount')?.errors?.['min']"
+                                  matTooltip="{{'Amount must be greaterthan 0' | translate}}">info</mat-icon>
+                                <mat-icon matSuffix class="mt-1 mat-error-icon" id="payThisAmountPattern"
+                                  *ngIf="item.get('payThisAmount')?.invalid && 
+                                (item.get('payThisAmount')?.dirty || item.get('payThisAmount')?.touched)
+                                    && !item.get('payThisAmount')?.errors?.['min'] && item.get('payThisAmount')?.errors?.['pattern']"
+                                  matTooltip="{{'Only 5 digits before decimal and two digits after decimal are allowed' | translate}}">
+                                  info
+                                </mat-icon>
+                              </mat-form-field>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="align-items-center col-md-1 d-flex flex-column justify-content-center bg-light">
+                          <mat-icon role="img" [id]="'ticketButton' + i" class="mat-icon notranslate" aria-hidden="true"
+                            (click)="deleteCartItem(item.value.shoppingCartItemsId,'ticketDetails',k,i)">
+                            <span class="material-icons">cancel</span>
+                          </mat-icon>
+                        </div>
+                      </div>
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+              </ng-container>
+              <div class="d-flex justify-content-between mt-1">
+                <p class="m-0">{{"Fees Detail" | translate}}</p>
+                <div class="align-items-center d-flex">
+                  {{"Add Fee" | translate}}
+                  <mat-icon role="img" class="mat-icon notranslate ml-2 edit-blue" id="addFeeButton" aria-hidden="true"
+                    (click)="addFee(k)">
+                    <span class="material-icons">add_circle</span>
+                  </mat-icon>
+                </div>
+              </div>
+              <ng-container formArrayName="feeDetails">
+                <mat-card class="mt-2 fees-detail" *ngFor="let item of feeDetails(k).controls; let j=index;"
+                  [formGroupName]="j"
+                  [hidden]="item?.value?.dueAmount <= 0 && item?.get('violationAccountChargesId')?.disabled">
+                  <mat-card-content class="pb-1">
+                    <div class="container-fluid">
+                      <div class="row">
+                        <div class="col-md-3 p-0 align-items-center d-flex flex-column justify-content-center">
+                          <mat-form-field color="primary" class="w-100 open-account" appearance="fill"
+                            style="margin-bottom: -10px;">
+                            <mat-label>{{"Fee Name" | translate}}</mat-label>
+                            <mat-select formControlName="violationAccountChargesId" [id]="'violationAccountId' + j"
+                              (selectionChange)="onSelectFeePayment($event,k, j)">
+                              <mat-option *ngFor="let fee of paymentFeeTypes" [value]="fee?.violationaccountchargesId">
+                                {{ fee?.chargeTypeLong }}</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="item?.get('violationAccountChargesId')?.errors?.['required']"
+                              id="violationAccountChargesIdRequired">
+                              {{'Fee Name is Required' | translate}}
+                            </mat-error>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-md-2 p-0 d-flex flex-column justify-content-between pb-2 pt-2">
+                          <span>{{"Fee Amount" | translate}}</span>
+                          <p class="m-0 font-weight-bold">{{item.value.feeAmount | currency}}</p>
+                        </div>
+                        <div class="col-md-2 p-0 d-flex flex-column justify-content-between pb-2 pt-2">
+                          <span>{{"Due Amount" | translate}}</span>
+                          <p class="m-0 font-weight-bold">{{item.value.dueAmount | currency}}</p>
+                        </div>
+                        <div class="col-md-2 p-0 d-flex flex-column justify-content-between pb-2 pt-2">
+                          <span>{{"Paid Amount" | translate}}</span>
+                          <p class="m-0 font-weight-bold">{{item.value.paidAmount | currency}}</p>
+                        </div>
+                        <div class="col-md-2 p-0 d-flex flex-column justify-content-between pb-2 pt-2">
+                          <mat-form-field appearance="fill" class="w-100" style="margin-bottom: -10px;">
+                            <mat-label>{{ "Payment" | translate }}</mat-label>
+                            <input matInput type="number" [id]="'payment' + j" placeholder="{{ 'Payment' | translate }}"
+                              formControlName="payment" oninput="this.value < 0 ? this.value = null : ''"
+                              (change)="onChangePayment();onChangeAmount(item?.get('payment'))" />
+                            <mat-icon matSuffix class="mt-1 mat-error-icon" id="paymentRequired"
+                              *ngIf="item.get('payment')?.invalid && (item.get('payment')?.dirty || item.get('payment')?.touched) && item.get('payment')?.errors?.['required']"
+                              matTooltip="{{'Payment is Required' | translate}}">info</mat-icon>
+                            <mat-icon matSuffix class="mt-1 mat-error-icon" id="paymentMin"
+                              *ngIf="item.get('payment')?.invalid && (item.get('payment')?.dirty || item.get('payment')?.touched) && item?.get('payment')?.errors?.['min']"
+                              matTooltip="{{'Amount must be greaterthan 0' | translate}}">info</mat-icon>
+                            <mat-icon matSuffix class="mt-1 mat-error-icon" id="paymentPattern"
+                              *ngIf="item.get('payment')?.invalid && (item.get('payment')?.dirty || item.get('payment')?.touched) && !item?.get('payment')?.errors?.['min'] && item?.get('payment')?.errors?.['pattern']"
+                              matTooltip="{{'Only 5 digits before decimal and two digits after decimal are allowed' | translate}}">
+                              info
+                            </mat-icon>
+                          </mat-form-field>
+                        </div>
+                        <div class="align-items-center col-md-1 d-flex flex-column justify-content-center bg-light">
+                          <mat-icon role="img" [id]="'paymentButton' + j" class="mat-icon notranslate"
+                            aria-hidden="true"
+                            (click)="deleteCartItem(item.value.shoppingCartItemsId,'feeDetails',k,j)"><span
+                              class="material-icons">cancel</span>
+                          </mat-icon>
+                        </div>
+                      </div>
+                    </div>
+                  </mat-card-content>
+                </mat-card>
+              </ng-container>
+            </div>
+          </ng-container>
+        </div>
+        <div class="col-md-5">
+          <mat-card>
+            <mat-card-content>
+              <div class="container-fluid pb-3">
+                <h4 class="font-weight-bold pt-3 mb-4">{{"Payment Checkout" | translate}}</h4>
+                <div class="row">
+                  <div class="col-md-6">
+                    <mat-form-field color="primary" class="w-100 open-account" appearance="fill">
+                      <mat-label>{{"Payment Source" | translate}}</mat-label>
+                      <mat-select formControlName="paymentSource" [id]="'paymentSource'">
+                        <mat-option *ngFor="let fee of accountTypes" [value]="fee?.accountTypesId">
+                          {{ fee?.accountFullName }}</mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="paymentCartForm.get('paymentSource')?.errors?.['required']"
+                        id="paymentSourceRequired">
+                        {{'Payment Source is Required' | translate}}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-6">
+                    <mat-form-field appearance="fill" class="w-100">
+                      <mat-label>{{"Payment Date" | translate}}</mat-label>
+                      <input matInput [matDatepicker]="datepicker" [id]="'paymentDate'" formControlName="paymentDate"
+                        [max]="maxPaymentDate">
+                      <mat-datepicker-toggle matSuffix [for]="datepicker"></mat-datepicker-toggle>
+                      <mat-datepicker #datepicker></mat-datepicker>
+                      <mat-error *ngIf="paymentCartForm.get('paymentDate')?.errors?.['required']"
+                        id="paymentDateRequired">
+                        {{'Payment Date is Required' | translate}}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <!-- method stat -->
+                <p class="m-0">{{"Method" | translate}} <span>1</span></p>
+                <div class="row mb-2" [formGroup]="method1">
+                  <div class="col-md-4">
+                    <mat-form-field color="primary" class="w-100 open-account" appearance="fill">
+                      <mat-label>{{"Select Method" | translate}}</mat-label>
+                      <mat-select formControlName="type" [id]="'methodType1'">
+                        <mat-option *ngFor="let fee of paymentTypes" [value]="fee?.paymentModeId">{{
+                          fee?.paymentModeDesc
+                          }}</mat-option>
+                      </mat-select>
+                      <mat-error *ngIf="method1.get('type')?.errors?.['required']" id="methodType1Required">
+                        {{'Select Method is Required' | translate}}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4">
+                    <mat-form-field appearance="fill" class="w-100">
+                      <mat-label>{{ "Reference No." | translate }}</mat-label>
+                      <input matInput placeholder="{{ 'Reference No.' | translate }}" [id]="'methodReferenceNo1'"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '')" formControlName="referenceNo" />
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4">
+                    <mat-form-field appearance="fill" class="w-100">
+                      <mat-label>{{ "Amount" | translate }}</mat-label>
+                      <input matInput type="number" [id]="'methodAmount1'" placeholder="{{ 'Amount' | translate }}"
+                        oninput="this.value < 0 ? this.value = null : ''" formControlName="amount"
+                        (change)="onChangeMethod1Amount($event);onChangeAmount(method1?.get('amount'))" />
+                      <mat-error *ngIf="method1.get('amount')?.errors?.['required']" id="method1amount">
+                        {{'Amount is Required' | translate}}
+                      </mat-error>
+                      <mat-icon matSuffix class="mt-1 mat-error-icon" id="method1Pattern"
+                        *ngIf="!method1.get('amount')?.errors?.['min'] && method1.get('amount')?.errors?.['pattern']"
+                        matTooltip="{{'Only 5 digits before decimal and two digits after decimal are allowed' | translate}}">
+                        info
+                      </mat-icon>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="row pb-2" [formGroup]="method1" *ngIf="this.method1.get('type')?.value == 2">
+                  <div class="col-md-4">
+                    <mat-form-field appearance="fill" class="w-100">
+                      <mat-label>{{ "Cash Received" | translate }}</mat-label>
+                      <input matInput type="number" [id]="'methodcashReceived1'"
+                        placeholder="{{ 'Cash Received' | translate }}" formControlName="cashReceived"
+                        (change)="onChangeCashReceived()" />
+                      <mat-error *ngIf="method1.get('cashReceived')?.errors?.['required']"
+                        id="method1cashRecievedRequired"> {{'Cash Received is Required' | translate}}
+                      </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4">
+                    <mat-form-field appearance="fill" class="w-100">
+                      <mat-label>{{ "Change Due" | translate }}</mat-label>
+                      <input matInput type="number" [id]="'methodchangeDue1'"
+                        placeholder="{{ 'Change Due' | translate }}" [readonly]="true" formControlName="changeDue" />
+                    </mat-form-field>
+                  </div>
+                </div>
+                <!-- method end -->
+                <!-- method stat -->
+                <p class="m-0">{{"Method" | translate}} <span>2</span></p>
+                <div class="row" [formGroup]="method2">
+                  <div class="col-md-4">
+                    <mat-form-field color="primary" class="w-100 open-account" appearance="fill">
+                      <mat-label>{{"Select Method" | translate}}</mat-label>
+                      <mat-select formControlName="type" [id]="'methodType2'">
+                        <mat-option [value]="null"></mat-option>
+                        <mat-option *ngFor="let fee of paymentTypes" [value]="fee?.paymentModeId">{{
+                          fee?.paymentModeDesc
+                          }}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4">
+                    <mat-form-field appearance="fill" class="w-100">
+                      <mat-label>{{ "Reference No." | translate }}</mat-label>
+                      <input matInput placeholder="{{ 'Reference No.' | translate }}" [id]="'methodReferenceNo2'"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '')" formControlName="referenceNo" />
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-4">
+                    <mat-form-field appearance="fill" class="w-100">
+                      <mat-label>{{ "Amount" | translate }}</mat-label>
+                      <input matInput type="number" placeholder="{{ 'Amount' | translate }}" [id]="'methodAmount2'"
+                        oninput="this.value < 0 ? this.value = null : ''" formControlName="amount"
+                        (change)="onChangePayment();onChangeAmount(method2?.get('amount'))" />
+                      <!-- <mat-error
+                        *ngIf="!method2.get('amount')?.errors?.['min'] && method2.get('amount')?.errors?.['pattern']">
+                        {{'Only 5 digits before decimal and two digits after decimal are allowed' | translate}}
+                      </mat-error> -->
+                      <mat-icon matSuffix class="mt-1 mat-error-icon" id="method2Pattern"
+                        *ngIf="!method2.get('amount')?.errors?.['min'] && method2.get('amount')?.errors?.['pattern']"
+                        matTooltip="{{'Only 5 digits before decimal and two digits after decimal are allowed' | translate}}">
+                        info
+                      </mat-icon>
+                    </mat-form-field>
+                  </div>
+                </div>
+                <!-- method end -->
+                <!-- <mat-form-field class="example-full-width w-100 mt-4" appearance="fill">
+                  <mat-label>{{'Notes' | translate}}</mat-label>
+                  <textarea matInput placeholder="Notes"></textarea>
+                </mat-form-field> -->
+                <div class="amount-calculation mt-4">
+                  <div class="d-flex justify-content-between">
+                    <p class="f-12">{{"Total" | translate}}</p>
+                    <p class="font-weight-bold"><span>{{ paymentCartForm.get('totalAmount')?.value | currency }}</span>
+                    </p>
+                  </div>
+                  <div class="d-flex justify-content-between">
+                    <p class="f-12">{{"Remainder" | translate}}</p>
+                    <p class="font-weight-bold"><span>{{ paymentCartForm.get('remainder')?.value | currency }}</span>
+                    </p>
+                  </div>
+                </div>
+                <div class="d-flex text-uppercase justify-content-end mb-2">
+                  <button mat-raised-button class="text-uppercase mr-2" [id]="'cancelCart'"
+                    (click)="$event.preventDefault();onCancel()">{{"Cancel" |
+                    translate}}</button>
+                  <button mat-raised-button class="color-blue text-uppercase" [id]="'submitPayment'"
+                    (click)="onSubmit()">{{"Submit Payment" | translate}}</button>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

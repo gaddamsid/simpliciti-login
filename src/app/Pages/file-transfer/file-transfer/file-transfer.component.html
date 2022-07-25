@@ -1,0 +1,197 @@
+<h3 class="header-title">
+    {{'File Transfers' | translate}}
+</h3>
+<div class="container-fluid">
+    <div *ngIf="showAddForm || showEditForm">
+        <form [formGroup]="fileTransferForm" (ngSubmit)="addRecord(fileTransferForm.value)">
+          <div class="row">
+            <div class="col-md-3">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{"Name" | translate}}</mat-label>
+                    <input type="Text" matInput formControlName="fileTransfersName" [id]="'fileTransfersName'" maxlength="150" appNotAllowWhiteSpaceStart/>
+                    <mat-error *ngIf="fileTransferForm.get('fileTransfersName')?.hasError('required')" [id]="'err_fileTransfersName'">{{'name Required' | translate}}</mat-error>
+                </mat-form-field>
+            </div> 
+            <div class="col-md-3">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{"IP" | translate}}</mat-label>
+                    <input type="Text" matInput formControlName="ip" [id]="'ip'" maxlength="150" appNotAllowWhiteSpaceStart/>
+                    <mat-error *ngIf="fileTransferForm.get('ip')?.hasError('required')" [id]="'err_ip'">{{'IP is Required' | translate}}</mat-error>
+                
+                    <mat-error *ngIf="fileTransferForm.get('ip')?.hasError('pattern')"  [id]="'IP1'">
+                      {{ 'Enter correct IP address' |
+                      translate }}
+                    </mat-error>
+                    </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{"Port" | translate}}</mat-label>
+                    <input type="number" min="0" matInput formControlName="port" [id]="'port'"  oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"   maxlength = "4" />
+                    <mat-error *ngIf="fileTransferForm.get('port')?.hasError('required')" [id]="'err_port'">{{'Port is Required' | translate}}</mat-error>
+                    <mat-error [id]="'err_port'" *ngIf="fileTransferForm.get('port')?.hasError('max')">
+                      {{ 'portMaxlength4' | translate }}
+                    </mat-error>
+                  </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{"File Transfer Protocol" | translate}}</mat-label>
+                    <mat-select [id]="'fileTransferProtocolsID'" formControlName="fileTransferProtocolsID" >
+                      <mat-option *ngFor="let item of fileTransferProtocols" [value]="item.fileTransferProtocolsID">{{item.fileTransferProtocolsName}}</mat-option>
+                     
+                    </mat-select>
+                    <mat-error *ngIf="fileTransferForm.get('fileTransferProtocolsID')?.hasError('required')" [id]="'err_fileTransferProtocolsID'">{{'FileTransferProtocols is Required' | translate}}</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{"User name" | translate}}</mat-label>
+                   
+                    <input type="Text" matInput formControlName="userName" [id]="'Username'" maxlength="20" appNotAllowWhiteSpaceStart/>
+                   
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{"Password" | translate}}</mat-label>
+                    <input [type]="hide ? 'password' : 'text'"  matInput formControlName="password" [id]="'password'" maxlength="20" appNotAllowWhiteSpaceStart/>
+                    <mat-icon class="placeholder show-password-icon" (click)="myFunction()">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+
+                    <mat-error *ngIf="fileTransferForm.get('password')?.hasError('required')" [id]="'err_password'">{{'Password is Required' | translate}}</mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{"File Transfer Key" | translate}}</mat-label>
+                    <input type="Text" matInput formControlName="fileTransfersKey" [id]="'fileTransfersKey'" maxlength="150" appNotAllowWhiteSpaceStart/>
+                   
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{"Home" | translate}}</mat-label>
+                    <input type="Text" matInput formControlName="home" [id]="'home'" maxlength="150" appNotAllowWhiteSpaceStart/>
+                    <mat-error *ngIf="fileTransferForm.get('home')?.hasError('required')" [id]="'err_home'">{{'Home is Required' | translate}}</mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <mat-checkbox color="primary" [id]="'transferOptionEnabled'" formControlName="transferOptionEnabled" >{{"Transfer Option Enabled" | translate}} </mat-checkbox>
+            </div>
+           
+        </div>
+        
+      <div class="row mt-3">
+        <div class="align-items-end col-md-12 mb-4 d-flex justify-content-end">
+          <button mat-raised-button class="m-1 color-blue" [id]="'Cancel'" (click)="cancelAdd_Save()">{{'Cancel'| translate}}</button>
+          <button mat-raised-button class="m-1 color-blue"  [id]="'Add1'" type="submit" *ngIf="showAddForm">
+            {{'Add' |translate}}</button>
+            <button type="button"  mat-raised-button class="m-1 color-blue" *ngIf="showEditForm"  [id]="'save'" (click)="updateBadgeRecord(fileTransferForm.value)">
+              {{'Save' |translate}}
+            </button>
+        </div>
+      </div>
+    </form>
+    </div>
+      <!-- Search Bar -->
+    <div  [hidden]="showAddForm || showEditForm">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="align-items-center d-flex row">
+            <div class="col-6">
+              <mat-form-field appearance="fill">
+                <mat-label>{{ "Search" | translate }}</mat-label>
+                <input matInput placeholder="Type" #searchField (keyup)="applyFilter($event)" [id]="'Search'"/>
+              </mat-form-field>
+            </div>
+            <div class="col-6">
+              <div class="text-right">
+                <button mat-raised-button appearance="fill" class="m-1 color-blue" [id]="'Add2'" (click)="showAddFormPage()">
+                  {{ "Add" | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
+          <!-- Badge Number -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "Name" | translate }}</th>
+            <td mat-cell *matCellDef="let element" class="text-left w-350px">{{
+              element.name }}
+            </td>
+          </ng-container>
+
+          <!-- Office Name -->
+          <ng-container matColumnDef="fileTransferProtocol">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "Protocol" | translate }}</th>
+            <td mat-cell *matCellDef="let element" class="text-left">{{
+              element.fileTransferProtocol }}</td>
+          </ng-container>
+          <!-- Agency -->
+          <ng-container matColumnDef="ip">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header="normalize">
+                {{ "IP" | translate }}</th>
+            <td mat-cell *matCellDef="let element" class="text-right">{{
+              element.ip }}</td>
+          </ng-container>
+          <!-- Division -->
+          <ng-container matColumnDef="port">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "Port" | translate }}</th>
+            <td mat-cell *matCellDef="let element" class="text-right">{{
+              element.port }}</td>
+          </ng-container>
+          <ng-container matColumnDef="userName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                {{ "User name" | translate }}</th>
+            <td mat-cell *matCellDef="let element" class="text-left">{{
+              element.userName }}</td>
+          </ng-container>
+
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="Action">
+            <tr>
+              <th mat-header-cell *matHeaderCellDef class="text-center">
+                {{'Action' | translate}}</th>
+            </tr>
+            <tr>
+              <td mat-cell *matCellDef="let element" class="text-center">
+                <button mat-icon-button color="dark-grey" [id]="'Workflow11'" title="{{'Edit' | translate }}">
+                  <mat-icon class="edit-blue" [id]="'Workflow12'"(click)="editIconClicked(element)" >edit</mat-icon>
+                </button>
+                <!-- <button mat-icon-button color="dark-grey" title="{{'Delete' | translate }}">
+                <mat-icon class="color-light-gray" (click)="deleteBadgeRecord(element.badgenumberId)">delete</mat-icon>
+                </button> -->
+                <!-- <button mat-icon-button color="dark-grey" title="{{'Disable' | translate }}" (click)="toggleCourtHoliday(element.holidayId,
+                  element.active)" *ngIf="element.active">
+                  <mat-icon class="color-red">block</mat-icon>
+                </button>
+                <button mat-icon-button color="dark-grey" title="{{'Enable' | translate }}" (click)="toggleCourtHoliday(element.holidayId,
+                  element.active)" *ngIf="!element.active">
+                  <mat-icon class="color-green">done_outline</mat-icon>
+                </button> -->
+
+              </td>
+            <tr>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+        <div class="col-sm-12 text-center" [hidden]="dataSource.filteredData?.length !== 0"> 
+            {{'No records found' | translate}}</div>
+        <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons
+          aria-label="Select page of periodic elements">
+        </mat-paginator>
+      </div>
+    </div>  
+</div>

@@ -1,0 +1,103 @@
+<h3 class="header-title" *ngIf="queueData.actionForm">
+    {{"Actions" | translate}}
+</h3>
+<h3 class="header-title" *ngIf="queueData.categoryForm">
+    {{"Category" | translate}}
+</h3>
+<div class="container-fluid">
+    <div *ngIf="queueData.categoryForm || updatingActionCategory">
+        <div mat-dialog-actions>
+            <button mat-button [mat-dialog-close]="queueData" cdkFocusInitial></button>
+          </div>
+        <form [formGroup]="PageForm" (ngSubmit)="addRecord(PageForm.value, formDirective)" #formDirective="ngForm">
+            <div class="row">
+                <div class="col-md-4">
+                    <mat-form-field appearance="fill" class="w-100">
+                        <mat-label>{{"Name" | translate}}</mat-label>
+                        <input type="Text" matInput formControlName="categoryName" [id]="'categoryName'"
+                            maxlength="50" appNotAllowWhiteSpaceStart />
+                        <mat-error *ngIf="PageForm.get('categoryName')?.hasError('required')"
+                            [id]="'err_categoriesName'">
+                            {{'name Required' | translate}}</mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                    <mat-form-field appearance="fill" class="w-100">
+                        <mat-label>{{"Category Type" | translate}}</mat-label>
+                        <mat-select [id]="'categoryTypesID'" formControlName="categoryTypesID">
+                            <mat-option *ngFor="let item of categoryTypeMater" [value]="item.categoryTypesID">
+                                {{item.categoryTypesName}}</mat-option>
+                        </mat-select>
+                        <mat-error [id]="'err_categoryTypesID'"
+                            *ngIf="PageForm.get('categoryTypesID')?.hasError('required')">
+                            {{'ContractType Required' | translate}}</mat-error>
+
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                    <mat-form-field appearance="fill" class="w-100">
+                        <mat-label>{{"Phase" | translate}}</mat-label>
+                        <mat-select [id]="'phasesID'" formControlName="phasesID">
+                            <mat-option *ngFor="let item of PhasesMater" [value]="item.phasesID">{{item.phasesName}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error [id]="'err_phasesID'" *ngIf="PageForm.get('phasesID')?.hasError('required')">
+                            {{'Phase_Required' | translate}}</mat-error>
+
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <mat-form-field appearance="fill" class="w-100">
+                        <mat-label>{{"Actions" | translate}}</mat-label>
+                        <mat-select [id]="'actionsID'" formControlName="actionsID">
+                            <mat-option *ngFor="let item of ActionsMater" [value]="item.actionsID">{{item.actionsName}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error [id]="'err_actionsID'" *ngIf="PageForm.get('actionsID')?.hasError('required')">
+                            {{'Actions_Required' | translate}}</mat-error>
+
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="align-items-end col-md-12 mb-4 d-flex justify-content-end">
+                    <button mat-raised-button class="m-1 color-blue" [id]="'CancelAC'" (click)="cancelAdd_Save()">{{'Cancel'|
+                        translate}}</button>
+                    <button mat-raised-button class="m-1 color-blue" type="submit" [id]="'AddCategory'" *ngIf="queueData.categoryForm">
+                        {{'Add' |translate}}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!-- ---------------------ACTION FORM -------------------------------------- -->
+    <div *ngIf="queueData.actionForm || updatingActionCategory">
+        <div mat-dialog-actions>
+            <button mat-button [mat-dialog-close]="queueData" cdkFocusInitial></button>
+          </div>
+        <form [formGroup]="actionForm" (ngSubmit)="addNewAction(actionForm.value, formDirective)" #formDirective="ngForm">
+            <div class="row">
+                <div class="col-md-3">
+                    <mat-form-field appearance="fill" class="w-100">
+                        <mat-label>{{"Name" | translate}}</mat-label>
+                        <input type="Text" matInput formControlName="actionsName" [id]="'actionsName'"
+                            maxlength="50" />
+                        <mat-error *ngIf="actionForm.get('actionsName')?.hasError('required')"
+                            [id]="'err_actionsName'">{{'name Required' | translate}}</mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="align-items-end col-md-12 mb-4 d-flex justify-content-end">
+                    <button mat-raised-button class="m-1 color-blue" [id]="'cancelAddA'" (click)="cancelAdd_Save()">{{'Cancel'|
+                        translate}}</button>
+                    <button mat-raised-button class="m-1 color-blue" [id]="'AddA'" type="submit" *ngIf="queueData.actionForm">
+                        {{'Add' |translate}}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

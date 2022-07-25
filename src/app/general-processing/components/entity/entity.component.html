@@ -1,0 +1,140 @@
+<div class="spinner-wrapper spinn" *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
+</div>
+<div class="action-icons-search d-flex justify-content-between">
+    <mat-form-field color="primary" class="ml-3 w-150px open-account" appearance="fill">
+        <mat-label>{{"Open Accounts" | translate}}</mat-label>
+        <mat-select value="" (selectionChange)="onOpenAccountChange($event)">
+            <mat-option [id]="'entity1'" value="">All</mat-option>
+            <mat-option [id]="'entity2'" value="O">Open Accounts</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <div class="entity-icons-group eventicons d-flex">
+        <button [id]="'entityd5'" mat-button class="custom-button-size" (click)="onClickCart()">
+            <img [id]="'entityd6'" src="./assets/Tickets/Group 8702.svg" width="23px" />
+        </button>
+        <button [id]="'entity3'" mat-button class="custom-button-size">
+            <img [id]="'entity4'" src="./assets/images/Path%205744.svg" width="20px" />
+        </button>
+        <button [id]="'entity5'" mat-button class="custom-button-size">
+            <img [id]="'entity6'" src="./assets/images/Group%208090.svg" width="26px" />
+        </button>
+        <button [id]="'entity7'" mat-button class="custom-button-size">
+            <img [id]="'entity8'" src="./assets/images/Group%208089.svg" width="26px" />
+        </button>
+        <button [id]="'entity9'" mat-button [matMenuTriggerFor]="menu">
+            <img [id]="'entity10'" src="./assets/images/Group%208102.svg" width="34px" />
+        </button>
+        <button [id]="'entity11'" mat-button class="custom-button-size">
+            <img [id]="'entity12'" src="./assets/images/Group%208091.svg" width="18px" />
+        </button>
+        <mat-menu #menu="matMenu">
+            <button [id]="'entity13'" mat-menu-item
+                (click)="exporter.exportTable('xlsx', {fileName:'entity-table-export'})">{{ "XLS" | translate
+                }}</button>
+            <button [id]="'entity14'" mat-menu-item
+                (click)="exporter.exportTable('xlsx', {fileName:'entity-table-export'})">{{ "XLS Detail" | translate
+                }}</button>
+            <button [id]="'entity15'" mat-menu-item (click)="downloadAsPDF();">{{ "PDF" | translate }}</button>
+            <button [id]="'entity16'" mat-menu-item
+                (click)="exporter.exportTable('csv', {fileName:'entity-table-export'})">{{ "CSV" | translate
+                }}</button>
+            <button [id]="'entity17'" mat-menu-item printSectionId="pdfTable" ngxPrint>{{ "PRINT" | translate
+                }}</button>
+        </mat-menu>
+    </div>
+
+    <div class="searchbar">
+        <mat-form-field appearance="fill" class="w-100 search-event-entity">
+            <mat-label>{{ "Search" | translate }}</mat-label>
+            <input [id]="'entity18'" matInput placeholder="{{ 'Type' | translate }}" (keyup)="applyFilter($event)" />
+        </mat-form-field>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="mat-elevation-z8">
+        <div id="pdfTable" #pdfTable>
+            <table mat-table class="full-width-table" aria-label="Elements" matSort matSortDisableClear matTableExporter
+                [dataSource]="dataSource" #exporter="matTableExporter">
+                <ng-container matColumnDef="select">
+                    <th mat-header-cell *matHeaderCellDef style="padding: 0 !important;" class="header-checkbox">
+                        <mat-checkbox [id]="'entityCheck'" color="primary" (change)="$event ? masterToggle() : null"
+                            [checked]="selection.hasValue() && isAllSelected()"
+                            [indeterminate]="selection.hasValue() && !isAllSelected()">
+                        </mat-checkbox>
+                    </th>
+                    <td mat-cell *matCellDef="let row;let i =index" class="p-0 text-center">
+                        <mat-checkbox id="{{'entity' + i}}" color="primary" (click)="$event.stopPropagation()"
+                            (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
+                        </mat-checkbox>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="plateNumber">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> {{"Plate No. | DL" | translate}} </th>
+                    <td mat-cell *matCellDef="let row" class="text-center">
+                        <a class="plate-info-link" (click)="onClickPlateNumber(row)">{{row.plateNumber}}</a>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> {{"Name" | translate}}</th>
+                    <td mat-cell *matCellDef="let row">{{row.name}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="vehicleInfo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="w-150px">{{"Vehicle Information" |
+                        translate}}</th>
+                    <td mat-cell *matCellDef="let row">
+                        {{ row.vehicleInfo }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="dateOfBirth">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="w-200px">{{"Effective Date | DOB" |
+                        translate}}</th>
+                    <td mat-cell *matCellDef="let row" class="text-center">
+                        Effective Date:{{row.effectiveDate }}
+                        <br />
+                        DOB: {{row.dateOfBirth}}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="addressInfo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>{{"Residential Address" | translate}}</th>
+                    <td mat-cell *matCellDef="let row">
+                        <p class="ellipsis-text w-200px word-break">{{ row.addressInfo }}</p>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="amountDue">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>{{"Open Tickets | Associated Artifacts" |
+                        translate}}</th>
+                    <td mat-cell *matCellDef="let row" class="text-right">Amt Due: {{row.amountDue | currency}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="iconMenu">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let row"><button [id]="'entity21'" mat-button [matMenuTriggerFor]="menu">
+                            <mat-icon>more_vert</mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu">
+                            <button [id]="'entity22'" mat-menu-item [id]="'addPayments'">Add Payment</button>
+                            <button [id]="'entity23'" mat-menu-item [id]="'addTicketNotes'">Add Notes</button>
+                        </mat-menu>
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </div>
+        <div class="col-sm-12 text-center" *ngIf="dataSource.filteredData?.length === 0"> {{'No records found' |
+            translate}}
+        </div>
+        <mat-paginator #paginator [length]="paginationDetails?.totalRecords"
+            [pageIndex]="paginationDetails?.currentPage" [pageSizeOptions]="[10, 20, 50, 100]"
+            [pageSize]="paginationDetails?.pageSize" showFirstLastButtons (page)="pageChanged($event)"
+            aria-label="Select page of periodic elements">
+        </mat-paginator>
+    </div>
+</div>

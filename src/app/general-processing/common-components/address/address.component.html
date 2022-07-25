@@ -1,0 +1,65 @@
+
+<mat-card-content class="mat-card-content p-2 pt-0">
+    <div class="innergrid border-0">
+        <table>
+            <tr>
+                <td>{{"First Name" | translate}}</td>
+                <td class="font-weight-bold">{{(addressDetails?.firstName ? addressDetails?.firstName : '-')}}</td>
+            </tr>
+            <tr>
+                <td>{{"Last Name" |translate}}</td>
+                <td class="font-weight-bold">{{(addressDetails?.lastName ? addressDetails?.lastName : '-')}}</td>
+            </tr>
+            <tr>
+                <td>{{"Address" | translate}}</td>
+                <td class="font-weight-bold" style="overflow-wrap: anywhere;">{{(addressDetails?.fullAddress ? addressDetails?.fullAddress : '-')}}</td>
+            </tr>
+            <tr>
+                <td>{{"City" |translate}},{{"State" | translate}},{{"Zip" | translate}}</td>
+                <td class="font-weight-bold">{{(addressDetails?.city ? addressDetails?.city : '-')}}</td><!-- city,state,zip values are in city column only-->
+            </tr>
+
+            <tr>
+                <td>{{"Date Of Birth" | translate}}</td>
+                <td class="font-weight-bold">{{addressDetails?.dateofBirth | date : globalFormats.dateOnly}}</td>
+            </tr>
+            <tr>
+                <td>{{"Last Updated" | translate}}</td>
+                <td class="font-weight-bold">{{addressDetails?.lastUpdated | date : globalFormats.dateOnly}}</td>
+            </tr>
+
+            <tr>
+                <td>{{"Registration Expiration" | translate}}</td>
+                <td class="font-weight-bold">{{addressDetails?.registrationExpiration | date : globalFormats.dateOnly}}</td>
+            </tr>
+
+            <tr>
+                <td>{{"Effective Date" | translate}}</td>
+                <td class="font-weight-bold">{{addressDetails?.effectiveDate | date : globalFormats.dateOnly}}</td>
+            </tr>
+
+            <tr>
+                <td>{{"Address Source" | translate}}</td>
+                <td class="font-weight-bold">{{(addressDetails?.addressSource ? addressDetails?.addressSource : '-')}}</td>
+            </tr>
+
+            <tr>
+                <td>{{"Phone Number" | translate}}</td>
+                <td class="font-weight-bold">{{(addressDetails?.phoneNumber ? addressDetails?.phoneNumber : '-')}}</td>
+            </tr>
+
+
+            <tr>
+                <td>{{"Email" | translate}}</td>
+                <td class="font-weight-bold">{{(addressDetails?.email ? addressDetails?.email : '-')}}</td>
+            </tr>
+
+
+            <tr>
+                <td>{{"San" | translate}}</td>
+                <td class="font-weight-bold">{{(addressDetails?.san ? addressDetails?.san : '-')}}</td>
+            </tr>
+
+        </table>
+    </div>
+</mat-card-content>

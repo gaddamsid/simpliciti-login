@@ -1,0 +1,53 @@
+<mat-toolbar class="background-gray mb-3">
+    <!-- <span>My App</span> -->
+    <!-- <mat-chip-list aria-label="Fish selection">
+        <mat-chip class="background-gray"> {{'Batch Control' | translate}}<button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+            </button></mat-chip>
+        <mat-chip class="background-gray"> {{'Court' | translate}}<button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+            </button></mat-chip>
+        <mat-chip class="background-gray">{{'Cashiering' | translate}} <button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+            </button></mat-chip>
+    </mat-chip-list> -->
+
+    <span class="example-spacer"></span>
+    <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon"
+        (click)="onClickCart()">
+        <mat-icon>
+            <span class="material-icons">
+                <mat-icon>shopping_cart</mat-icon>
+            </span>
+        </mat-icon>
+        <span class='badge badge-warning' id='lblCartCount'>{{ cartCount }}</span>
+    </button>
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon" [id]="'user1'" [matMenuTriggerFor]="menu">
+        <mat-icon>person</mat-icon>
+    </button>
+
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item >{{(userInfo?.preferred_username ? userInfo?.preferred_username : currentUser?.userName)}} : 10 Transactions</button>
+        <button mat-menu-item>{{ "Help" | translate }}</button>
+        <button mat-menu-item (click)="oAuthlogout()">{{ "Logout" | translate}}</button>
+    </mat-menu>
+
+    <!-- <select #langSelect (change)="translate.use(langSelect.value)">
+        <option *ngFor="let lang of translate.getLangs()" [value]="lang"
+            [attr.selected]="lang === translate.currentLang ? '' : null">{{lang}}</option>
+    </select> -->
+
+    <!-- <select #langSelect (change)="translate.use(langSelect.value)">
+        <option selected="selected" value="en">English</option>
+        <option value="sp">Spanish</option>
+        <option value="ar">Arabic</option>
+    </select> -->
+
+    <select #langSelect (change)="translateLang(langSelect.value)" class="select-language">
+        <option selected="selected" value="en">English</option>
+        <option value="sp">Spanish</option>
+        <option value="ar">Arabic</option>
+        <option value="fr">French</option>
+    </select>
+
+</mat-toolbar>

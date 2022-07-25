@@ -1,0 +1,29 @@
+.widthDiv{
+    width: 50px;
+    word-break: break-word;
+}
+.dataRecordCell{
+    word-break: break-word;
+}
+.rightAlign{
+    text-align: right!important;
+}
+td.mat-cell {
+     border-left: none!important; 
+    padding: 0 10px !important;
+    border-bottom: 0px transparent;
+}
+
+.mat-table {
+    display: table;
+    width: 100%;
+    th {
+        color: white;
+    }
+}
+.dateTime{
+    text-align: center;
+}
+.header{
+    font-weight: bold;
+}

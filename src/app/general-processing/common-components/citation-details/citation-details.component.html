@@ -1,0 +1,118 @@
+
+<mat-card-content class="mat-card-content p-2 pt-0">
+    <div class="innergrid border-0">
+        <table>
+            
+            <tr>
+                <td>{{"Agency" | translate}}</td>
+                <td class="font-weight-bold">{{(citationDetails?.agency ? citationDetails?.agency : '-')}}</td>
+            </tr>
+            <tr>
+                <td>{{"Make" | translate}}</td>
+                <td class="font-weight-bold">{{(citationDetails?.make ? citationDetails?.make : '-')}}</td>
+            </tr>
+            <tr>
+                <td>{{"Model" | translate}}</td>
+                <td class="font-weight-bold">{{(citationDetails?.model ? citationDetails?.model : '-')}}</td>
+            </tr>
+            <tr>
+                <td>{{"Body Style" | translate}}</td>
+                <td class="font-weight-bold">{{(citationDetails?.bodyStyle ? citationDetails?.bodyStyle : '-')}}</td>
+            </tr>
+
+            <tr>
+                <td>{{"Vehicle Year" | translate}}</td>
+                <td class="font-weight-bold">{{(citationDetails?.vehicleYear ? citationDetails?.vehicleYear : '-')}}</td>
+            </tr>
+            <tr>
+                <td>{{"Badge" | translate}}</td>
+                <td class="font-weight-bold">{{(citationDetails?.badge ? citationDetails?.badge : '-')}}</td>
+            </tr>
+
+            <tr>
+                <td>{{"Division" | translate}}</td>
+                <td class="font-weight-bold">{{(citationDetails?.division ? citationDetails?.division : '-')}}</td>
+            </tr>
+
+            <tr>
+                <td>{{"Beat" | translate}}</td>
+                <td class="font-weight-bold">{{(citationDetails?.beat ? citationDetails?.beat : '-')}}</td>
+            </tr>
+
+            <tr>
+                <td>{{"Color" | translate}}</td>
+                <td class="font-weight-bold">{{(citationDetails?.color ? citationDetails?.color : '-')}}</td>
+            </tr>
+
+
+            <tr>
+                <td>{{"Type" | translate}}</td>
+                <td class="font-weight-bold">{{(citationDetails?.type ? citationDetails?.type : '-')}}</td>
+            </tr>
+
+
+            <tr>
+                <td>{{"Plate" | translate}}</td>
+                <td class="font-weight-bold">{{(citationDetails?.plate ? citationDetails?.plate : '-')}}</td>
+            </tr>
+
+            <tr>
+                <td>{{"Registration Expiration" | translate}}</td>
+                <td class="font-weight-bold" *ngIf="citationDetails?.registrationExpiration">{{citationDetails?.registrationExpiration | date : globalFormats.dateOnly}}</td>
+                <td class="font-weight-bold" *ngIf="!citationDetails?.registrationExpiration">-</td>
+            </tr>
+
+            <tr>
+                <td>{{"Parking Permit No." | translate}}</td>
+                <td class="font-weight-bold">{{(citationDetails?.parkingPermitNumber ? citationDetails?.parkingPermitNumber : '-')}}</td>
+            </tr>
+
+
+            <tr>
+                <td>{{"Meter" | translate}}</td>
+                <td class="font-weight-bold">{{(citationDetails?.meter ? citationDetails?.meter : '-')}}</td>
+            </tr>
+
+
+            <tr>
+                <td>{{"Speed Zone" | translate}}</td>
+                <td class="font-weight-bold">{{(citationDetails?.speedZone ? citationDetails?.speedZone : '-')}}</td>
+            </tr>
+
+
+            <tr>
+                <td>{{"Speed Actual" | translate}}</td>
+                <td class="font-weight-bold">{{(citationDetails?.speedActual ? citationDetails?.speedActual : '-')}}</td>
+            </tr>
+
+            <tr>
+                <td>{{"Overweight" | translate}}</td>
+                <td class="font-weight-bold">{{(citationDetails?.overWeight ? citationDetails?.overWeight : '-')}}</td>
+            </tr>
+
+
+            <tr>
+                <td>{{"Hazard Indicator" | translate}}</td>
+                <td class="font-weight-bold">{{(citationDetails?.hazardIndicator ? citationDetails?.hazardIndicator : '-')}}
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>{{"Accident Number" | translate}}</td>
+                <td class="font-weight-bold">{{(citationDetails?.accidentNumber ? citationDetails?.accidentNumber : '-')}}</td>
+            </tr>
+
+            <tr>
+                <td>{{"Plate Year" | translate}}</td>
+                <td class="font-weight-bold">{{(citationDetails?.plateYear ? citationDetails?.plateYear : '-')}}</td>
+            </tr>
+
+            <tr>
+                <td>{{"Plate Color" | translate}}</td>
+                <td class="font-weight-bold">{{(citationDetails?.plateColor ? citationDetails?.plateColor : '-')}}</td>
+            </tr>
+
+        </table>
+    </div>
+</mat-card-content>

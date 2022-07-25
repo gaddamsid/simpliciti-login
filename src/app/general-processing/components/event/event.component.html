@@ -1,0 +1,119 @@
+<div class="action-icons-search d-flex justify-content-between">
+    <div class="ml-3 w-150px">
+
+    </div>
+    <div class="entity-icons-group eventicons d-flex">
+        <button [id]="'eventl1'" mat-button [matMenuTriggerFor]="menu">
+            <img [id]="'eventl2'" src="./assets/images/Group%208102.svg" width="34px" />
+        </button>
+        <button [id]="'eventl3'" mat-button class="custom-button-size">
+            <img [id]="'eventl4'" src="./assets/images/Group%208091.svg" width="12px" />
+        </button>
+        <mat-menu #menu="matMenu">
+            <button [id]="'eventl5'" mat-menu-item (click)="exporter.exportTable('xlsx', {fileName:'event-table-export'})">{{ "XLS" | translate
+                }}</button>
+            <button [id]="'eventl6'" mat-menu-item (click)="exporter.exportTable('xlsx', {fileName:'event-table-export'})">{{ "XLS Detail" | translate
+                }}</button>
+            <button [id]="'eventl7'" mat-menu-item (click)="downloadAsPDF();">{{ "PDF" | translate }}</button>
+            <button [id]="'eventl8'" mat-menu-item (click)="exporter.exportTable('csv', {fileName:'event-table-export'})">{{ "CSV" | translate
+                }}</button>
+            <button [id]="'eventl9'" mat-menu-item printSectionId="pdfTable" ngxPrint>{{ "PRINT" | translate }}</button>
+        </mat-menu>
+    </div>
+
+    <div class="searchbar">
+        <mat-form-field appearance="fill" class="w-100 search-event-entity">
+            <mat-label>{{ "Search" | translate }}</mat-label>
+            <input [id]="'eventl10'" matInput placeholder="{{ 'Type' | translate }}" (keyup)="applyFilter($event)" />
+        </mat-form-field>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="mat-elevation-z8">
+        <div id="pdfTable" #pdfTable>
+            <table mat-table class="full-width-table" aria-label="Elements" matSort matSortDisableClear matTableExporter
+                [dataSource]="dataSource" #exporter="matTableExporter">
+                <ng-container matColumnDef="select">
+                    <th mat-header-cell *matHeaderCellDef style="padding: 0 !important;" class="header-checkbox">
+                        <mat-checkbox [id]="'eventl11'" color="primary" (change)="$event ? masterToggle() : null"
+                            [checked]="selection.hasValue() && isAllSelected()"
+                            [indeterminate]="selection.hasValue() && !isAllSelected()" class="text-center">
+                        </mat-checkbox>
+                    </th>
+                    <td mat-cell *matCellDef="let row;let i =index" class="p-0 text-center">
+                        <mat-checkbox id="{{'eventSelect' + i}}" color="primary" (click)="$event.stopPropagation()"
+                            (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
+                        </mat-checkbox>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="eventId">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>{{"Event ID" | translate}}</th>
+                    <td mat-cell *matCellDef="let row" class="text-center">
+                        <a class="event-info-link" (click)="onClickEventId(row)">{{row.eventId}}</a>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="violationDateTime">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> {{"Violation Date |Time" | translate}}</th>
+                    <td mat-cell *matCellDef="let row" class="text-center">{{row.violationDateTime}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="status">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>{{"Status" | translate}}</th>
+                    <td mat-cell *matCellDef="let row">{{row.status}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="category">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>{{"Category" | translate}}</th>
+                    <td mat-cell *matCellDef="let row">{{row.category}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="deploymentId">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>{{"Deployment ID" | translate}}</th>
+                    <td mat-cell *matCellDef="let row" class="text-right">{{row.deploymentId}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="locationCode">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>{{"Location Code | Description" |
+                        translate}}</th>
+                    <td mat-cell *matCellDef="let row">{{row.locationCode}} -- {{row.locationDescription}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="laneNumber">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>{{"Lane Number" |
+                        translate}}</th>
+                    <td mat-cell *matCellDef="let row" class="text-right">{{row.laneNumber}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="amountDue">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>{{"Amt Due" |
+                        translate}}</th>
+                    <td mat-cell *matCellDef="let row" class="text-right">{{row.amountDue | currency}}</td>
+                </ng-container>
+                <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let row" class="text-center">
+                        <button [id]="'eventl12'" mat-icon-button color="dark-grey">
+                            <mat-icon [id]="'eventl13'" class="edit-blue"> insert_drive_file</mat-icon>
+                        </button>
+                    </td>
+                    <tr>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </div>
+
+        <div class="col-sm-12 text-center" *ngIf="dataSource.filteredData?.length === 0"> {{'No records found' |
+            translate}}
+        </div>
+        <mat-paginator #paginator [length]="paginationDetails?.totalRecords"
+            [pageIndex]="paginationDetails?.currentPage" [pageSizeOptions]="[10, 20, 50, 100]"
+            [pageSize]="paginationDetails?.pageSize" showFirstLastButtons (page)="pageChanged($event)"
+            aria-label="Select page of periodic elements">
+        </mat-paginator>
+
+    </div>
+</div>

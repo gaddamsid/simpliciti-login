@@ -1,0 +1,34 @@
+<div class="align-items-center d-flex h-100 plates">
+    <ul>
+        <li>
+            <mat-icon (click)="back()" class="line-text">keyboard_arrow_left</mat-icon><a href=""><span></span></a>
+        </li>
+    </ul>
+</div>
+
+<div class="spinner-wrapper" *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
+</div>
+<div *ngIf="!isLoading" class="plate-detail">
+    <div class="container-fluid">
+        <div class="row mt-2">
+            <div class="col-md-6">
+                <app-card-details [cardData]="customerInfo"></app-card-details>
+            </div>
+            <div class="col-md-6">
+                <app-card-details [cardData]="registeryInfo"></app-card-details>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-md-4">
+                <app-card-details [cardData]="installmentPaymentPlan"></app-card-details>
+            </div>
+            <div class="col-md-4">
+                <app-card-details [cardData]="excludeInfo"></app-card-details>
+            </div>
+            <div class="col-md-4">
+                <app-card-details [cardData]="collectionInfo"></app-card-details>
+            </div>
+        </div>
+    </div>
+</div>

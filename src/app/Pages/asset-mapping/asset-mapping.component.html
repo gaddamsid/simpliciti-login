@@ -1,0 +1,20 @@
+<h3 class="header-title">
+    {{'Asset Mappings' | translate}}
+</h3>
+<div class="container-fluid">
+    <h3>{{'Required Asset Mapping for Event Ingestion' | translate }}</h3>
+    <div class="row">
+        <form [formGroup]="assetForm" (ngSubmit)="submit()">
+            <label formArrayName="assets" *ngFor="let asset of mappingFormArray.controls; let i = index">
+            <div class="col-md-4">
+              <mat-checkbox [formControlName]="i" color="primary">  
+                {{assetTypes[i].assetTypesName}}
+              </mat-checkbox>
+            </div>
+            </label>
+            
+            <br/>
+            <button class="btn btn-success">submit</button>
+          </form>
+    </div>
+</div>

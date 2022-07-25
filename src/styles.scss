@@ -1,0 +1,873 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use "@angular/material" as mat;
+
+@import "src/app/styles/colors";
+@import "src/app/styles/variables";
+@import "src/app/styles/font";
+@import "~@ng-select/ng-select/themes/default.theme.css";
+@import "../node_modules/angular-calendar/css/angular-calendar.css";
+
+@import "https://unpkg.com/bootstrap-css-only@4.4.1/css/bootstrap.min.css";
+@import "https://unpkg.com/@fortawesome/fontawesome-free@5.15.4/css/all.css";
+@import "https://unpkg.com/angular-calendar@0.29.0/css/angular-calendar.css";
+@import "https://unpkg.com/flatpickr@4.6.9/dist/flatpickr.css";
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$etims-cw5-primary: mat.define-palette(mat.$indigo-palette);
+$etims-cw5-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$etims-cw5-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$etims-cw5-theme: mat.define-light-theme((color: (primary: $etims-cw5-primary,
+        accent: $etims-cw5-accent,
+        warn: $etims-cw5-warn,
+      ),
+    ));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($etims-cw5-theme);
+
+/* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+  height: 100%;
+}
+
+// td , th {
+//   white-space: nowrap;
+//   word-wrap: none;
+//   max-width: 200px;
+//   text-align:justify;
+// }
+// td.mat-cell {
+//   text-align: left;
+// }
+body {
+  margin: 0;
+  // font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: 'Open Sans', sans-serif;
+  background-color: #fff;
+}
+
+html,
+body,
+div,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+em {
+  font-family: 'Open Sans', sans-serif !important;
+
+}
+
+.background-white {
+  background-color: #fff;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.main-container {
+  position: absolute;
+  top: 64px;
+  left: 200px;
+  right: 0;
+  bottom: 0;
+  padding: 20px;
+}
+
+.wrapper {
+  position: relative;
+}
+
+.wrapper,
+body,
+html {
+  min-height: 100%;
+  transition: margin-left 0.3s ease-in-out;
+}
+
+.ellipsis-text {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.w-200px {
+  width: 200px;
+}
+
+.word-break {
+  word-break: break-all;
+  white-space: normal;
+}
+
+.main-wrp {
+  padding: 15px;
+}
+
+.content-wrapper {
+  transition: margin-left 0.3s ease-in-out;
+  margin-left: 200px;
+}
+
+.content-inner-wrp {
+  transition: margin-left 0.3s ease-in-out;
+  padding: 15px 0.5rem;
+}
+
+.mat-form-field-appearance-fill.mat-form-wrp .mat-form-field-flex {
+  padding: 0.75em 0.75em 0 0.75em;
+  background-color: #fff !important;
+  border-radius: 0 !important;
+  position: relative;
+
+  :after {
+    content: "";
+    display: block;
+    width: 1px;
+    height: 50%;
+    position: absolute;
+    right: 0;
+    background: #e5e6ea;
+    top: 0;
+    bottom: 0;
+
+    :last-child {
+      content: "";
+      display: block;
+      background: red;
+    }
+  }
+}
+
+.mr-20 {
+  margin-right: 20px;
+}
+
+.ml-20 {
+  margin-left: 20px;
+}
+
+.float-right {
+  float: right;
+}
+
+.full-width {
+  width: 100%;
+}
+
+button.boot-btn,
+.pad-btn {
+  background-color: #0f73ee;
+  border: none;
+  color: white;
+  padding: 2px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 16px;
+  font-size: 12px;
+}
+
+mat-list.mat-list.mat-list-base.list-customer span,
+mat-list.mat-list.mat-list-base.special-program span {
+  justify-content: space-between;
+  font-size: 12px;
+}
+
+span.round-dot {
+  width: 5px;
+  height: 5px;
+  background: #0f73ee;
+  border-radius: 100%;
+}
+
+/*table*/
+.sarch-table .mat-form-field-wrapper {
+  margin-bottom: -20px;
+}
+
+.mat-header-cell {
+  background: #55585a;
+  color: #fff;
+}
+
+.background-gray {
+  background-color: #55585a;
+}
+
+.mat-row:nth-child(even) {
+  background-color: #ffffff;
+}
+
+.mat-row:nth-child(odd) {
+  background-color: #eceeed;
+}
+
+td.mat-cell {
+  border-left: 1px solid #d1d1d1;
+  padding: 0 10px !important;
+  border-bottom: 0px transparent;
+}
+
+table {
+  /* row spacing / margin */
+  border-spacing: 0 8px !important;
+}
+
+table {
+  width: 100%;
+}
+
+button {
+  &:focus {
+    outline: none;
+  }
+}
+
+.mat-sort-header-arrow {
+  opacity: 1 !important;
+  color: #fff;
+}
+
+footer {
+  background: #c6c6c6;
+  position: fixed;
+  bottom: 0;
+  z-index: 1;
+  width: 100%;
+  height: 40px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+
+  span {
+    text-transform: capitalize;
+    font-size: 12px;
+  }
+}
+
+main {
+  margin-bottom: 60px;
+}
+
+mat-paginator {
+  .mat-paginator-container {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+.color-blue {
+  background-color: #0f73ee !important;
+  color: #fff;
+}
+
+.edit-blue {
+  color: #0f73ee;
+}
+
+.color-red {
+  color: #f22d2d;
+}
+
+.color-light-gray {
+  color: #929292;
+}
+
+.color-light-green {
+  color: #0cb929;
+}
+
+th {
+  text-align: center !important;
+}
+
+td {
+  white-space: pre-wrap;
+  font-size: 13px !important;
+}
+
+.w-100px {
+  width: 100px;
+}
+
+.w-120px {
+  width: 120px;
+  min-width: 120px !important;
+}
+
+.w-350px {
+  width: 350px;
+}
+
+.mat-sort-header-container {
+  justify-content: center;
+}
+
+table {
+  margin-bottom: 10px;
+}
+
+.header-title {
+  font-family: "Open Sans", sans-serif !important;
+  font-weight: 600 !important;
+  background: #e4e4e4 !important;
+  margin-top: -17px !important;
+  padding: 10px 25px !important;
+}
+
+.select-language {
+  font-size: 15px;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.disable-field {
+  cursor: not-allowed !important;
+  opacity: 0.6;
+}
+
+.border-bottom-black:after {
+  content: "=";
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  height: 52px;
+  width: 100%;
+  border-bottom: 1px solid #000;
+  font-size: 0;
+}
+
+.transform-arrow {
+  mat-icon {
+    transform: scale(1, 1.5) scaleX(-1);
+    margin-left: -5px;
+    -webkit-transition-duration: 1s;
+    -moz-transition-duration: 1s;
+    -o-transition-duration: 1s;
+    transition-duration: 1s;
+  }
+}
+
+.normal-arrow {
+  mat-icon {
+    transform: scale(1, 1.5) scaleX(1);
+    margin-left: 0;
+    -webkit-transition-duration: 1s;
+    -moz-transition-duration: 1s;
+    -o-transition-duration: 1s;
+    transition-duration: 1s;
+  }
+}
+
+.timepicker-icon {
+  right: 0;
+  top: -8px;
+}
+
+
+.ngx-material-timepicker-toggle {
+  display: block !important;
+  justify-content: center;
+  align-items: center;
+  padding: 4px;
+  background-color: transparent;
+  border-radius: 50%;
+  text-align: center;
+  border: none;
+  outline: 0;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  transition: background-color .3s;
+  cursor: pointer;
+  position: absolute !important;
+  top: -10px !important;
+  right: 0;
+}
+
+// for toggle buttons
+.createWTBtn .btn {
+  font-size: 0.75rem;
+  color: white;
+}
+
+.weatherTypesLength {
+  display: flex;
+  padding-right: 5px;
+  align-items: center;
+}
+
+.entries {
+  width: auto;
+  margin-left: 1px;
+  margin-right: 1px;
+}
+
+.dataTables_filter {
+  position: absolute;
+  right: 0.25rem;
+  display: flex;
+  padding-right: 5px;
+  align-items: center;
+}
+
+.color-green {
+  color: green;
+}
+
+.blacked-title {
+  background: #626866;
+  padding: 10px 10px;
+  margin: 0 0 0 0;
+  font-size: 15px;
+  font-weight: 500;
+  border: 1px solid #eee;
+  z-index: 1;
+  color: #fff;
+  background-color: #55585a;
+}
+
+.ivr-card {
+  box-shadow: 2px 2px 2px #ccc;
+}
+
+.ivr-card-content {
+  padding: 10px;
+  background-color: #fff;
+}
+
+
+
+.custom-file-upload {
+  // border: 1px solid #ccc;
+  display: inline-block;
+  // padding: 6px 12px;
+  cursor: pointer;
+}
+
+.onOff-toggle {
+  display: flex;
+  list-style-type: none;
+
+  span {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.custom-switch .custom-switch-input {
+  display: none;
+}
+
+.custom-switch .custom-switch-input,
+.custom-switch .custom-switch-input:after,
+.custom-switch .custom-switch-input:before,
+.custom-switch .custom-switch-input *,
+.custom-switch .custom-switch-input *:after,
+.custom-switch .custom-switch-input *:before,
+.custom-switch .custom-switch-input+.custom-switch-btn {
+  box-sizing: border-box;
+}
+
+.custom-switch .custom-switch-input:selection,
+.custom-switch .custom-switch-input:after:selection,
+.custom-switch .custom-switch-input:before:selection,
+.custom-switch .custom-switch-input *:selection,
+.custom-switch .custom-switch-input *:after:selection,
+.custom-switch .custom-switch-input *:before:selection,
+.custom-switch .custom-switch-input+.custom-switch-btn:selection {
+  background: none;
+}
+
+.custom-switch .custom-switch-input+.custom-switch-btn {
+  outline: 0;
+  display: inline-block;
+  position: relative;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  width: 58px;
+  height: 28px;
+  margin: 0;
+  padding: 4px;
+  background: #ced4da;
+  border-radius: 76px;
+  transition: all 300ms ease;
+  margin: 0 8px;
+}
+
+.custom-switch .custom-switch-input+.custom-switch-btn:after,
+.custom-switch .custom-switch-input+.custom-switch-btn:before {
+  position: relative;
+  display: block;
+  content: "";
+  width: 20px;
+  height: 20px;
+}
+
+.custom-switch .custom-switch-input+.custom-switch-btn:after {
+  left: 2px;
+  border-radius: 50%;
+  background: white;
+  transition: all 300ms ease;
+}
+
+.custom-switch .custom-switch-input+.custom-switch-btn:before {
+  display: none;
+}
+
+.custom-switch .custom-switch-input:checked+.custom-switch-btn {
+  background: #28a745;
+}
+
+.custom-switch .custom-switch-input:checked+.custom-switch-btn:after {
+  left: 30px;
+}
+
+.custom-switch .custom-switch-input:checked+.custom-switch-btn~.custom-switch-content-checked {
+  opacity: 1;
+  height: auto;
+}
+
+.custom-switch .custom-switch-input:checked+.custom-switch-btn~.custom-switch-content-unchecked {
+  display: none;
+  opacity: 0;
+  height: 0;
+}
+
+.custom-switch.custom-switch-label-onoff .custom-switch-input+.custom-switch-btn {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='68' height='38'%3E%3Ctext x='38.85714' y='23.75' font-size='12px' font-family='-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol' fill='%23fff'%3EOff%3C/text%3E%3C/svg%3E");
+  background-position: -7px -5px;
+
+}
+
+.custom-switch.custom-switch-label-onoff .custom-switch-input:checked+.custom-switch-btn {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='68' height='38'%3E%3Ctext x='9.71429' y='23.75' font-size='12px' font-family='-apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol' fill='%23fff'%3EOn%3C/text%3E%3C/svg%3E");
+  background-position: 0px -5px;
+
+}
+
+.custom-switch.custom-switch-label-status .custom-switch-input:checked+.custom-switch-btn:after {
+  left: 50px;
+}
+
+.table-icon-container {
+  width: 120px;
+  margin: 0 auto;
+  display: flex;
+}
+
+.h-45 {
+  // height: 45px;
+}
+
+.remove-attachment {
+  color: #ca0000;
+  font-size: 18px;
+  z-index: 9;
+}
+
+.margin-top-6px {
+  margin-top: 19px;
+}
+
+.fixed-remove-attachment-button {
+  padding-left: 8px;
+}
+
+.signature-upload {
+  height: 28px;
+}
+
+.f-12 {
+  font-size: 12px;
+}
+
+.white-space-wrap {
+  white-space: initial;
+}
+
+.w-150px {
+  width: 150px !important;
+}
+
+.f-14 {
+  font-size: 14px;
+}
+
+
+.header-checkbox {
+  ::ng-deep {
+    label {
+      margin: 0;
+    }
+
+    ::ng-deep {
+      .mat-checkbox-background {
+        background-color: #fff;
+      }
+
+      .mat-checkbox-frame {
+        border-color: white
+      }
+    }
+  }
+}
+
+.spinner-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 800px;
+  background: rgba($color: #ffffff, $alpha: 0.7);
+  position: absolute;
+  z-index: 1000;
+  width: 100%;
+}
+
+.notes-view-dailog-container {
+  width: 1200px !important;
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 95% !important;
+}
+
+.notes-view-dailog-container::-webkit-scrollbar {
+  width: .93rem;
+  height: 5rem;
+  margin-right: 5px;
+  border-radius: 3px;
+}
+
+.notes-view-dailog-container::-webkit-scrollbar-track {
+  background: #F5F5F5;
+  border-radius: 5px;
+  -webkit-box-shadow: inset 0 0 6px rgba(252, 250, 250, 0.3);
+}
+
+.notes-view-dailog-container::-webkit-scrollbar-thumb {
+  background-color: #d4d3d3;
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(253, 250, 250, 0.3);
+  border: 4px solid #F5F5F5;
+  height: 86%;
+}
+
+.w-60 {
+  width: 60%;
+}
+
+.overflow-auto-y {
+  overflow-y: auto;
+}
+
+li.list-item-gp {
+  padding: 0px 0 10px;
+  list-style-type: none;
+}
+
+.schedule-hearing mat-expansion-panel-header {
+  background-color: #f5f5f6;
+
+}
+
+::ng-deep {
+  .mat-expansion-panel-body {
+    padding: 0 15px 15px !important;
+  }
+}
+
+/* FullCalender */
+.ticket-added li {
+  list-style-type: none;
+}
+
+.cal-cell-row.cal-header.ng-star-inserted {
+  background: #55585a;
+  color: #fff;
+}
+
+.cal-month-view .cal-cell-row .cal-cell:hover,
+.cal-month-view .cal-cell.cal-has-events.cal-open {
+  background-color: #55585a;
+}
+
+
+
+
+
+
+
+.form-group.checkIcon input {
+  padding: 0;
+  height: initial;
+  width: initial;
+  margin-bottom: 0;
+  display: none;
+  cursor: pointer;
+}
+
+.form-group.checkIcon label {
+  position: relative;
+  cursor: pointer;
+  width: 100%;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  margin: 0;
+  align-items: center;
+}
+
+.form-group.checkIcon input[type=radio] {
+  opacity: 0;
+}
+
+.form-group.checkIcon input[type=radio]:checked~img {
+  border: 2px solid #468cff;
+}
+
+.form-group.checkIcon label:before {
+  -webkit-appearance: none;
+  border: 2px solid #468cff;
+  box-shadow: 0 1px 2px rgb(242 0 0 / 5%), inset 0px -15px 10px -12px rgb(0 0 0 / 5%);
+  padding: 10px;
+  position: relative;
+  vertical-align: middle;
+  cursor: pointer;
+  margin-right: 5px;
+  border-radius: 50%;
+  height: 14px;
+  content: "+";
+  font-size: 20px;
+  width: 14px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #468cff;
+}
+
+.form-group.checkIcon input:checked+label::before {
+  color: #00b4a0;
+}
+
+.form-group.checkIcon input:checked+label:after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 4px;
+  right: 14px;
+  width: 6px;
+  height: 14px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.form-group.checkIcon input:checked+label:before {
+  background: #00b4a0;
+  border: 2px solid #00b4a0;
+}
+
+.border-dark {
+  border: 1px solid #444;
+}
+
+.border-no-bottom-dark {
+  border: 1px solid #444;
+  border-bottom: 0;
+}
+
+.mat-box-shadow {
+  box-shadow: 0px 5px 5px -3px rgb(0 0 0 / 20%), 0px 8px 10px 1px rgb(0 0 0 / 14%), 0px 3px 14px 2px rgb(0 0 0 / 12%);
+}
+
+ul.selectedticketlist {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+
+
+.body-slot {
+  text-align: center;
+}
+
+ul.selectedticketlist li {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+ul.selectedticketlist li:after {
+  content: "";
+  display: block;
+  width: 1px;
+  height: 50px;
+  background: #55585a52;
+  position: absolute;
+  top: 0;
+  left: 11px;
+  bottom: 0;
+  margin-top: 18px;
+}
+
+ul.selectedticketlist li:last-child:after {
+  display: none;
+}
+
+ul.list-group.list-group-flush.shadow-custom.rounded span {
+  text-align: right;
+  font-size: 12px;
+  color: #205ec2;
+}
+
+.pr-2.bd-highlight>div,
+.body-slot {
+  color: #205ec2;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+span.slotes {
+  position: absolute;
+  top: 5px;
+  font-weight: 600;
+  font-size: 12px;
+}
+
+.ticket-text {
+  font-weight: 600;
+  font-size: 12px;
+}

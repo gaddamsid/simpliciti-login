@@ -1,0 +1,284 @@
+<h3 class="header-title">
+    {{'Suspend Codes' | translate}}
+  </h3>
+
+  <div class="container-fluid">
+    <div *ngIf="showAddForm || showEditForm">
+        <form [formGroup]="suspendCodeForm" (ngSubmit)="addSuspendRecord(suspendCodeForm.value)">
+    <div class="row">
+        <div class="col-md-3">
+            <mat-form-field appearance="fill" class="w-100">
+                <mat-label>{{ "Suspend Code" | translate }}</mat-label>
+                <input matInput placeholder="Type" type="number" formControlName="suspendCod" min="0" maxlength="3" 
+                oninput="this.value=this.value.slice(0,this.maxLength)" [id]="'suspendCode'"/>
+                <!-- ERRORS -->
+                <mat-error *ngIf="suspendCodeForm.get('suspendCod')?.hasError('required')" [id]="'error_suspendCode1'">
+                  {{ 'Suspend Code is required' | translate }}
+                </mat-error>
+                <mat-error *ngIf="suspendCodeForm.get('suspendCod')?.hasError('invalid')" [id]="'error_suspendCode2'">
+                  {{ suspendCodeForm.get('suspendCod')?.getError('invalid') |
+                  translate }}
+                </mat-error>
+               <!-- ERRORS END -->
+            </mat-form-field>
+        </div>
+        <div class="col-md-3">
+            <mat-form-field appearance="fill" class="w-100">
+                <mat-label>{{ "Class" | translate }}</mat-label>
+                <input matInput placeholder="Type" formControlName="suspendClass" maxlength="1" [id]="'suspendClass'" />
+                 <!-- ERRORS -->
+                 <mat-error *ngIf="suspendCodeForm.get('suspendClass')?.hasError('pattern')" [id]="'error_suspendClass1'">
+                  {{ 'Invalid Input' | translate }}
+                </mat-error>
+                <mat-error *ngIf="suspendCodeForm.get('suspendClass')?.hasError('invalid')" [id]="'error_suspendClass2'">
+                  {{ suspendCodeForm.get('suspendClass')?.getError('invalid') |
+                  translate }}
+                </mat-error>
+               <!-- ERRORS END -->
+            </mat-form-field>
+        </div>
+        <div class="col-md-3">
+            <mat-form-field appearance="fill" class="w-100">
+                <mat-label>{{ "Full Name" | translate }}</mat-label>
+                <input matInput placeholder="Type" formControlName="suspendNameLong" maxlength="20" [id]="'suspendNameLong'" appNotAllowWhiteSpaceStart/>
+                 <!-- ERRORS -->
+                 <mat-error *ngIf="suspendCodeForm.get('suspendNameLong')?.hasError('required')" [id]="'error_suspendNameLong1'">
+                  {{ 'Full Name is required' | translate }}
+                </mat-error>
+                <mat-error *ngIf="suspendCodeForm.get('suspendNameLong')?.hasError('invalid')" [id]="'error_suspendNameLong2'">
+                  {{ suspendCodeForm.get('suspendNameLong')?.getError('invalid') |
+                  translate }}
+                </mat-error>
+               <!-- ERRORS END -->
+            </mat-form-field>
+        </div>
+        <div class="col-md-3">
+            <mat-form-field appearance="fill" class="w-100">
+                <mat-label>{{ "Short Name" | translate }}</mat-label>
+                <input matInput placeholder="Type" formControlName="suspendName" maxlength="10" [id]="'suspendName'" appNotAllowWhiteSpaceStart/>
+                 <!-- ERRORS -->
+                 <mat-error *ngIf="suspendCodeForm.get('suspendName')?.hasError('required')" [id]="'error_suspendName1'">
+                  {{ 'Short Name is required' | translate }}
+              </mat-error>
+              <mat-error *ngIf="!suspendCodeForm.get('suspendCode')?.hasError('pattern') && !suspendCodeForm.get('suspendName')?.hasError('required')"
+              [id]="'error_suspendName2'">
+                {{ 'Invalid Input' | translate }}
+              </mat-error>
+                <mat-error *ngIf="suspendCodeForm.get('suspendName')?.hasError('invalid')" [id]="'error_suspendName3'">
+                  {{ suspendCodeForm.get('suspendName')?.getError('invalid') |
+                  translate }}
+                </mat-error>
+               <!-- ERRORS END -->
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-md-3">
+            <mat-form-field appearance="fill" class="w-100">
+                <mat-label>{{ "Priority" | translate }}</mat-label>
+                <input matInput placeholder="Type" type="number" formControlName="suspendCodePriority" maxlength="2" min="1"
+                oninput="this.value=this.value.slice(0,this.maxLength)" [id]="'suspendCodePriority'"/>
+                 <!-- ERRORS -->
+                 <mat-error *ngIf="suspendCodeForm.get('suspendCodePriority')?.hasError('required')" [id]="'error_suspendCodePriority1'">
+                  {{ 'Priority is required' | translate }}
+                </mat-error>
+                <mat-error *ngIf="suspendCodeForm.get('suspendCodePriority')?.hasError('invalid')" [id]="'error_suspendCodePriority2'">
+                  {{ suspendCodeForm.get('suspendCodePriority')?.getError('invalid') |
+                  translate }}
+                </mat-error>
+               <!-- ERRORS END -->
+            </mat-form-field>
+        </div>
+        <div class="col-md-3">
+            <mat-form-field appearance="fill" class="w-100">
+                <mat-label>{{ "Type" | translate }}</mat-label>
+                <input matInput placeholder="Type" formControlName="suspendType" maxlength="1" [id]="'suspendType'"
+               #input OnlyNumber="true"/>
+                 <!-- ERRORS -->
+                 <mat-error *ngIf="suspendCodeForm.get('suspendType')?.hasError('required')" [id]="'error_suspendType1'">
+                  {{ 'Type is required' | translate }}
+                 </mat-error>
+                 <mat-error *ngIf="suspendCodeForm.get('suspendType')?.hasError('pattern') && !suspendCodeForm.get('suspendType')?.hasError('required')" 
+                 [id]="'error_suspendType2'">
+                  {{ "Type should be 'P' and 'T'  - P  is Permanent suspend, T is for Temp Suspend." | translate }}
+                  </mat-error>
+                <mat-error *ngIf="suspendCodeForm.get('suspendType')?.hasError('invalid')" [id]="'error_suspendType3'">
+                  {{ suspendCodeForm.get('suspendType')?.getError('invalid') |
+                  translate }}
+                </mat-error>
+               <!-- ERRORS END -->
+            </mat-form-field>
+        </div>
+        <div class="col-md-3">
+            <mat-form-field appearance="fill" class="w-100">
+                <mat-label>{{ "Days" | translate }}</mat-label>
+                <input matInput placeholder="Type" type="number" formControlName="suspendNumDays"
+                maxlength="3" min="0" oninput="this.value=this.value.slice(0,this.maxLength)" [id]="'suspendNumDays'"/>
+                 <!-- ERRORS -->
+                 <mat-error *ngIf="suspendCodeForm.get('suspendNumDays')?.hasError('required')" [id]="'error_suspendNumDays1'">
+                  {{ 'Days is required' | translate }}
+              </mat-error>
+                <mat-error *ngIf="suspendCodeForm.get('suspendNumDays')?.hasError('invalid')" [id]="'error_suspendNumDays2'">
+                  {{ suspendCodeForm.get('suspendNumDays')?.getError('invalid') |
+                  translate }}
+                </mat-error>
+               <!-- ERRORS END -->
+            </mat-form-field>
+            <mat-checkbox color="primary" [id]="'calendarDays'" formControlName="calendarDays" >{{'Calendar Days' | translate }}</mat-checkbox><br>
+        </div>
+        <div class="col-md-3">
+            <mat-form-field appearance="fill" class="w-100">
+                <mat-label>{{"Active" | translate}}</mat-label>
+                <mat-select formControlName="active" maxlength="1" type="Select" [id]="'active'">
+                    <mat-option selected value=""></mat-option>
+                    <mat-option value="Y">Y</mat-option>
+                    <mat-option value="N">N</mat-option>
+                </mat-select>
+                 <!-- ERRORS -->
+                 <!-- <mat-error *ngIf="suspendCodeForm.get('active')?.hasError('required')">
+                  {{ 'Suspend Code required' | translate }}
+                </mat-error> -->
+                <mat-error *ngIf="suspendCodeForm.get('active')?.hasError('invalid')" [id]="'error_active1'">
+                  {{ suspendCodeForm.get('active')?.getError('invalid') |
+                  translate }}
+                </mat-error>
+               <!-- ERRORS END -->
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-md-12 align-items-end justify-content-end d-flex">
+            <button mat-raised-button class="m-1 color-blue" [id]="'Cancel'" (click)="cancelAdd_Save()">{{'Cancel'| translate}}</button>
+            <button mat-raised-button class="m-1 color-blue" [id]="'AddSubmit'" type="submit" *ngIf="showAddForm">
+              {{'Add' |translate}}</button>
+              <button type="button" [id]="'SaveSubmit'"  mat-raised-button class="m-1 color-blue" *ngIf="showEditForm" (click)="updateSuspendCodeRecord(suspendCodeForm.value)">
+                {{'Save' |translate}}
+              </button>
+        </div>
+    </div>
+</form>
+</div>
+    <!-- SEARCH TABLE AREA -->
+    <div  [hidden]="showAddForm || showEditForm">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="align-items-center d-flex row">
+              <div class="col-6">
+                <mat-form-field appearance="fill">
+                  <mat-label>{{ "Search" | translate }}</mat-label>
+                  <input matInput placeholder="Type" #searchField [id]="'Search'" (keyup)="applyFilter($event)"/>
+                </mat-form-field>
+              </div>
+              <div class="col-6">
+                <div class="text-right">
+                  <button mat-raised-button appearance="fill" class="m-1 color-blue" [id]="'AddNew'" (click)="showAddFormPage()">
+                    {{ "Add" | translate }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mat-elevation-z8">
+          <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
+            <!-- Suspend Code -->
+            <ng-container matColumnDef="suspendCod">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{ "Suspend Code" | translate }}</th>
+              <td mat-cell *matCellDef="let element" class="text-center">{{
+                element.suspendCod }}</td>
+            </ng-container>
+  
+            <!-- Class -->
+            <ng-container matColumnDef="suspendClass">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{ "Class" | translate }}</th>
+              <td mat-cell *matCellDef="let element" class="text-left">{{
+                element.suspendClass }}</td>
+            </ng-container>
+            <!-- Full Name -->
+            <ng-container matColumnDef="suspendNameLong">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{ "Full Name" | translate }}</th>
+              <td mat-cell *matCellDef="let element" class="text-left">{{
+                element.suspendNameLong }}</td>
+            </ng-container>
+            <!-- Short Name -->
+            <ng-container matColumnDef="suspendName">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{ "Short Name" | translate }}</th>
+              <td mat-cell *matCellDef="let element" class="text-left">{{
+                element.suspendName }}</td>
+            </ng-container>
+
+            <!-- Priority -->
+            <ng-container matColumnDef="suspendCodePriority">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{ "Priority" | translate }}</th>
+              <td mat-cell *matCellDef="let element" class="text-right">{{
+                element.suspendCodePriority }}</td>
+            </ng-container>
+
+            <!-- Type -->
+            <ng-container matColumnDef="suspendType">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{ "Type" | translate }}</th>
+              <td mat-cell *matCellDef="let element" class="text-left">{{
+                element.suspendType }}</td>
+            </ng-container>
+
+            <!-- Days -->
+            <ng-container matColumnDef="suspendNumDays">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{ "Days" | translate }}</th>
+              <td mat-cell *matCellDef="let element" class="text-right">{{
+                element.suspendNumDays }}</td>
+            </ng-container>
+
+            <!-- Active -->
+            <ng-container matColumnDef="active">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                  {{ "Active" | translate }}</th>
+              <td mat-cell *matCellDef="let element" class="text-left">{{
+                element.active }}</td>
+            </ng-container>
+            
+  
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="Action">
+              <tr>
+                <th mat-header-cell *matHeaderCellDef class="text-center">
+                  {{'Action' | translate}}</th>
+              </tr>
+              <tr>
+                <td mat-cell *matCellDef="let element" class="text-center">
+                  <button mat-icon-button color="dark-grey" title="{{'Edit' | translate }}">
+                    <mat-icon class="edit-blue"(click)="editIconClicked(element)" >edit</mat-icon>
+                  </button>
+                  <button mat-icon-button color="dark-grey" title="{{'Delete' | translate }}">
+                  <mat-icon class="color-light-gray" (click)="deleteSuspendCodeRecord(element.suspendCodeTypeId)">delete</mat-icon>
+                  </button>
+                  <!-- <button mat-icon-button color="dark-grey" title="{{'Disable' | translate }}" (click)="toggleCourtHoliday(element.holidayId,
+                    element.active)" *ngIf="element.active">
+                    <mat-icon class="color-red">block</mat-icon>
+                  </button>
+                  <button mat-icon-button color="dark-grey" title="{{'Enable' | translate }}" (click)="toggleCourtHoliday(element.holidayId,
+                    element.active)" *ngIf="!element.active">
+                    <mat-icon class="color-green">done_outline</mat-icon>
+                  </button> -->
+  
+                </td>
+              <tr>
+            </ng-container>
+  
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+          <div class="col-sm-12 text-center" [hidden]="dataSource.filteredData?.length !== 0"> 
+              {{'No records found' | translate}}</div>
+          <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons
+            aria-label="Select page of periodic elements">
+          </mat-paginator>
+        </div>
+      </div>  
+</div>

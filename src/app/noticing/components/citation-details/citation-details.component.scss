@@ -1,0 +1,29 @@
+.notice ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+
+.notice ul li {
+    font-size: 12px;
+    padding: 0 10px;
+}
+
+.notice ul {
+    display: flex;
+    justify-content: center;
+}
+
+.notice {
+    right: 0;
+    top: 0;
+}
+
+.notice .mat-icon {
+    width: 16px;
+    height: 0px;
+    font-size: 38px;
+    // color: #0047ba;
+    color: #468cff!important;
+    cursor: pointer;
+}

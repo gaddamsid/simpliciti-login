@@ -1,0 +1,36 @@
+.conditional-cards{
+    flex: 1 1 50%;
+    max-width: 48%;
+    &:nth-of-type(odd) {
+      margin-right: 20px !important;
+      }
+    &:nth-of-type(even) {
+      margin-right: 0 !important;
+      }
+  }
+  .ngx-gallery { display: inline-block; margin-bottom: 20px; width: 100% !important; }
+  .ngx-gallery-image-size-cover{
+    cursor: zoom-in;
+  }
+  .gallery-wrapper {
+    text-align: center;
+    .ngx-gallery {
+      display: inline-block;
+      margin-bottom: 20px;
+      width: 100% !important;
+      /* width: 500px;
+       height: 400px;
+       border-color: #4a89ff;*/
+    }
+  }
+
+  
+::ng-deep.mat-checkbox-layout {
+  white-space: normal !important;
+}
+.skip-button{
+  height: 45px;
+    letter-spacing: 1px;
+    background-color: #fe8600;
+    color: #fff;
+}

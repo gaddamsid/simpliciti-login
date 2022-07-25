@@ -1,0 +1,39 @@
+.payment-button {
+    padding: 0 60px;
+
+    button.edit-blue {
+        border: 1px solid #0f73ee;
+    }
+    button{
+        text-transform: uppercase;
+    }
+}
+
+.payment-confirm {
+    position: sticky;
+    top: 0;
+    mat-icon {
+        color: #00b4a0;
+    }
+
+    h4 {
+        font-size: 16px;
+        font-weight: bolder;
+    }
+
+    mat-card {
+        height: calc(100vh - 80px);
+        right: 0;
+        width: 370px;
+    }
+}
+.ticket-detail{
+    em{
+        font-style: normal;
+    }
+}
+.card-container{
+    .min-70-height{
+        min-height: 70px;
+    }
+}

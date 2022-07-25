@@ -1,0 +1,99 @@
+<div *ngIf="loader" class="d-flex justify-content-center" style="margin-top: 10%;">
+    <mat-spinner></mat-spinner>
+</div>
+
+<div *ngIf="!loader" class="container-fluid">
+    <form [formGroup]="notesForm" (ngSubmit)="AddNotes(notesForm.value)">
+        <div class="row mt-3">
+            <div class="col-md-4">
+                <mat-card>
+                    <div class="inner-box">
+                        <ul>
+                            <li>
+                                <p class="d-flex justify-content-between"><b>{{'Address'
+                                        |translate}}:</b><span>{{entityObj.address}}</span></p>
+                            </li>
+                            <li>
+                                <p class="d-flex justify-content-between m-0"><b>{{'Email'
+                                        |translate}}:</b><span>{{entityObj.email}}</span></p>
+                            </li>
+                        </ul>
+
+                    </div>
+                </mat-card>
+            </div>
+            <div class="col-md-4">
+
+                <mat-card>
+                    <div class="inner-box">
+                        <ul>
+                            <li>
+                                <p class="d-flex justify-content-between"><b>{{'Entity Number'
+                                        |translate}}:</b><span>{{entityObj.entityNumber}}</span></p>
+                            </li>
+                            <li>
+                                <p class="d-flex justify-content-between"><b>{{'SSN'
+                                        |translate}}:</b><span>{{entityObj.SSN}}</span></p>
+                            </li>
+                            <li>
+                                <p class="d-flex justify-content-between"><b>{{'DOB'
+                                        |translate}}:</b><span>{{entityObj.DOB | date : 'mediumDate' }}</span></p>
+                            </li>
+                            <li>
+                                <p class="d-flex justify-content-between"><b>{{'Driver License'
+                                        |translate}}:</b><span>{{entityObj.driverLicense}}</span></p>
+                            </li>
+                            <li>
+                                <p class="d-flex justify-content-between"><b>{{'Ticket Type'
+                                        |translate}}:</b><span>{{entityObj.ticketType}}</span></p>
+                            </li>
+                            <li>
+                                <p class="d-flex justify-content-between"><b>{{'Plate'
+                                        |translate}}:</b><span>{{entityObj.plate}}</span></p>
+                            </li>
+                            <li>
+                                <p class="d-flex justify-content-between m-0"><b>{{'VIN' |translate}}:</b>
+                                    <span>{{entityObj.VIN}}</span>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+                </mat-card>
+
+            </div>
+            <div *ngIf="citationsId && citationsId.length > 0" class="col-md-4">
+                <mat-card>
+                    <h1>{{'Selected Tickets' |translate}}</h1>
+                    <div class="align-items-end justify-content-end" *ngFor="let tickets of citationsId">
+                        {{tickets}}
+                    </div>
+                </mat-card>
+
+            </div>
+            <div class="col-md-12 mt-3">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{'Enter Customer Notes' |translate}}</mat-label>
+                    <textarea matInput formControlName="dataRecord" class='notesValid' maxlength="2000"
+                        (keypress)="startspace($event)" required name="Notes" [id]="'notes'"></textarea>
+                    <mat-error *ngIf="notesForm.get('dataRecord')?.hasError('required')" [id]="'dataRecord1'">
+                        {{ 'Customer Notes is Required' | translate }}
+                    </mat-error>
+                </mat-form-field>
+
+            </div>
+            <div class="col-md-12 mt-2 pr-0">
+                <div class="align-items-end col-md-12 mb-4 d-flex justify-content-end">
+                    <button type="button" mat-raised-button class="m-1 color-blue" [id]="'cancelAddNotes'"
+                        (click)="cancelAddNotes()">
+                        {{'Cancel'| translate}}</button>
+                    <button type="button" mat-raised-button class="m-1 color-blue" [id]="'clearFields'"
+                        (click)="clearFields()">
+                        {{'Clear' |translate}}</button>
+                    <button type="submit" mat-raised-button class="m-1 color-blue" [id]="'Add'">
+                        {{'Add' |translate}}</button>
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>

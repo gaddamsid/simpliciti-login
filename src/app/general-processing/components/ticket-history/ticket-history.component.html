@@ -1,0 +1,84 @@
+
+<div class="container-fluid mt-3">
+    <div class="mat-elevation-z8">
+        <div id="pdfTable">
+            <table  mat-table class="full-width-table plate-info-table" matSort aria-label="Elements"
+            [dataSource]="dataSource" (matSortChange)="announceSortChange($event)">
+                <!-- CITATION DATE -->
+                <ng-container matColumnDef="citationDate">
+                    <th mat-header-cell mat-sort-header *matHeaderCellDef>{{"Date" | translate}}</th>
+                    <td mat-cell *matCellDef="let row" class="text-center">
+                        <a class="event-info-link" (click)="onClickEventId(row)">
+                            <span *ngIf="row.citationDate">{{row?.citationDate | date : globalFormats.dateAndTime }}</span>
+                            <span *ngIf="!row.citationDate">-</span>
+                        </a>
+                    </td>
+                </ng-container>
+                <!-- TYPE -->
+                <ng-container matColumnDef="transactionType">
+                    <th mat-header-cell mat-sort-header *matHeaderCellDef> {{"Type" | translate}}</th>
+                    <td mat-cell *matCellDef="let row" class="text-left">{{row?.transactionType}}</td>
+                </ng-container>
+                <!-- DETAILS -->
+                <ng-container matColumnDef="details">
+                    <th mat-header-cell  *matHeaderCellDef>{{"Details" | translate}}</th>
+                    <td mat-cell *matCellDef="let row" class="text-left" >{{row?.details | commaSeparator}}</td>
+                </ng-container>
+                <!-- IMAGE URL -->
+                <ng-container matColumnDef="imageUrl">
+                    <th mat-header-cell *matHeaderCellDef>{{"Image" | translate}}</th>
+                    <td mat-cell *matCellDef="let row" class="text-center"><span *ngIf="row.imageUrl"><mat-icon class="edit-blue" (click)="openDialogWithTemplateRef(myDialog,row?.imageUrl.assetsModel[0].assetsLocation)">camera_enhance</mat-icon></span>
+                    <span *ngIf="!row.imageUrl">-</span></td>
+                </ng-container>
+                <!-- TRANSACTION DATE -->
+                <ng-container matColumnDef="processDate">
+                    <th mat-header-cell mat-sort-header *matHeaderCellDef>{{"Transaction Date" | translate}}</th>
+                    <td mat-cell *matCellDef="let row" class="text-center">
+                        <span>{{row?.processDate | date : globalFormats.dateAndTime}}</span>
+                        <span *ngIf="!row?.processDate">-</span>
+                    </td>
+                </ng-container>
+                <!-- USER ID -->
+                <ng-container matColumnDef="userName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>{{"User ID" |
+                        translate}}</th>
+                    <td mat-cell *matCellDef="let row" class="text-left">{{row?.userName}}</td>
+                </ng-container>
+
+                
+                <!-- <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let row" class="text-center">
+                        <button [id]="'eventl12'" mat-icon-button color="dark-grey">
+                            <mat-icon [id]="'eventl13'" class="edit-blue"> insert_drive_file</mat-icon>
+                        </button>
+                    </td>
+                    <tr>
+                </ng-container> -->
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </div>
+
+        <div class="col-sm-12 text-center" *ngIf="!ticketHistoryList"> {{'No records found' | translate}}
+        </div>
+        <mat-paginator #paginator [length]="paginationDetails?.totalRecords"
+            [pageIndex]="paginationDetails?.currentPage" [pageSizeOptions]="[10, 20, 50, 100]"
+            [pageSize]="paginationDetails?.pageSize" showFirstLastButtons
+            aria-label="Select page of periodic elements">
+        </mat-paginator>
+
+    </div>
+</div>
+<!-- Dialog template -->
+<ng-template #myDialog>
+    <h2 matDialogTitle>{{'Image' | translate}}</h2>
+    <mat-dialog-content>
+        <img [src]="imgSrc" alt="image" class="w-100" />
+       
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button mat-button color="primary" (click)="dialogClose()">{{'Cancel' | translate}}</button>
+      </mat-dialog-actions>
+</ng-template>

@@ -1,0 +1,37 @@
+ .chip-selector-container {
+     mat-chip {
+         background: #3c6ab7;
+         color: #fff;
+         font-size: 12px;
+         padding-top: 2px;
+         letter-spacing: 0.5px;
+         padding-bottom: 0;
+         min-height: 24px;
+         display: flex;
+         justify-content: space-between;
+         padding-right: 3px;
+         padding-left: 7px;
+         width: max-content;
+     }
+
+     button {
+         opacity: 1;
+         color: #fff;
+
+         mat-icon {
+             font-size: 16px;
+         }
+     }
+ }
+
+ .bg-file {
+     display: inline-block;
+     cursor: pointer;
+     justify-items: center;
+     align-items: center;
+ }
+
+ #err_Endtime,
+ #err_Starttime {
+     margin-top: -20px;
+ }

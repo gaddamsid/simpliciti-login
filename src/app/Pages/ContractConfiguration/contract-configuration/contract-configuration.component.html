@@ -1,0 +1,123 @@
+<h3 class="header-title"> {{ "Contract Configuration" | translate }}</h3>
+
+<div class="container-fluid pl-4 pr-4">
+    <div class="row">
+        <div class="col-md-12 border-bottom ">
+            <div class="row">
+                <div class="col-md-4 d-flex justify-content-between ">
+                    <p class="font-weight-bold">{{ "Client" | translate }}</p>
+                    <span>{{ "Default" | translate }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 d-flex justify-content-between border-bottom mt-3">
+            <p class="font-weight-bold">{{ "Name" | translate }}</p>
+            <span> {{ "Default" | translate }}</span>
+        </div>
+        <div class="col-md-4 d-flex justify-content-between border-bottom  mt-3">
+            <p class="font-weight-bold"> {{ "Identifier" | translate }}</p>
+            <span> {{ "default" | translate }}</span>
+        </div>
+        
+        <div class="col-md-4 d-flex justify-content-between border-bottom  mt-3">
+            <p class="font-weight-bold"> {{ "Code" | translate }}</p>
+            <span> {{ "DF" | translate }}</span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 d-flex justify-content-between border-bottom  mt-3">
+            <p class="font-weight-bold"> {{ "PayByWeb/Pin" | translate }}</p>
+            <span> {{ "Code 123" | translate }}</span>
+        </div>
+        <div class="col-md-4 d-flex justify-content-between border-bottom  mt-3">
+            <p class="font-weight-bold">{{ "Contract Type" | translate }}</p>
+            <span> {{ "Red Light" | translate }}</span>
+        </div>
+        
+        <div class="col-md-4 d-flex justify-content-between border-bottom ">
+            <mat-form-field appearance="fill" class="w-100">
+                <mat-label> {{ "Program Manager" | translate }}</mat-label>
+                <mat-select>
+                    <mat-option value="option1"> {{ "Option 1" | translate }}</mat-option>
+                    <mat-option value="option2" disabled> {{ "Option 2 (disabled)" | translate }}</mat-option>
+                    <mat-option value="option3"> {{ "Option 3" | translate }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-4 d-flex justify-content-between border-bottom  mt-3">
+            <p class="font-weight-bold">{{ "State" | translate }}</p>
+            <span> {{ "Province Florida" | translate }}</span>
+        </div>
+        <div class="col-md-4 d-flex justify-content-between border-bottom  mt-3">
+            <p class="font-weight-bold"> {{ "Time Zone" | translate }}</p>
+            <span> {{ "Eastern Time Zone" | translate }}</span>
+        </div>
+        <div class="col-md-4 d-flex justify-content-between border-bottom  mt-3">
+            <p class="font-weight-bold"> {{ "Contract Type" | translate }}</p>
+            <span> {{ "Red Light" | translate }}</span>
+        </div>
+
+    </div>
+    <div class="row mt-3">
+        <div class="col-md-4">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label> {{ "CBI Dashboard Link" | translate }}</mat-label>
+                <mat-select>
+                    <mat-option value="option1"> {{ "Option 1" | translate }}</mat-option>
+                    <mat-option value="option2" disabled> {{ "Option 2 (disabled)" | translate }}</mat-option>
+                    <mat-option value="option3"> {{ "Option 3" | translate }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="col-md-4">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label> {{ "Password Expiration Length" | translate }}</mat-label>
+                <mat-select>
+                    <mat-option value="option1"> {{ "Option 1" | translate }}</mat-option>
+                    <mat-option value="option2" disabled> {{ "Option 2 (disabled)" | translate }}</mat-option>
+                    <mat-option value="option3">{{ "Option 3" | translate }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="col-md-4">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label> {{ "Mavro Code" | translate }}</mat-label>
+                <mat-select>
+                    <mat-option value="option1"> {{ "Option 1" | translate }}</mat-option>
+                    <mat-option value="option2" disabled>{{ "Option 2 (disabled)" | translate }}</mat-option>
+                    <mat-option value="option3">{{ "Option 3" | translate }}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="form-check">
+                    <mat-checkbox color="primary">{{"Enable Two-Factor Authentication" | translate}}</mat-checkbox>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="form-check">
+                    <mat-checkbox color="primary">{{"Full Payment Validation" | translate}}</mat-checkbox>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="form-check">
+                    <mat-checkbox color="primary">{{"Partial Payment Validation" | translate}}</mat-checkbox>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row mb-5">
+        <div class="col-md-12 text-right">
+            <button mat-raised-button class="color-blue"> {{ "Save" | translate }}</button>
+        </div>
+    </div>
+</div>

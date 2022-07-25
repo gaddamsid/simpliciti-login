@@ -1,0 +1,274 @@
+<h3 matDialogTitle class="blacked-title">{{'New Transition' | translate }}</h3>
+<div>
+    <form [formGroup]="transitionForm" (ngSubmit)="addNewTransition(transitionForm.value, formDirective)" #formDirective="ngForm">
+        <div class="row">
+            <div class="col-md-3">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{ "Transition Type" | translate }}</mat-label>
+                    <mat-select [id]="'transitionTypesID'" name="transitionTypesID"
+                        (selectionChange)="transitionTypeChange($event.value)" formControlName="transitionTypesID">
+                        <mat-option value=""> {{ "Select" | translate }}</mat-option>
+                        <mat-option *ngFor="let item of transitionTypeList" value="{{ item.transitionTypesID }}">{{
+                            item.transitionTypesName }}</mat-option>
+                    </mat-select>
+                    <!-- ERRORS -->
+                        <mat-error [id]="'error_transitionTypesID'" *ngIf="transitionForm.get('transitionTypesID')?.hasError('required')">
+                            {{ 'Transition Type Is Required' | translate }}
+                        </mat-error>
+                    <!-- ERRORS -->
+                </mat-form-field>
+
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{ "Destination" | translate }}</mat-label>
+                    <mat-select [id]="'workflowStatesID'" name="workflowStatesID"
+                        formControlName="destinationWorkflowStatesID">
+                        <mat-option value=""> {{ "Select" | translate }}</mat-option>
+                        <mat-option *ngFor="let item of destinationList" value="{{ item.workflowStatesID }}">{{
+                            item.workflowStatesName }}</mat-option>
+                    </mat-select>
+                    <!-- ERRORS -->
+                    <mat-error [id]="'error_Destination'" *ngIf="transitionForm.get('destinationWorkflowStatesID')?.hasError('required')">
+                        {{ 'Destination Is Required' | translate }}
+                    </mat-error>
+                <!-- ERRORS -->
+                </mat-form-field>
+
+                <mat-form-field appearance="fill" class="w-100" [hidden]="!timedTransitionType">
+                    <mat-label>{{ "Duration" | translate }}</mat-label>
+                    <input matInput formControlName="duration" type="number" min="1" max="100" maxlength="3" oninput="this.value=this.value.slice(0,this.maxLength)" [id]="'duration'"/>
+                    <!-- ERRORS -->
+                    <mat-error [id]="'error_duration1'" *ngIf="transitionForm.get('duration')?.hasError('required')">
+                        {{ 'Duration Is Required' | translate }}
+                    </mat-error>
+                    <mat-error [id]="'error_percentage2'" *ngIf="transitionForm.get('duration')?.hasError('max') || transitionForm.get('duration')?.hasError('min')">
+                        {{ 'Duration Must Be In The Range 1 To 100' |
+                        translate }}
+                    </mat-error>
+                <!-- ERRORS -->
+                </mat-form-field>
+
+                <mat-form-field appearance="fill" class="w-100" [hidden]="!timedTransitionType">
+                    <mat-label>{{ "Relative To" | translate }}</mat-label>
+                    <mat-select [id]="'relativeDateTypesID'" name="relativeDateTypesID"
+                        formControlName="relativeDateTypesID">
+                        <mat-option value=""> {{ "Select" | translate }}</mat-option>
+                        <mat-option *ngFor="let item of relativeDateTypeList" value="{{ item.relativeDateTypesID }}">{{
+                            item.relativeDateTypesName }}</mat-option>
+                    </mat-select>
+                    <!-- ERRORS -->
+                    <mat-error [id]="'error_relativeDateTypesID1'" *ngIf="transitionForm.get('relativeDateTypesID')?.hasError('required')">
+                        {{ 'Relative To Is Required' | translate }}
+                    </mat-error>
+                <!-- ERRORS -->
+                </mat-form-field>
+
+                <mat-form-field appearance="fill" class="w-100" [hidden]="!timedTransitionType">
+                    <mat-label>{{ "Day Type" | translate }}</mat-label>
+                    <mat-select [id]="'relativeDateDayTypesID'" name="relativeDateDayTypesID"
+                        formControlName="relativeDateDayTypesID">
+                        <mat-option value=""> {{ "Select" | translate }}</mat-option>
+                        <mat-option *ngFor="let item of dayTypeList" value="{{ item.relativeDateDayTypesID }}">{{
+                            item.relativeDateDayTypesName }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="w-100" [hidden]="timedTransitionType">
+                    <mat-label>{{ "Percentage" | translate }}</mat-label>
+                    <input matInput formControlName="percentage" type="number" min="0" max="100" maxlength="3" oninput="this.value=this.value.slice(0,this.maxLength)" [id]="'percentage'"/>
+                    <!-- ERRORS -->
+                    <mat-error [id]="'error_percentage1'" *ngIf="transitionForm.get('percentage')?.hasError('required')">
+                        {{ 'Percentage Is Required' | translate }}
+                    </mat-error>
+                    <mat-error [id]="'error_percentage2'" *ngIf="transitionForm.get('percentage')?.hasError('max')">
+                        {{ 'Percentage Must Be In The Range 0 To 100' |
+                        translate }}
+                    </mat-error>
+                    <!-- ERRORS -->
+                </mat-form-field>
+                    <div class="w-100" [hidden]="timedTransitionType">
+                        <label class="form-switch">
+                            <input type="checkbox" [id]="'enableQualityControl'" formControlName="enableQualityControl" (change)="qualityControlChecked($event.target)">
+                            <i></i>
+                            {{'Quality Control' | translate }}
+                        </label>
+                    </div>
+               
+            </div>
+            <div class="col-md-9" [hidden]="!timedTransitionType">
+                <div class="labels">
+                    <div class="title1 blacked-title">{{ "Category" | translate }}</div>
+                    <div class="title1 blacked-title">{{ "Field" | translate }}</div>
+                    <div class="title1 blacked-title">{{ "Operator" | translate }}</div>
+                    <div class="title1 blacked-title join-op-title">
+                        {{ "Join Operator" | translate }}
+                    </div>
+                </div>
+                <table class="m-0 p-0 transitionModel">
+                    <tr>
+                        <td class="text-center">
+                            <mat-form-field appearance="fill" class="input-box-width m-0">
+                                <mat-label>{{ "Category" | translate }}</mat-label>
+                                <mat-select [id]="'categoriesID'" name="categoriesID" formControlName="categoriesID">
+                                    <mat-option value=""> {{ "Select" | translate }}</mat-option>
+                                    <mat-option *ngFor="let item of categoriesList" value="{{ item.categoriesID }}">
+                                        {{ item.categoryName }}</mat-option>
+                                </mat-select>
+                                <!-- ERRORS -->
+                                <mat-error [id]="'error_Category'" *ngIf="transitionForm.get('categoriesID')?.hasError('required')">
+                                    {{ 'Category Is Required' | translate }}
+                                </mat-error>
+                            <!-- ERRORS -->
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <table class="m-0">
+                                <ng-container formArrayName="clause">
+                                    <ng-container *ngFor="let item of clause.controls; let i = index">
+                                        <tr [formGroupName]="i">
+                                            <td class="text-center">
+                                                <mat-form-field appearance="fill" class="input-box-width">
+                                                    <mat-label>{{ "Field" | translate }}</mat-label>
+                                                    <mat-select id="{{ 'TfieldsID' + i }}" name="fieldsID"
+                                                        formControlName="fieldsID">
+                                                        <mat-option value="">
+                                                            {{ "Select" | translate }}</mat-option>
+                                                        <mat-option *ngFor="let item of fieldDropdownList"
+                                                            value="{{ item.fieldsID }}">
+                                                            {{ item.fieldsName }}</mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </td>
+                                            <td class="text-center">
+                                                <mat-form-field appearance="fill" class="input-box-width">
+                                                    <mat-label>{{ "Operator" | translate }}</mat-label>
+                                                    <mat-select id="{{ 'ToperatorsID' + i }}" name="operatorsID"
+                                                        formControlName="operatorsID">
+                                                        <mat-option value="">
+                                                            {{ "Select" | translate }}</mat-option>
+                                                        <mat-option *ngFor="let item of operatorsDropdownList"
+                                                            value="{{ item.operatorsID }}">
+                                                            {{ item.operatorsName }}</mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </td>
+                                            <td class="text-center">
+                                                <mat-form-field appearance="fill" class="input-box-width">
+                                                    <mat-label>{{ "Join Operator" | translate }}</mat-label>
+                                                    <mat-select id="{{ 'TjoinOperator' + i }}" name="joinOperatorsID"
+                                                        (selectionChange)="JoinOperatorChange($event.value, i)"
+                                                        formControlName="joinOperatorsID">
+                                                        <mat-option value="{{'None'}}">
+                                                            {{ "Select" | translate }}</mat-option>
+                                                        <mat-option *ngFor="let item of joinOperatorsDropdownList"
+                                                            value="{{ item.operatorsID }}">{{ item.operatorsName }}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </td>
+                                        </tr>
+                                    </ng-container>
+                                </ng-container>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="table2 custom-table" [hidden]="timedTransitionType">
+                <table class="outer-table">
+                    <tr>
+
+                        <th>{{'Field' |translate}}</th>
+                        <th>{{'Operator' | translate}}</th>
+                        <th  [hidden]="!valueColumnEnabled">{{'Value' | translate}}</th>
+                        <th>{{'Join Operator' | translate }}</th>
+
+                    </tr>
+                    <ng-container formArrayName="clause">
+                        <ng-container *ngFor="let item of clause.controls; let i = index">
+                            <tr [formGroupName]="i">
+                                <td class="text-center">
+                                    <mat-form-field appearance="fill" class="w-100">
+                                        <mat-label>{{ "Field" | translate }}</mat-label>
+                                        <mat-select id="{{ 'CfieldsID' + i }}" name="fieldsID" formControlName="fieldsID" (selectionChange)="fieldActionSelected($event.value, i)">
+                                            <mat-option value="">
+                                                {{ "Select" | translate }}</mat-option>
+                                            <mat-option *ngFor="let item of fieldDropdownList"
+                                                value="{{ item.fieldsID }}">
+                                                {{ item.fieldsName }}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </td>
+                                <td class="text-center">
+                                    <mat-form-field appearance="fill" class="w-100">
+                                        <mat-label>{{ "Operator" | translate }}</mat-label>
+                                        <mat-select id="{{ 'CoperatorsID' + i }}" name="operatorsID"
+                                            formControlName="operatorsID">
+                                            <mat-option value="">
+                                                {{ "Select" | translate }}</mat-option>
+                                            <mat-option *ngFor="let item of operatorsDropdownList"
+                                                value="{{ item.operatorsID }}">
+                                                {{ item.operatorsName }}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </td>
+                                <!-- <td [hidden]="!valueFieldEnabled && !valueColumnEnabled"></td> -->
+                                <td class="text-center" [hidden]="!valueColumnEnabled">
+                                    <mat-form-field appearance="fill" class="w-100" [hidden]="!valueFieldEnabled">
+                                        <mat-label>{{ "Value" | translate }}</mat-label>
+                                        <mat-select id="{{ 'Cvalue' + i }}" name="actionID"
+                                            formControlName="actionID">
+                                            <mat-option value="">
+                                                {{ "Select" | translate }}</mat-option>
+                                            <mat-option *ngFor="let item of valuesDropDownList"
+                                                value="{{ item.actionID }}">
+                                                {{ item.actionName }}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </td>
+                                <td class="text-center">
+                                    <mat-form-field appearance="fill" class="w-100">
+                                        <mat-label>{{ "Join Operator" | translate }}</mat-label>
+                                        <mat-select id="{{ 'CjoinOperator' + i }}" name="joinOperatorsID"
+                                            (selectionChange)="JoinOperatorChange($event.value, i)"
+                                            formControlName="joinOperatorsID">
+                                            <mat-option value="{{'None'}}">
+                                                {{ "Select" | translate }}</mat-option>
+                                            <mat-option *ngFor="let item of joinOperatorsDropdownList"
+                                                value="{{ item.operatorsID }}">{{ item.operatorsName }}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </td>
+                            </tr>
+                        </ng-container>
+                    </ng-container>
+                </table>
+            </div>
+        </div>
+        <div align="center" class="m-0 p-0">
+            <button mat-button type="button" color="primary" type="button"
+                class="mat-focus-indicator m-1 color-blue mat-raised-button mat-button-base"
+                [id]="'SaveTransition'" *ngIf="data.editTransition" (click)="updateTransition(transitionForm.value)">
+                {{'Save' | translate}}
+            </button>
+            <button mat-button type="submit" color="primary"
+                class="mat-focus-indicator m-1 color-blue mat-raised-button mat-button-base" 
+                [id]="'AddTransition'" *ngIf="!data.editTransition">
+                {{'Add'| translate}}
+            </button>
+            <button mat-button matDialogClose type="button" color="primary"
+                class="mat-focus-indicator m-1 color-blue mat-raised-button mat-button-base" [id]="'CancelTransition'">
+                {{'Cancel' | translate}}
+            </button>
+        </div>
+    </form>
+</div>
+<mat-dialog-actions align="center" class="m-0 p-0">
+    <!-- <button mat-button type="button" (click) = "addClause()" color="primary"
+        class="mat-focus-indicator m-1 color-blue mat-raised-button mat-button-base">
+        Save
+    </button>
+
+    <button mat-button matDialogClose type="button" color="primary"
+        class="mat-focus-indicator m-1 color-blue mat-raised-button mat-button-base">
+        Cancel
+    </button> -->
+</mat-dialog-actions>

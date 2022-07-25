@@ -1,0 +1,37 @@
+
+
+<h3 class="header-title"> {{'Signature' | translate}}</h3>
+<div class="container-fluid">
+  <!-- add form -->
+  <div [formGroup]="uploadFileForm" >
+  <div class="row align-items-center">
+    <div class="col-md-12">
+      <div class="ivr-card mb-3">
+        <h4 class="blacked-title">Cards</h4>
+        <div class="ivr-card-content">
+          <div class="row">
+            <div class="col-md-6 align-items-center">
+              <div class=”button-wrap”>
+                <label for="signature-upload" class="custom-file-upload">
+                  <input id="signature-upload" type="file" formControlName="signatureUpload" (change)="UploadFile($event)" />
+                </label>
+                <div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="d-flex justify-content-end">
+                <button mat-raised-button appearance="fill" type="Submit" class="m-1 color-blue" >
+                  {{ "Upload" | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- search from end -->
+    </div>
+  </div>
+</div>
+</div>
+

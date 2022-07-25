@@ -1,0 +1,51 @@
+<h3 class="header-title">{{'Asset Setting' | translate}}</h3>
+<div class="container-fluid">
+  <div class="div-scroll">
+  <div class="row">
+    <div class="col-md-6 col-lg-7">
+      <h4 class="sticky-title">{{'Asset Mapping' | translate}}<span>({{'Drag to Event Screen View Order to map' | translate}})</span></h4>
+      <div cdkDropList #todoList="cdkDropList" [cdkDropListData]="assetToBeMapped" [cdkDropListConnectedTo]="[doneList]"
+        class="example-list dragged-list-container" (cdkDropListDropped)="drop($event)" cdkDropListSortingDisabled>
+            <div class="example-box list-dragged" *ngFor="let item of assetToBeMapped" cdkDrag matTooltip={{item.assetTypesName}}><p>{{item.assetTypesName}}</p>
+
+               <span class="drag-dots">
+            <img src="../../../assets/draggable-dots.svg" class="drag-icon-1"/>
+            <img src="../../../assets/draggable-dots.svg" class="drag-icon-2"/>
+            <!-- <img src="../../../assets/drag-dots.png" class="drag-icon-2" /> -->
+          </span>  
+            </div>
+          </div>
+
+    </div>
+    <div class="col-md-6  col-lg-5">
+      <h4 class="sticky-title">{{'Event Screen View Order' | translate}}</h4>
+      <div cdkDropList #doneList="cdkDropList" [cdkDropListData]="assetMapped" [cdkDropListConnectedTo]="[todoList]"
+        class="example-list" (cdkDropListDropped)="drop($event)">
+        <div class="mappedAssets list-dropped" *ngFor="let item of assetMapped" cdkDrag>{{item.assetTypesName}}
+          
+          <span class="drag-dots">
+            <img src="../../../assets/draggable-dots.svg" class="drag-icon-1"/>
+            <img src="../../../assets/draggable-dots.svg" class="drag-icon-2"/>
+          </span>  
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12 align-items-end justify-content-end d-flex mt-3">
+      <button mat-raised-button class="color-blue" (click)="saveSettings()">{{'Save' | translate}}</button>
+  </div>
+  </div>
+</div>
+  
+</div>
+
+<div class="example-container">
+
+</div>
+
+
+
+<!-- Copyright 2022 Google LLC. All Rights Reserved.
+      Use of this source code is governed by an MIT-style license that
+      can be found in the LICENSE file at https://angular.io/license -->

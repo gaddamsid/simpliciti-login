@@ -1,0 +1,211 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4 schedule-hearing">
+            <form [formGroup]="scheduleHearingForm">
+                <mat-accordion class="mt-2">
+                    <mat-expansion-panel class="p-0" [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                {{"Entity Information" | translate }}
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="pt-3">
+                            <ul class="list-group list-group-flush shadow-custom rounded">
+                                <li class="list-item-gp d-flex justify-content-between align-items-center">
+                                    {{"Name:" | translate }}<span
+                                        class="font-weight-bold">{{plateDetails?.ownerDetails?.ownerName}}</span>
+                                </li>
+                                <li class="list-item-gp d-flex justify-content-between align-items-center">
+                                    {{"Driver License:" | translate }}<span
+                                        class="font-weight-bold">{{plateDetails?.ownerDetails?.driverLicense}}</span>
+                                </li>
+                                <li class="list-item-gp d-flex justify-content-between align-items-center">
+                                    {{"Plate Number:" | translate }}<span
+                                        class="font-weight-bold">{{plateDetails?.plateDetails?.plateNumber}}</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </mat-expansion-panel>
+                </mat-accordion>
+                <mat-accordion class="mt-2" *ngIf="!isShow">
+                    <mat-expansion-panel class="p-0" [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                {{ "Selected Tickets" | translate }}
+                            </mat-panel-title>
+                            <mat-panel-description class="justify-content-end">
+                                {{getTicketSelectedCount}}/{{ticketSlots?.length ?? 0}}
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <div class="pt-3 pb-3">
+                            <ul class="m-0 p-0 ticket-added">
+                                <li *ngIf="ticketSlots && ticketSlots.length > 0">
+                                    <div class="d-flex flex-row bd-highlight "
+                                        *ngFor="let tickets of ticketSlots; let i = index">
+                                        <div class="form-group checkIcon pr-2 bd-highlight">
+                                            <input type="checkbox" id="vehicle{{i+1}}" name="vehicle{{i+1}}"
+                                                [checked]="tickets.isSelected" (change)="onSelectCitation(tickets)">
+                                            <label for="vehicle{{i+1}}"></label>
+                                        </div>
+                                        <div class="pr-2 bd-highlight">
+                                            <div class="align-items-end justify-content-end">
+                                                {{tickets.citationNumber}}
+                                                <span *ngIf="tickets?.slotTime"> --
+                                                    {{tickets?.slotTime | date: 'MMM d, y, h:mm a'}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <mat-form-field color="primary" class="w-100 open-account mt-3" appearance="fill">
+                            <mat-label>{{ "Court Name" | translate }}</mat-label>
+                            <mat-select formControlName="courtName" [id]="'courtName'">
+                                <mat-option *ngFor="let rule of nameResp" value="{{rule.courtsID}}"
+                                    (click)="onSelectCourtName(rule.leadDays)">
+                                    {{rule.name}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error [id]="'courtName'"
+                                *ngIf="scheduleHearingForm.get('courtName')?.hasError('required')">
+                                {{ 'Court Name Is Required' | translate }}
+                            </mat-error>
+                        </mat-form-field>
+                        <mat-form-field color="primary" class="w-100 mt-3 open-account" appearance="fill">
+                            <mat-label>{{ "Type" | translate }}</mat-label>
+                            <mat-select formControlName="type" [id]="'type'">
+                                <mat-option *ngFor="let rule of typeResp" value="{{rule.courtRoomTypeID}}">
+                                    {{rule.roomTypeDescription}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error [id]="'Type'" *ngIf="scheduleHearingForm.get('type')?.hasError('required')">
+                                {{ 'Type Is Required' | translate }}
+                            </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field color="primary" class="w-100 mt-3 open-account" appearance="fill">
+                            <mat-label>{{ "Category" | translate }}</mat-label>
+                            <mat-select formControlName="category" [id]="'category'">
+                                <mat-option *ngFor="let rule of categoryResp" value="{{rule.courtRoomCategoryID}}">
+                                    {{rule.categoryDescription}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error [id]="'category'"
+                                *ngIf="scheduleHearingForm.get('category')?.hasError('required')">
+                                {{ 'Category Is Required' | translate }}
+                            </mat-error>
+                        </mat-form-field>
+
+                        <div class="row">
+                            <div class="col-6">
+                                <mat-form-field appearance="fill" class="w-100 m-0 p-0">
+                                    <mat-label>{{"From Date" | translate}}</mat-label>
+                                    <input matInput [matDatepicker]="startDatepicker" [id]="'startDate'"
+                                        placeholder="{{'from'| translate}}" formControlName="startDate">
+                                    <mat-datepicker-toggle matSuffix [for]="startDatepicker"></mat-datepicker-toggle>
+                                    <mat-datepicker #startDatepicker></mat-datepicker>
+                                    <mat-error [id]="'startDatepickerError'"
+                                        *ngIf="scheduleHearingForm.get('startDate')?.hasError('required')">
+                                        {{ 'Start Date Is Required' | translate }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-6">
+                                <mat-form-field appearance="fill" class="w-100 m-0 p-0">
+                                    <mat-label>{{"To Date" | translate}}</mat-label>
+                                    <input matInput [matDatepicker]="endDatepicker" [id]="'endDate'"
+                                        placeholder="{{'to'| translate}}" formControlName="endDate">
+                                    <mat-datepicker-toggle matSuffix [for]="endDatepicker"></mat-datepicker-toggle>
+                                    <mat-datepicker #endDatepicker></mat-datepicker>
+                                    <mat-error [id]="'category'"
+                                        *ngIf="scheduleHearingForm.get('endDate')?.hasError('required')">
+                                        {{ 'End Date Is Required' | translate }}
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <button mat-stroked-button class="apply-form edit-blue mt-4 mr-2"
+                                (click)="onClickNextAvailable()">
+                                {{ "NEXT AVAILABLE" | translate }}
+                            </button>
+                            <button mat-stroked-button class="apply-form edit-blue mt-4 btn "
+                                (click)="onClickContinue()" type="submit">
+                                {{ "CONTINUE" | translate }}
+                            </button>
+                        </div>
+                        <div>
+                        </div>
+                    </mat-expansion-panel>
+                </mat-accordion>
+                <mat-accordion class="mt-2" *ngIf="isShow">
+                    <mat-expansion-panel class="p-0" [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                {{ "Selected Slots and Tickets" | translate }}
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <ul class="selectedticketlist mt-3">
+                            <li *ngFor="let item of selectedSlots">
+                                <div class="head-slot d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <span class="material-icons">arrow_drop_down</span>
+                                        <span class="slotes">Slot {{item?.srNo}}</span>
+                                    </div>
+                                    <span class="Date-text">{{item.slotTime ? (item.slotTime | date : 'MMM d, y, h:mma')
+                                        : ''}}</span>
+                                    <span class="ticket-text"> {{item.length}} Tickets</span>
+                                </div>
+                                <div class="body-slot"><p>{{ item?.citationNumbers }}</p></div>
+                            </li>
+
+                        </ul>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </form>
+        </div>
+        <div class="col-md-8">
+            <div class="calender" *ngIf="!isShow">
+                <div class="row mb-3">
+
+                    <div class="col-12">
+                        <div class="text-center">
+                            <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+                        </div>
+                    </div>
+                </div>
+                <div [ngSwitch]="view">
+                    <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events"
+                        [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen" (dayClicked)="dayClicked($event.day)"
+                        (eventClicked)="getWeek($event.event.start)">
+                    </mwl-calendar-month-view>
+                    <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [viewDate]="viewDate" [events]="events"
+                        [refresh]="refresh" (eventClicked)="addBookingSlot($event)">
+                    </mwl-calendar-week-view>
+                </div>
+            </div>
+            <div class="col-md-12 d-flex ">
+                <!-- <div class=" justify-content-center">
+                    <button mat-stroked-button class="apply-form edit-blue mt-4 btn mr-2" (click)="back()"  *ngIf="btnBack">
+                        {{ "BACK" | translate }} </button>
+                </div> -->
+                <div class="justify-content-end">
+                    <button mat-stroked-button class="apply-form edit-blue mt-4 btn mr-2" (click)="cancel()">
+                        {{ "CANCEL" | translate }}
+                    </button>
+                </div>
+                <div class="justify-content-end">
+                    <button mat-stroked-button class="apply-form edit-blue mt-4 btn mr-2" *ngIf="btnContinue"
+                        (click)="Continue()">
+                        {{ "CONTINUE" | translate }}
+                    </button>
+                </div>
+                <div class="justify-content-end">
+                    <button mat-stroked-button class="apply-form edit-blue mt-4 btn mr-2" type="submit"
+                        (click)="onSaveEvent()" *ngIf="addSave">
+                        {{ "SAVE" | translate }}
+                    </button>
+                </div>
+            </div>
+        </div>

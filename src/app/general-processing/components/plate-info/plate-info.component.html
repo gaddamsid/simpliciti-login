@@ -1,0 +1,473 @@
+<div class="container-fluid toggle-accordian position-relative">
+
+
+    <button _ngcontent-fhj-c336="" class="accordian-button" (click)="shouldShow = !shouldShow" (click)="status=!status"
+        [ngClass]="status ? 'collapse' : 'expand'">
+        <mat-icon role="img" class="mat-icon" aria-hidden="true"><span class="material-icons">expand_less</span>
+        </mat-icon>
+    </button>
+
+    <div class="custom-accordian">
+        <div class="outer-box">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="top-table">
+                        <div class="align-items-center d-flex icon justify-content-around">
+                            <div class="align-items-center d-flex eventicons justify-content-center p-2">
+                                <button mat-button class="line-text">
+                                    <img src=" ./assets/images/Add%20Ticket.png" width="28px" />
+                                </button>
+                                <button mat-button>
+                                    <img src="./assets/images/Group%207658.svg" width="17px" />
+                                </button>
+                                <button mat-button>
+                                    <img src="./assets/images/Group%208243.svg" />
+                                </button>
+                                <button [id]="'eventl1'" mat-button [matMenuTriggerFor]="menu">
+                                    <img [id]="'eventl2'" src="./assets/images/Group%208102.svg" width="35px" />
+                                </button>
+                                <button mat-button [matMenuTriggerFor]="menuItems" [id]="'lineicon'">
+                                    <img src="./assets/images/Group%208257.svg" />
+                                </button>
+                                <mat-menu #menu="matMenu">
+                                    <!-- <button mat-menu-item>Xl</button>
+                                    <button mat-menu-item>Xl Detail</button> -->
+                                    <button mat-menu-item (click)="downloadAsPDF();">{{ "PDF" | translate }}</button>
+                                    <!-- <button mat-menu-item>CSV</button> -->
+                                    <button mat-menu-item printSectionId="prTable" ngxPrint>{{ "PRINT" | translate
+                                        }}</button>
+                                </mat-menu>
+                                <mat-menu #menuItems="matMenu">
+                                    <button mat-menu-item (click)="goToAddTicketPage();" [id]="'goToAddTicketPage'">{{
+                                        "Add Ticket" | translate
+                                        }}</button>
+                                    <button mat-menu-item (click)="goToAddNotes();" [id]="'goToAddNotes'">{{ "Add Notes"
+                                        | translate
+                                        }}</button>
+                                    <button mat-menu-item *ngIf="router.url.includes('entity')" (click)="goToPlateHistory();" [id]="'goToPlateHistory'">{{
+                                        "Plate History" | translate
+                                        }}</button>
+                                    <button mat-menu-item (click)="goToPlateDetails();" [id]="'goToPlateDetails'">{{
+                                        "Plate Details" | translate
+                                        }}</button>
+                                </mat-menu>
+                            </div>
+                            <div class="align-items-center d-flex h-100 plates">
+                                <ul>
+                                    <li>
+                                        <!-- <img src="assets/Plate/Group 9349.svg" width="33px" class="line-text"> -->
+                                        <mat-icon class="line-text">keyboard_arrow_left</mat-icon><a
+                                            href=""><span></span></a>
+                                    </li>
+                                    <li><a href=""><span></span>
+                                            <!-- <img src="assets/Plate/Group 9348.svg" width="33px"> -->
+                                            <mat-icon class="line-text">keyboard_arrow_right</mat-icon>
+                                        </a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+
+
+            <div class="row" [ngClass]="{openAccordian: shouldShow, closeAccordian: !shouldShow}" id="prTable" #prTable>
+                <div class="col-6  mr-0 pr-0">
+                    <div class="row">
+                        <div class="col-md-6 border-right-1 mr-0 pr-0 pl-0">
+                            <p class="blacked-title border-0 m-0"><span>{{"Plate Identification" | translate}}</span>
+                            </p>
+                            <div class="innergrid">
+                                <div class="plate-identification p-2">
+                                    <div class="d-flex justify-content-between">
+                                        <p class="f-12">{{"Plate No."| translate}}</p>
+                                        <p class="f-12 font-weight-bold  w-120px">
+                                            {{entityDetails?.plateDetails?.plateNumber}}</p>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <p class="f-12">{{"VIN" | translate}}</p>
+                                        <p class="f-12 font-weight-bold w-120px">
+                                            {{entityDetails?.plateDetails?.vinNumber}}
+                                        </p>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <p class="f-12">{{"Registration Expiration Date" | translate}}</p>
+                                        <p class="f-12 font-weight-bold w-120px">
+                                            {{entityDetails?.plateDetails?.plateExpireDate}}
+                                        </p>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <p class="f-12">{{"Entity Number" | translate}}</p>
+                                        <p class="f-12 font-weight-bold w-120px">
+                                            {{entityDetails?.plateDetails?.entityNumber}}</p>
+                                    </div>
+                                    <hr class="m-0 p-0">
+                                    <div class="d-flex justify-content-between mt-3 sourceDiv">
+                                        <p class="f-12">{{"Source and Date" | translate}}</p>
+                                        <p class="d-flex flex-column f-12 font-weight-bold ">
+                                            {{entityDetails?.plateDetails?.source|uppercase}}
+                                            {{entityDetails?.plateDetails?.sourceDate}}
+                                            <a class="link-text f-12 cursorLink">{{"DMV INQUIRY" | translate}}</a>
+                                        </p>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <p><img src="assets/Plate/Group 9975.svg" width="30px" class="line-text"> <img
+                                                src="assets/Plate/Group 7571.svg" width="30px" class="line-text"></p>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 border-right-1 ml-0 pl-0">
+                            <!-- <p class="blacked-title border-0 m-0">Owner Identification</p> -->
+                            <div class="align-items-center blacked d-flex justify-content-between m-0 iconHeight">
+                                <p class="align-items-center d-flex m-0"><span>{{"Owner Identification" | translate}}
+                                    </span>
+                                </p>
+                                <mat-icon role="img" class="mat-icon notranslate" aria-hidden="true"><span
+                                        class="material-icons">{{"edit"| translate}}</span>
+                                </mat-icon>
+                            </div>
+                            <div class="innergrid">
+                                <table class="gridTable">
+                                    <tr>
+                                        <td>{{"Name"| translate}}</td>
+                                        <td><b>{{entityDetails?.ownerDetails?.ownerName}}</b></td>
+                                    </tr>
+                                    <!-- <tr>
+                                        <td>VIN</td>
+                                        <td>-</td>
+                                    </tr> -->
+                                    <tr>
+                                        <td>{{"Driver License Number"| translate}}</td>
+                                        <td><b>{{entityDetails?.ownerDetails?.driverLicense}}</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td>{{"Date Of Birth"| translate}}</td>
+                                        <td><b>{{entityDetails?.ownerDetails?.dateOfBirth}}</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td>{{"Address"| translate}}</td>
+                                        <td style="overflow-wrap: anywhere;">
+                                            <b>{{entityDetails?.ownerDetails?.address?.streetLine1}},
+                                                {{entityDetails?.ownerDetails?.address?.streetLine2}},
+                                                {{entityDetails?.ownerDetails?.address?.streetLine3}},
+                                                {{entityDetails?.ownerDetails?.address?.city}},
+                                                {{entityDetails?.ownerDetails?.address?.state}}-
+                                                {{entityDetails?.ownerDetails?.address?.zipCode}}
+                                            </b>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>{{"Phone"| translate}}</td>
+                                        <td><b>{{entityDetails?.ownerDetails?.address?.phoneNumber}}</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td>{{"Email Id"| translate}}</td>
+                                        <td><b>{{entityDetails?.ownerDetails?.address?.email}}</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td>{{"Ownership Start Date"| translate}}</td>
+                                        <td><b>{{entityDetails?.ownerDetails?.ownershipStartDate}}</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td><img src="assets/Plate/Group 9978.svg" width="33px"><img
+                                                src="assets/Plate/Group 7569.svg" style="width: 28px;margin-top: 9px;">
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6  ml-0 pl-0">
+                    <div class="row h-100">
+
+                        <div class="col-md-4 border-right-1 mr-0 pr-0 ">
+
+                            <p class="blacked-title border-0 m-0">{{"Ticket Count"| translate}}</p>
+                            <div class="innergrid border-0">
+                                <table class="ticketTable">
+                                    <tr>
+                                        <td>{{"Open Tickets"| translate}}</td>
+                                        <td><b>{{entityDetails?.citationCount?.openTickets}}</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td>{{"Closed Tickets"| translate}}</td>
+                                        <td><b>{{entityDetails?.citationCount?.closedTickets}}</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td>{{"Boot Eligible Tickets"| translate}}</td>
+                                        <td><b>{{entityDetails?.citationCount?.bootEligibleTickets}}</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td>{{"Marked/Held Tickets"| translate}}</td>
+                                        <td><b>{{entityDetails?.citationCount?.heldTickets}}</b></td>
+                                    </tr>
+
+
+                                </table>
+
+
+                            </div>
+                        </div>
+                        <div class="col-md-4 border-right-1 ml-0 pl-0" style="padding-right: 0px!important;">
+                            <p class="blacked-title border-0 m-0">{{"Amount Due"| translate}}</p>
+                            <div class="innergrid border-0">
+                                <table class="Second-table">
+                                    <tr>
+                                        <td>{{"Total Fine"| translate}}</td>
+                                        <td><b>{{((entityDetails?.totalAmountDue?.fines)?
+                                                (entityDetails?.totalAmountDue?.fines ): 0) | currency}}</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td>{{"Penalties"| translate}}</td>
+                                        <td><b>{{(entityDetails?.totalAmountDue?.penalties?
+                                                entityDetails?.totalAmountDue?.penalties : 0) | currency}}</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td>{{"Plate Fees"| translate}}</td>
+                                        <td><b>{{(entityDetails?.totalAmountDue?.plateFees?
+                                                entityDetails?.totalAmountDue?.plateFees: 0) | currency}}</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td>{{"Interests"| translate}}</td>
+                                        <td><b>{{(entityDetails?.totalAmountDue?.interests?
+                                                entityDetails?.totalAmountDue?.interests: 0) | currency}}</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td>{{"Reductions"| translate}}</td>
+                                        <td><b>{{(entityDetails?.totalAmountDue?.reductions?
+                                                entityDetails?.totalAmountDue?.reductions: 0) | currency}}</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td>{{"Payments"| translate}}</td>
+                                        <td><b>{{(entityDetails?.totalAmountDue?.payments?
+                                                entityDetails?.totalAmountDue?.payments: 0) | currency}}</b></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>{{"Amount Due"| translate}}</td>
+                                        <td><b>{{(entityDetails?.totalAmountDue?.amountDue?
+                                                entityDetails?.totalAmountDue?.amountDue: 0) | currency}}</b></td>
+                                    </tr>
+
+                                </table>
+
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 border-right-1 ml-0 pl-0 pr-0">
+                            <p class="blacked-title border-0 m-0">{{"Status"| translate}}</p>
+                            <div class="innergrid border-0">
+                                <table>
+                                    <tr>
+                                        <td>{{entityDetails?.status?.notes}}</td>
+                                        <td>
+                                            <a class="link-text cursorLink" id="cursorLink"
+                                                (click)="openNotesViewDialog(entityDetails?.plateDetails?.accountEntityId)">{{"VIEW"|
+                                                translate}}</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>{{"CB Fraud"| translate}}</td>
+                                        <td><b>{{entityDetails?.status?.CBFraud}}</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td>{{"Prev Marked"| translate}}</td>
+                                        <td><b>{{entityDetails?.status?.PrevMarked}}</b></td>
+                                    </tr>
+                                    <tr>
+                                        <td>{{"DMV Hold"| translate}}</td>
+                                        <td><b>{{entityDetails?.status?.DMVHold}}</b></td>
+                                    </tr>
+                                </table>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="pdfTable" #pdfTable>
+                <table style="display: none;">
+                    <tr>
+                        <th>{{"Plate Identification" | translate}}</th>
+                        <th>{{"Owner Identification" | translate}}</th>
+                        <th>{{"Ticket Count" | translate}}</th>
+                        <th>{{"Amount Due" | translate}}</th>
+                        <th>{{"Status" | translate}}</th>
+
+                    </tr>
+                    <tr>
+                        <td>
+                            <table>
+                                <tr>
+                                    <td>{{"Plate No.:"| translate}} {{entityDetails?.plateDetails?.plateNumber}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{"VIN:" | translate}} {{entityDetails?.plateDetails?.vinNumber}}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>{{"Registration Expiration Date:"| translate}}
+                                        {{entityDetails?.plateDetails?.plateExpireDate}}</td>
+                                </tr>
+
+
+                                <tr>
+                                    <td>{{"Entity Number:"| translate}} {{entityDetails?.plateDetails?.entityNumber}}
+                                    </td>
+                                </tr>
+
+
+                                <tr>
+                                    <td>{{"Source and Date:"| translate}} {{entityDetails?.plateDetails?.source}}
+                                        {{entityDetails?.plateDetails?.sourceDate}}</td>
+                                </tr>
+
+
+
+
+
+
+                            </table>
+                        </td>
+                        <td>
+                            <table>
+                                <tr>
+                                    <td>{{"Name:"| translate}} {{entityDetails?.ownerDetails?.ownerName}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{"Driver License Number:"| translate}}
+                                        {{entityDetails?.ownerDetails?.driverLicense}}</td>
+                                </tr>
+
+
+                                <tr>
+                                    <td>{{"Date Of Birth:"| translate}} {{entityDetails?.ownerDetails?.dateOfBirth}}
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>{{"Address:"| translate}}
+                                        {{entityDetails?.ownerDetails?.address?.streetLine2}},
+                                        {{entityDetails?.ownerDetails?.address?.streetLine2}},
+                                        {{entityDetails?.ownerDetails?.address?.streetLine3}},
+                                        {{entityDetails?.ownerDetails?.address?.city}},
+                                        {{entityDetails?.ownerDetails?.address?.state}}-
+                                        {{entityDetails?.ownerDetails?.address?.zipCode}}
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>{{"Phone:"| translate}} {{entityDetails?.ownerDetails?.address?.phoneNumber}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>{{"Email Id:"| translate}} {{entityDetails?.ownerDetails?.address?.email}}</td>
+                                </tr>
+                                <tr>
+
+                                    <td>{{"Ownership Start Date:"| translate}}
+                                        {{entityDetails?.ownerDetails?.ownershipStartDate}}</td>
+
+                                </tr>
+
+                            </table>
+                        </td>
+                        <td>
+                            <table>
+                                <tr>
+                                    <td>{{"Open Tickets"|translate}} {{entityDetails?.citationCount?.openTickets}}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>{{"Closed Tickets"|translate}} {{entityDetails?.citationCount?.closedTickets}}
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>{{"Boot Eligibile Tickets"|translate}}
+                                        {{entityDetails?.citationCount?.bootEligibleTickets}}</td>
+                                </tr>
+
+                                <tr>
+                                    <td>{{"Marked/Held Tickets"|translate}}
+                                        {{entityDetails?.citationCount?.heldTickets}}</td>
+                                </tr>
+
+
+
+                            </table>
+                        </td>
+                        <td>
+                            <table>
+                                <tr>
+                                    <td>{{"Total Fine"| translate}} {{((entityDetails?.totalAmountDue?.fines)?
+                                        (entityDetails?.totalAmountDue?.fines ): 0) | currency}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{"Penalties"| translate}} {{(entityDetails?.totalAmountDue?.penalties?
+                                        entityDetails?.totalAmountDue?.penalties : 0) | currency}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{"Plate Fees"| translate}} {{(entityDetails?.totalAmountDue?.plateFees?
+                                        entityDetails?.totalAmountDue?.plateFees: 0) | currency}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{"Interests"| translate}} {{(entityDetails?.totalAmountDue?.interests?
+                                        entityDetails?.totalAmountDue?.interests: 0) | currency}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{"Reductions"| translate}} {{(entityDetails?.totalAmountDue?.reductions?
+                                        entityDetails?.totalAmountDue?.reductions: 0) | currency}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{"Payments"| translate}} {{(entityDetails?.totalAmountDue?.payments?
+                                        entityDetails?.totalAmountDue?.payments: 0) | currency}}</td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td>
+                            <table>
+                                <tr>
+                                    <td>{{entityDetails?.status?.notes}} <a class="link-text">{{"VIEW"| translate}}</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>{{"CB Fraud"| translate}} {{entityDetails?.status?.CBFraud}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{"Prev Marked"| translate}} {{entityDetails?.status?.PrevMarked}}</td>
+                                </tr>
+                                <tr>
+                                    <td>{{"DMV Hold"| translate}} {{entityDetails?.status?.DMVHold}}</td>
+                                </tr>
+
+                            </table>
+                        </td>
+                    </tr>
+
+
+
+
+                </table>
+            </div>
+            <!-- <ng-template #myDialog>
+                        <mat-dialog-content class="shuffle-gallery-scroll">
+                            <div class="custom-suffle">
+                                <app-notes-view></app-notes-view>
+                            </div>
+                        </mat-dialog-content>
+                        <mat-dialog-actions align="end">
+                            <button mat-button matDialogClose color="primary">{{"Dismiss" | translate }}</button>
+                        </mat-dialog-actions>
+                    </ng-template> -->

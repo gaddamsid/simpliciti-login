@@ -1,0 +1,524 @@
+<h3 class="header-title">
+  {{"End Behaviors"| translate }}
+</h3>
+<div mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="queueData" cdkFocusInitial></button>
+</div>
+<div class="container-fluid">
+  <div *ngIf="showForm || behaviorNew">
+    <form [formGroup]="EndBehviorsForm" (ngSubmit)="addData(EndBehviorsForm.value, formDirective)" #formDirective="ngForm">
+      <div class="row">
+        <div class="col-md-3">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>{{ "Name" | translate }}</mat-label>
+            <input matInput placeholder="Type" [id]="'behaviorsName'" maxlength="50"
+             formControlName="behaviorsName"  (keypress)="restrictWhiteSpace($event)"/>
+            <mat-error *ngIf="EndBehviorsForm.get('behaviorsName')?.hasError('required')" [id]="'error_behaviorsName1'">
+              {{ 'Behavior Name is required' | translate }}
+            </mat-error>
+            <mat-error *ngIf="EndBehviorsForm.get('behaviorsName')?.hasError('invalid')" [id]="'error_behaviorsName2'">
+              {{ "Duplicate Record Found" | translate }}
+            </mat-error>
+          </mat-form-field>
+          <!-- <mat-checkbox color="primary" formControlName="isRegistrationHold">{{"Is Registration Hold" | translate}}</mat-checkbox> -->
+        </div>
+        <div class="col-md-3">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>{{"Trigger" | translate}}</mat-label>
+            <mat-select formControlName="isEntrance" [id]="'Trigger'">
+              <mat-option value="Y">{{"Entrance" | translate}}</mat-option>
+              <mat-option value="N">{{"Exit" | translate}}</mat-option>
+            </mat-select>
+            <!-- ERRORS -->
+            <mat-error *ngIf="EndBehviorsForm.get('isEntrance')?.hasError('required')" [id]="'error_isEntrance1'">
+              {{ 'Trigger is required' | translate }}
+            </mat-error>
+            <!-- ERRORS -->
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field appearance="fill" class="w-100">
+              <mat-label>{{'Order' | translate}}</mat-label>
+              <input type="number"  max="9999" matInput [id]="'behaviorsOrder'" formControlName="behaviorsOrder" 
+              [id]="'behaviorsOrder'" min="1" maxlength = "4" oninput="this.value=this.value.slice(0,this.maxLength)"/>
+              <mat-error *ngIf="EndBehviorsForm.get('behaviorsOrder')?.hasError('required')" [id]="'error_behaviorsOrder1'">{{'Behavior Order is Required' | translate}}</mat-error>
+              <mat-error *ngIf="EndBehviorsForm.get('behaviorsOrder')?.hasError('invalid')" [id]="'error_behaviorsOrder2'">
+                {{ EndBehviorsForm.get('behaviorsOrder')?.getError('invalid') | translate }}
+              </mat-error>
+              <mat-error *ngIf="EndBehviorsForm.get('behaviorsOrder')?.hasError('min')" [id]="'error_behaviorsOrder3'">
+                {{ 'Order must be in the range 1 to 9999' | translate }}
+              </mat-error>
+            </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>{{"Behavior Type" | translate}}</mat-label>
+            <mat-select [id]="'behaviorTypesID'" name="behaviorTypesID" formControlName="behaviorTypesID"
+              (selectionChange)="changeBehaviourType($event.value)">
+              <mat-option *ngFor="let item of queueList" value="{{item.behaviorTypesID}}">
+                {{item.behaviorTypesName}} </mat-option>
+            </mat-select>
+            <mat-error *ngIf="EndBehviorsForm.get('behaviorTypesID')?.hasError('required')" [id]="'error_behaviorTypesID1'">
+              {{ 'Behavior Types ID is required' | translate }}
+            </mat-error>
+
+          </mat-form-field>
+        </div>
+      </div>
+      <!-- <div class="row" *ngIf="(behaviorTypesName === 'Fleet License Plate Lookup')">
+        <div class="col-md-3">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>{{"Transition" | translate}}</mat-label>
+            <mat-select [id]="'transitionsId'" formControlName="transitionsID"
+              (selectionChange)="transitionSelect($event)">
+              <mat-option *ngFor="let item of transitionVal" [value]="item.transitionsID">
+                {{item.transitionsName}} </mat-option>
+            </mat-select>
+            <mat-error *ngIf="EndBehviorsForm.get('transitionsID')?.hasError('required')" [id]="'errortransitionsID'">
+              {{ 'Transition is Required' | translate }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+     </div>
+        <div class="row" *ngIf="(behaviorTypesName === 'Court Date')">
+        <div class="col-md-3">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>{{ "subject" | translate }}</mat-label>
+            <input matInput placeholder="Duration" type="number" min="0" max="150"  [id]="'Duration'" formControlName="duration" />
+            <mat-error *ngIf="EndBehviorsForm.get('duration')?.hasError('max')" [id]="'isActive1'">
+              {{ 'Duration must be between 0 to 150 days' | translate }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div> -->
+      <div class="row section-accordian">
+        <div class="col">
+          <div class="tabs mt-2">
+            <div class="tab">
+              <input   (click)="toggleShow()" type="checkbox" [id]="'isRegistrationHold'" class="mr-1" formControlName="isRegistrationHold">
+              <label class="tab-label" id="divshow1" for="chck1">{{ "Is Registration Hold" | translate }}</label>
+              <div class="tab-content" *ngIf="EndBehviorsForm.get('isRegistrationHold')?.value" id="divshow">
+                <div class="row">
+                  <div class="col-md-3">
+                    <mat-form-field appearance="fill" class="w-100">
+                      <mat-label>{{"Registration Hold Accept Indicator" | translate}}</mat-label>
+                      <mat-select [id]="'registrationHoldAccept'" formControlName="registrationHoldAccept">
+                        <mat-option value="Yes">{{"Yes" | translate}}</mat-option>
+                        <mat-option value="No">{{"No" | translate}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                  <div class="col-md-3">
+                    <mat-form-field appearance="fill" class="w-100">
+                      <mat-label>{{"Registration Hold Reject Indicator" | translate}}</mat-label>
+                      <mat-select [id]="'registrationHoldReject'" formControlName="registrationHoldReject">
+                        <mat-option value="Yes">{{"Yes" | translate}}</mat-option>
+                        <mat-option value="No">{{"No" | translate}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="(behaviorTypesName === 'Fleet License Plate Lookup')">
+        <div class="col-md-3">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>{{"Transition" | translate}}</mat-label>
+            <mat-select [id]="'transitionsID'" name="transitionsID" formControlName="transitionsID">
+              <mat-option *ngFor="let item of transitionVal" value="{{item.transitionsID}}">
+                {{item.transitionsName}} </mat-option>
+            </mat-select>
+            <mat-error *ngIf="EndBehviorsForm.get('transitionsID')?.hasError('required')" [id]="'error_transitionsID1'">
+              {{ 'Transitions ID is required' | translate }}
+            </mat-error>
+          </mat-form-field>
+          <p *ngIf="!transitionVal.length" class="text-danger">{{'Please Add Transitions'}}</p>
+        </div>
+      </div>
+      <div class="row" *ngIf="(behaviorTypesName === 'Court Date')">
+        <div class="col-md-3">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>{{ "Duration" | translate }}</mat-label>
+            <input matInput placeholder="Duration" type="number" min="0" max="150" maxlength = "3" oninput="this.value=this.value.slice(0,this.maxLength)" [id]="'duration'" onkeypress="return event.charCode >= 48 && event.charCode <= 57" onpaste="return event.charCode >= 48 && event.charCode <= 57" formControlName="duration" />
+            <mat-error *ngIf="EndBehviorsForm.get('duration')?.hasError('max')" [id]="'error_duration'">
+              {{ 'Duration must be between 0 to 150 days' | translate }}
+            </mat-error>
+            <mat-error *ngIf="EndBehviorsForm.get('duration')?.hasError('pattern')" [id]="'error_duration'">
+              {{ 'Duration must not be decimal' | translate }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row" *ngIf="(behaviorTypesName === 'ConditionalEmail')">
+        <div *ngIf="conditionalEmailEnable" class="col-md-3">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>{{ "subject" | translate }}</mat-label>
+            <input matInput placeholder="Type" formControlName="subject" name="subject" [id]="'subject'" maxlength="150"
+              appNotAllowWhiteSpaceStart />
+            <mat-error *ngIf="EndBehviorsForm.get('subject')?.hasError('required')" [id]="'error_subject1'">
+              {{'subject_required' | translate}}
+            </mat-error>
+            <mat-error *ngIf="EndBehviorsForm.get('subject')?.hasError('invalid')" [id]="'error_subject2'">
+              {{ 'invalid' | translate }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div *ngIf="conditionalEmailEnable" class="col-md-3">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>{{ "narrative" | translate }}</mat-label>
+            <input matInput placeholder="Type" formControlName="narrative" name="narrative" [id]="'narrative'" maxlength="200"
+              appNotAllowWhiteSpaceStart />
+            <mat-error *ngIf="EndBehviorsForm.get('narrative')?.hasError('required')" [id]="'error_narrative1'">
+              {{'narrative_required' | translate}}
+            </mat-error>
+            <mat-error *ngIf="EndBehviorsForm.get('narrative')?.hasError('invalid')" [id]="'error_narrative2'">
+              {{ 'invalid' | translate }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div *ngIf="conditionalEmailEnable" class="col-md-3">
+          <mat-form-field ngDefaultControl appearance="fill" class="w-100">
+            <mat-label>{{"Role" | translate}}</mat-label>
+            <mat-select [id]="'rolesID'" name="rolesID" formControlName="rolesID">
+              <mat-option value=""> {{'Select' | translate}}</mat-option>
+              <mat-option *ngFor="let item of roleList" value="{{item.rolesId}}">
+                {{item.name}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="EndBehviorsForm.get('rolesID')?.hasError('required')" [id]="'error_role1'">
+              {{'role_required' | translate}}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div *ngIf="conditionalEmailEnable" class="col-md-3">
+          <mat-form-field ngDefaultControl appearance="fill" class="w-100">
+            <mat-label>{{"Categories" | translate}}</mat-label>
+            <mat-select [id]="'categoryId'" name="categoryId" formControlName="categoryId">
+              <mat-option value=""> {{'Select' | translate}}</mat-option>
+              <mat-option *ngFor="let item of categoriesList" value="{{item.categoriesID}}">
+                {{item.categoriesName}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="EndBehviorsForm.get('categoryId')?.hasError('required')" [id]="'error_categoryId1'">
+              {{'categories_required' | translate}}
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+<!-- EPORT XML -->
+
+      <div class="export-xml" *ngIf = "xmlExportEnable">
+        <div class="row">
+          <div class="col-md-3">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>{{ "Filename format" | translate }}</mat-label>
+              <input matInput placeholder="Type" [id]="'fileformat'"  formControlName="fileName" />
+            </mat-form-field>
+          </div>
+          <div class="col-md-3">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>{{"Date Format" | translate}}</mat-label>
+              <mat-select formControlName="dateTypeFormatsID" [id]="'dateTypeFormatsID'">
+                <mat-option value=""> {{'Select' | translate}}</mat-option>
+               <mat-option *ngFor="let item of dateFormat"   value="{{item.dateTypeFormatsID}}">
+                {{item.format}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-md-3 mt-2">
+            <input #fileInput type="file" hidden (change)="exportxmlFile($event)" [id]="'exportFile'" formControlName="exportFile" accept=".xsd">
+            <button mat-raised-button type="button" class="m-1 color-blue" [id]="'chooseFile'"
+                        (click)="fileInput.click()">{{"Choose File" | translate}}</button>
+                    {{fileName}} 
+                    <span [id]="'errormsg'" class="d-block f-12">
+                      {{'Please Upload file only XSD format' |translate }}
+                    </span>
+          </div>
+         
+          <div class="col-md-3"></div>
+        </div>
+        
+        <div class="row">
+          <div class="col-md-12">
+          <mat-checkbox color="primary" formControlName="hashGeneration" [id]="'hashGeneration'">{{"Hash Generatio" | translate}}</mat-checkbox>
+          <mat-checkbox color="primary" class="ml-2" formControlName="includeAllEventsIntoFile" [id]="'includeAllEventsIntoFile'">{{"IncludeAllEvents" | translate}}</mat-checkbox>
+          </div>
+        </div>
+        <div *ngIf ="enablexmlTable">
+        <div class="row">
+          <div class="col-md-12">
+            <h4 class="blacked-title">{{'Xml Export Fields' | translate}}</h4>
+            <div>
+              <table mat-table [dataSource]="xmldataSource" class="mat-elevation-z8" matSort>
+              <ng-container matColumnDef="xmlelement">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'Xml Element' | translate}}</th>
+                <td mat-cell *matCellDef="let element" class="text-left"> {{element.xmlElementPath}} </td>
+              </ng-container>
+              <ng-container matColumnDef="field">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'Field' | translate}}</th>
+                <td mat-cell *matCellDef="let element" class="text-left"> {{element.fieldName}} </td>
+              </ng-container>
+              <ng-container matColumnDef="constantvalue">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'Constant Value' | translate}}</th>
+                <td mat-cell *matCellDef="let element" class="text-left">  </td>
+              </ng-container>
+              <ng-container matColumnDef="default">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'Default' | translate}}</th>
+                <td mat-cell *matCellDef="let element" class="text-left"> {{element.default}} </td>
+              </ng-container>
+              <ng-container matColumnDef="dateformat">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> {{'Date Format' | translate}}</th>
+                <td mat-cell *matCellDef="let element" class="text-left"> {{element.dateTypeFormatName}} </td>
+              </ng-container>
+              <ng-container matColumnDef="action">
+                <tr>
+                  <th mat-header-cell *matHeaderCellDef>{{'Action' | translate}}</th>
+                </tr>
+                <tr>
+                  <td mat-cell *matCellDef="let row" class="text-center">
+                    <!-- <button mat-icon-button color="dark-grey" [id]="'Workflow10'" (click)="edit(row)"
+                      title="{{'Edit' | translate }}">
+                      <mat-icon [id]="'Workflow11'" class="edit-blue">edit</mat-icon>
+                    </button> -->
+                    <button mat-icon-button color="dark-grey" [id]="'delete'" type="button" title="{{'Delete' | translate }}">
+                      <mat-icon class="color-light-gray" (click)="deletexmlRecord(row.xmlExportFieldsID)">delete
+                      </mat-icon>
+                    </button>
+                    <!-- <button mat-icon-button color="dark-grey" [id]="'Workflow12'" title="{{'Disable' | translate }}"
+                      (click)="toggleClient(row, row.active)" *ngIf="row.active">
+                      <mat-icon [id]="'Workflow13'" class="color-red">block</mat-icon>
+                    </button> -->
+                    <!-- <button mat-icon-button color="dark-grey" [id]="'Workflow14'" title="{{'Enable' | translate }}"
+                      (click)="toggleClient(row, row.active)" *ngIf="!row.active">
+                      <mat-icon [id]="'Workflow15'" class="color-green">done_outline</mat-icon>
+                    </button> -->
+                  </td>
+                <tr>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="displayedXMLColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedXMLColumns;"></tr>
+            </table> 
+            </div>
+            <div class="add-field" *ngIf="addxmlFields">
+              <form [formGroup]="addFieldForm" (ngSubmit)="xmlfields_data(addFieldForm.value)">
+            <div class="row ">
+              <div class="col-md-3">
+                <mat-form-field appearance="fill" class="w-100">
+                  <mat-label>{{"XML element" | translate}}</mat-label>
+                  <mat-select  formControlName="xmlElementPath" [id]="'xmlElementPath'">
+                    <mat-option value=""> {{'Select' | translate}}</mat-option>
+                    <mat-option *ngFor="let item of xmlelementArray" value="{{item.xmlkey}}">
+                     {{item.xmlkey}}</mat-option>
+                    <!-- <mat-option value="root/root/customers">{{"root/root/customers" | translate}}</mat-option>
+                    <mat-option value="root/root/orders">{{"root/root/orders" | translate}}</mat-option> -->
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field appearance="fill" class="w-100">
+                  <mat-label>{{"Field" | translate}}</mat-label>
+                  <mat-select formControlName="fieldName" [id]="'fieldName'">
+                    <mat-option value=""> {{'Select' | translate}}</mat-option>
+                    <mat-option *ngFor="let item of xmlfield" value="{{item.fieldsName}}">
+                     {{item.fieldsName}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field appearance="fill" class="w-100">
+                  <mat-label>{{"Date Format" | translate}}</mat-label>
+                  <mat-select formControlName="dateTypeFormatName"  [id]="'dateTypeFormatName'">
+                    <mat-option value=""> {{'Select' | translate}}</mat-option>
+                    <mat-option *ngFor="let item of dateFormat" value="{{item.format}}">
+                     {{item.format}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field appearance="fill" class="w-100">
+                  <mat-label>{{ "Default" | translate }}</mat-label>
+                  <input matInput placeholder="Type" [id]="'Default'"   formControlName="default"/>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12 justify-content-end">
+                <button mat-raised-button type="button" [id]="'addmxl'" appearance="fill" type="submit" class="m-1 color-blue">
+                  {{ "Add" | translate }}
+                </button>
+              </div>
+            </div>
+          </form>
+          </div>
+
+            <div class="add-constant-field" *ngIf="constantfields">
+              <form [formGroup]="addconstantForm" (ngSubmit)="addconstants_data(addconstantForm.value)">
+              <div class="row add-constant-field">
+                <div class="col-md-3">
+                  <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{ "Name" | translate }}</mat-label>
+                    <input matInput placeholder="Type" [id]="'Name'"  formControlName="fieldsName"/>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                  <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{ "Value" | translate }}</mat-label>
+                    <input matInput placeholder="Type" [id]="'Value'" formControlName="fieldsDescription"/>
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                  <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{"XML Element" | translate}}</mat-label>
+                    <mat-select formControlName="xmlElementPath" [id]="'xmlElementPath'">
+                      <mat-option value=""> {{'Select' | translate}}</mat-option>
+                    <mat-option *ngFor="let item of xmlelementArray" value="{{item.xmlkey}}">
+                     {{item.xmlkey}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12 justify-content-end">
+                  <button mat-raised-button appearance="fill" [id]="'addConstants'" type="submit"  class="m-1 color-blue">
+                    {{ "Add" | translate }}
+                  </button>
+                </div>
+              </div>
+            </form>
+            </div>
+            <div class="d-flex">
+              <button mat-raised-button type="button" appearance="fill"  [id]="'addfield'" (click)="addXmlfields()"  class="m-1 color-blue">
+                {{ "Add Field" | translate }}
+              </button>
+              <button mat-raised-button type="button" appearance="fill"  [id]="'addConstants'" (click)="createConstantfields()" class="m-1 color-blue">
+                {{ "Create constant field" | translate }}
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-3">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>{{"Ftp Server" | translate}}</mat-label>
+              <mat-select formControlName="fileTransfersID" [id]="'fileTransfersID'" >
+                <mat-option value=""> {{'Select' | translate}}</mat-option>
+                    <mat-option *ngFor="let item of filetransfer" value="{{item.fileTransfersID}}">
+                     {{item.fileTransferProtocol}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      </div>
+     
+    
+     
+     <div class="row" *ngIf="(behaviorTypesName === 'Printing')">
+      <div class="col-md-4 align-items-center mt-3">
+        <mat-label> {{'Upload New Template' | translate}}</mat-label>
+        <div class="button-wrap position-relative">
+          <div class="d-flex">
+            <input #fileInput type="file" hidden accept=".pdf" (change)="handleFileInput($event.target)">
+            <button mat-raised-button type="button" class="m-1 color-blue" [id]="'chooseFile'"
+              (click)="fileInput.click()">{{"Choose File" | translate}}</button>
+            {{file}}
+          </div>
+          <span [id]="'errormsg'" class="f-12">
+            {{'Please Upload file only .Pdf format' |translate }}
+          </span>
+
+          <div>
+          </div>
+        </div>
+      </div>
+      <div class="container-fluid" *ngIf="IsFileUploadPrinting">
+        <br>
+
+        <h5 class="w-100 mt-3"> <b>Vendor Code</b></h5>
+        <div class="row mt-3">
+          <div class="col-md-3">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>{{'' | translate }}</mat-label>
+              <input type="text" maxlength="2" formControlName="contractCode" [id]="'contractCode'" matInput />
+              <mat-error *ngIf="EndBehviorsForm.get('contractCode')?.hasError('required')"
+                [id]="'error_contractCode1'">
+                {{ 'Contract Code is required' | translate }}
+              </mat-error>
+            </mat-form-field>
+
+          </div>
+          <div class="col-md-3">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>{{'Vendor Code' | translate }}</mat-label>
+              <input type="text" maxlength="3" formControlName="vendorCode" [id]="'vendorCode'" matInput />
+              <mat-error *ngIf="EndBehviorsForm.get('vendorCode')?.hasError('required')" [id]="'error_contractCode1'">
+                {{ 'Vender Code is required' | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <mat-checkbox formControlName="isExcludeToBatch" [id]="'isExcludeToBatch'" color="primary">{{"IsExcludeToBatch" |
+          translate}}</mat-checkbox>
+        <div class="row">
+          <div class="col-md-3">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>{{"Court hearing" | translate}}</mat-label>
+              <mat-select formControlName="courtHearingLetterType" [id]="'courtHearingLetterType'">
+                <mat-option value="">{{"Select" | translate}}</mat-option>
+                <mat-option value="Schedule">{{"Schedule" | translate}}</mat-option>
+                <mat-option value="Re_Schedule">{{"Re-Schedule" | translate}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-md-3">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>{{"Confirmation of Mailing" | translate}}</mat-label>
+              <mat-select formControlName="comWorkflowStatesID" [id]="'comWorkflowStatesID'">
+                <mat-option *ngFor="let item of ComWorkflowStatesList" value="{{item.workflowStatesID}}">
+                  {{item.workflowStatesName}}</mat-option>
+
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-md-3">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>{{"File Transfer" | translate}}</mat-label>
+              <mat-select formControlName="fileTransfersID" [id]="'fileTransfersID'">
+                <mat-option *ngFor="let item of FileTransfersList" value="{{item.fileTransfersID}}">{{item.name}}
+                </mat-option>
+
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-md-3">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>New Template Enable Date</mat-label>
+              <input matInput type="date" [min]="minDate" placeholder="{{'Date *'|translate}}"
+                formControlName="enableDate" [id]="'EnableDate'" />
+            </mat-form-field>
+          </div>
+        </div>
+
+      </div>
+    </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="d-flex justify-content-end">
+            <button mat-raised-button appearance="fill" [id]="'CancelBehavior'" class="m-1 color-blue" (click)="cancelAdding()">
+              {{ "Cancel" | translate }}
+            </button>
+            <button mat-raised-button appearance="fill" [id]="'SaveBehavior'" type="button" *ngIf="!addBtn" class="m-1 color-blue" (click)="updateRecord(EndBehviorsForm.value)">
+              {{ "Save" | translate }}
+            </button>
+            <button mat-raised-button appearance="fill" [id]="'AddBehavior'" type="submit" *ngIf="addBtn"
+              class="m-1 color-blue">
+              {{ "Add" | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>

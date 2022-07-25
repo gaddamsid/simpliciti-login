@@ -1,0 +1,7 @@
+
+<mat-card-content class="mat-card-content p-2 pt-0">
+    <div class="innergrid border-0" *ngIf="pageConfigObj && displayAddressFlag">
+        <app-dynamic-form-render-column  [pageConfig]="pageConfigObj" (saveFormOutput)="saveFormOutput($event)"
+        [defaultDropdwonValue]="defaultDropdwonValue" (cancelOutput)="cancelOutput($event)" (editFormOutput)="editFormOutput($event)" ></app-dynamic-form-render-column>
+    </div>
+</mat-card-content>

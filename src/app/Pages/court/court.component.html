@@ -1,0 +1,252 @@
+<h3 class="header-title"> {{'Court' | translate}}</h3>
+<div class="container-fluid" *ngIf="showAddForm">
+    <form [formGroup]="CourtForm" (ngSubmit)="addRecord(CourtForm.value)">
+        <div class="row">
+            <div class="col-md-3">
+                <mat-form-field appearance="fill" appearance="fill" class="w-100" [disabled]="showEditForm"
+                    [ngClass]="showEditForm === true ? 'disable-field pb-0 border-bottom-black' : ''">
+                    <mat-label>{{"Court Code" | translate }}</mat-label>
+                    <input matInput placeholder="Type" [id]="'Courtcode'" minLength="4" maxlength="4"
+                        specialIsAlphaNumeric appNotAllowWhiteSpaceStart formControlName="code" />
+                    <mat-error [id]="'err_code'" *ngIf="CourtForm.get('code')?.hasError('required')">
+                        {{'Court Code is Required' | translate}}
+                    </mat-error>
+                    <mat-error *ngIf="CourtForm.get('code')?.hasError('minlength')" [id]="'code2'">
+                        {{'Court Code is invalid. Should be 4 digits' | translate}}
+                    </mat-error>
+                    <mat-error *ngIf="CourtForm.get('code')?.hasError('invalid')" [id]="'code3'">
+                        {{ CourtForm.get('code')?.getError('invalid') |
+                        translate }}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{"Name" | translate }}</mat-label>
+                    <input matInput placeholder="Type" [id]="'name'" appNotAllowWhiteSpaceStart formControlName="name"
+                        maxlength="50" />
+                    <mat-error [id]="'err_Name'" *ngIf="CourtForm.get('name')?.hasError('required')">
+                        {{'Name is Required' | translate}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{"Number of Rooms" | translate }}</mat-label>
+                    <input matInput placeholder="Type" [id]="'room'" type="number" maxlength="2" min="1" max="99"
+                        appNotAllowWhiteSpaceStart formControlName="room"
+                        oninput="this.value=this.value.slice(0,this.maxLength)" />
+                    <mat-error [id]="'err_leadDays'" *ngIf="CourtForm.get('room')?.hasError('required')">
+                        {{'Number of Rooms is Required' | translate}}
+                    </mat-error>
+                    <mat-error [id]="'err_leadDays'"
+                        *ngIf="CourtForm.get('room')?.hasError('min') || CourtForm.get('room')?.hasError('maxLength')">
+                        {{'The Range is 1 to 99' | translate}}
+                    </mat-error>
+
+
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{"Lead Time" | translate }}</mat-label>
+                    <input matInput placeholder="Type" [id]="'leadDays'" type="number" maxlength="2" min="1" max="99"
+                        appNotAllowWhiteSpaceStart formControlName="leadDays"
+                        oninput="this.value=this.value.slice(0,this.maxLength)" />
+                    <mat-error [id]="'err_leadDays'" *ngIf="CourtForm.get('leadDays')?.hasError('required')">
+                        {{'Lead Time is Required' | translate}}
+                    </mat-error>
+                    <mat-error [id]="'err_leadDays'"
+                        *ngIf="CourtForm.get('leadDays')?.hasError('min') || CourtForm.get('room')?.hasError('maxLength')">
+                        {{'The Range is 1 to 99' | translate}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-3">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{"Address 1" | translate }}</mat-label>
+                    <input matInput placeholder="Type" [id]="'streetLine1'" appNotAllowWhiteSpaceStart
+                        formControlName="streetLine1" maxlength="50" />
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{"Address 2" | translate }}</mat-label>
+                    <input matInput placeholder="Type" [id]="'streetLine2'" appNotAllowWhiteSpaceStart
+                        formControlName="streetLine2" maxlength="50" />
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{"City" | translate }}</mat-label>
+                    <input matInput placeholder="Type" [id]="'city'" appNotAllowWhiteSpaceStart formControlName="city"
+                        maxlength="20" />
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{"Zip code" | translate }}</mat-label>
+                    <input matInput placeholder="Type" [id]="'zipCode'" maxlength="9" digitOnly
+                        appNotAllowWhiteSpaceStart formControlName="zipCode" />
+                    <mat-error *ngIf="CourtForm.get('zipCode')?.hasError('pattern')" [id]="'errorzipCode'">
+                        {{'Zip Code is invalid. Should be 5 or 9 digits' | translate}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{"State/Province" | translate}}</mat-label>
+                    <mat-select formControlName="stateProvincesID" [id]="'stateProvincesID'">
+                        <mat-option *ngFor="let rule of stateResp" value="{{rule.stateProvincesID}}">
+                            {{rule.abbreviation}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error [id]="'err_stateProvincesID'"
+                        *ngIf="CourtForm.get('stateProvincesID')?.hasError('required')">
+                        {{'State/Province is Required' | translate}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{"Phone Number" | translate }}</mat-label>
+                    <input matInput placeholder="Type" [id]="'phone'" maxlength="11" minlength="11"
+                        appNotAllowWhiteSpaceStart formControlName="phone" digitOnly />
+                    <mat-error *ngIf="CourtForm.get('phone')?.hasError('minlength')" [id]="'phone2'">
+                        {{'Phone Number is invalid. Should be 11 digits' | translate}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>{{"Jurisdiction" | translate}}</mat-label>
+                    <mat-select formControlName="jurisdictionsID" [id]="'jurisdictionsID'">
+                        <mat-option *ngFor="let rule of juridictionResp" value="{{rule.jurisdictionsID}}">
+                            {{rule.jurisdictionsName}}
+                        </mat-option>
+                    </mat-select>
+                    <mat-error [id]="'err_jurisdictionsID'"
+                        *ngIf="CourtForm.get('jurisdictionsID')?.hasError('required')">
+                        {{'Jurisdiction is Required' | translate}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <div class="d-flex justify-content-end">
+                    <button mat-raised-button class="m-1 color-blue" [id]="'Cancel'"
+                        (click)="cancelAdd_Save()">{{'Cancel'|
+                        translate}}</button>
+                    <button type="submit" mat-raised-button class="color-blue m-1" *ngIf="addBtn"
+                        [id]="'addBtn'">{{'Add' | translate}}</button>
+                    <button type="button" mat-raised-button class="m-1 color-blue" [id]="'Searchbtn'" *ngIf="!addBtn"
+                        (click)="updateRecord(CourtForm.value)">
+                        {{'Save' |translate}}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<div class="container-fluid" [hidden]="showAddForm">
+    <!-- add form -->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="align-items-center d-flex row">
+                <div class="col-6">
+                    <mat-form-field appearance="fill">
+                        <mat-label>{{ "Search" | translate }}</mat-label>
+                        <input matInput #search matInput [id]="'Search1'" placeholder="Type"
+                            (keyup)="applyFilter($event)" />
+                    </mat-form-field>
+                </div>
+                <div class="col-6">
+                    <div class="text-right">
+                        <button mat-raised-button appearance="fill" class="m-1 color-blue" [id]="'Add2'"
+                            (click)="showAddFormPage()">
+                            {{ "Add" | translate }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
+
+            <ng-container matColumnDef="code">
+                <th mat-header-cell mat-sort-header *matHeaderCellDef>{{"Court Code" | translate }}</th>
+                <td mat-cell *matCellDef="let element" class="text-right"> {{element.code}} </td>
+            </ng-container>
+            <ng-container matColumnDef="name">
+                <th mat-header-cell mat-sort-header *matHeaderCellDef>{{"Court Name" | translate }}</th>
+                <td mat-cell *matCellDef="let element">
+                    <p class="ellipsis-text m-0 w-200px">{{element.name}}</p>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="room">
+                <th mat-header-cell mat-sort-header *matHeaderCellDef>{{ "Number of Rooms" | translate }}</th>
+                <td mat-cell *matCellDef="let element" class="text-right">{{element.room}}</td>
+            </ng-container>
+            <ng-container matColumnDef="leadDays">
+                <th mat-header-cell mat-sort-header *matHeaderCellDef>{{ "Lead Time" | translate }}</th>
+                <td mat-cell *matCellDef="let element" class="text-right">{{element.leadDays}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="streetLine1">
+                <th mat-header-cell mat-sort-header *matHeaderCellDef>{{ "Address" | translate }}</th>
+                <td mat-cell *matCellDef="let element">
+                    {{element.streetLine1}}<br>
+                    {{element.streetLine2}}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="jurisdictions">
+                <th mat-header-cell mat-sort-header *matHeaderCellDef>{{ "Jurisdictions" | translate }}</th>
+                <td mat-cell *matCellDef="let element"> {{element.jurisdictions}} </td>
+            </ng-container>
+
+
+            <ng-container matColumnDef="Action">
+                <tr>
+                    <th mat-header-cell *matHeaderCellDef>{{ "Action" | translate }}</th>
+                </tr>
+                <tr>
+                    <td mat-cell *matCellDef="let element" class="text-center">
+                        <button mat-icon-button color="dark-grey" title="{{'Edit' | translate }}">
+                            <mat-icon class="edit-blue" (click)="editCourt(element.courtsID)">edit</mat-icon>
+                        </button>
+
+                        <button mat-icon-button color="dark-grey" [id]="'btn'" title="{{'Disable' | translate }}"
+                            (click)="toggleCourt(element.courtsID, element.active)" *ngIf="element.active">
+                            <mat-icon class="color-red">block</mat-icon>
+                        </button>
+                        <button mat-icon-button color="dark-grey" [id]="'btn'" title="{{'Enable' | translate }}"
+                            (click)="toggleCourt(element.courtsID, element.active)" *ngIf="!element.active">
+                            <mat-icon class="color-green">done_outline</mat-icon>
+                        </button>
+                    </td>
+                </tr>
+
+                <tr></tr>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <div class="col-sm-12 text-center" *ngIf="dataSource.filteredData?.length === 0">
+            {{'No records found' | translate}}
+        </div>
+        <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons [hidden]="showAddForm">
+        </mat-paginator>
+    </div>
+
+
+</div>
+<!-- add form -->

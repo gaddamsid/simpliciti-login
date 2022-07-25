@@ -1,0 +1,42 @@
+table {
+    th {
+        text-transform: capitalize;
+
+        mat-checkbox {
+            color: #fff;
+            margin-left: -4px;
+
+            ::ng-deep {
+                .mat-checkbox-frame {
+                    border-color: white
+                }
+            }
+        }
+    }
+
+    td {
+        border-top: 0;
+        border-bottom: 0;
+    }
+
+    tr {
+
+        &:last-child {
+            box-shadow: inset 0px -3px 0px -2px #ccc;
+        }
+    }
+
+    .header-checkbox {
+        ::ng-deep {
+            label {
+                margin: 0;
+            }
+        }
+
+        ::ng-deep {
+            .mat-checkbox-frame {
+                border-color: white
+            }
+        }
+    }
+}

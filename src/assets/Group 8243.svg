@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="25.666" height="24.854" viewBox="0 0 25.666 24.854">
+  <g id="Group_8243" data-name="Group 8243" transform="translate(-1054.401 -112.016)">
+    <g id="Group_7429" data-name="Group 7429" transform="translate(1080.205 112.325) rotate(91)">
+      <g id="Group_7427" data-name="Group 7427" transform="translate(24.685 7.819) rotate(92)">
+        <g id="Group_7425" data-name="Group 7425" transform="translate(0 0)">
+          <path id="Union_2" data-name="Union 2" d="M0,15.676a1.9,1.9,0,0,1,.713-1.484L.7,14.179,9.283,5.595a4.25,4.25,0,1,1,2.682,2.694L3.387,16.867l0,0A1.9,1.9,0,0,1,0,15.676Z" transform="translate(0 0)" fill="#0047ba"/>
+          <rect id="Rectangle_4489" data-name="Rectangle 4489" width="3.513" height="4.497" transform="translate(15.18 0) rotate(44)" fill="#fff"/>
+        </g>
+        <circle id="Ellipse_533" data-name="Ellipse 533" cx="0.909" cy="0.909" r="0.909" transform="translate(0.909 14.85)" fill="#fff"/>
+      </g>
+      <g id="Group_7428" data-name="Group 7428" transform="translate(0 17.697) rotate(-88)">
+        <g id="Group_7425-2" data-name="Group 7425" transform="translate(0 0)">
+          <path id="Union_2-2" data-name="Union 2" d="M0,15.676a1.9,1.9,0,0,1,.713-1.484L.7,14.179,9.283,5.595a4.25,4.25,0,1,1,2.682,2.694L3.387,16.867l0,0A1.9,1.9,0,0,1,0,15.676Z" transform="translate(0 0)" fill="#0047ba"/>
+          <rect id="Rectangle_4489-2" data-name="Rectangle 4489" width="3.513" height="4.497" transform="translate(15.18 0) rotate(44)" fill="#fff"/>
+        </g>
+      </g>
+      <g id="Ellipse_534" data-name="Ellipse 534" transform="translate(6.501 6.25)" fill="#fff" stroke="#0047ba" stroke-width="1">
+        <circle cx="6.441" cy="6.441" r="6.441" stroke="none"/>
+        <circle cx="6.441" cy="6.441" r="5.941" fill="none"/>
+      </g>
+      <text id="_" data-name="$" transform="translate(15.45 12.596) rotate(-90)" fill="#0047ba" font-size="8" font-family="OpenSans-Bold, Open Sans" font-weight="700"><tspan x="-2" y="0">$</tspan></text>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,15 @@
+.gallery-wrapper {
+    text-align: center;
+    .ngx-gallery {
+      display: inline-block;
+      margin-bottom: 20px;
+      width: 100% !important;
+      /* width: 500px;
+       height: 400px;
+       border-color: #4a89ff;*/
+    }
+  }
+
+  .mat-card{
+    width: 100%;
+  }

@@ -1,0 +1,659 @@
+<h3 class="header-title">{{ "Violation Code" | translate }}</h3>
+<div class="container-fluid">
+  <form
+    [formGroup]="violatonForm" 
+    (ngSubmit)="addViolationForm(violatonForm.value)"
+  >
+    <div id="add-form" *ngIf="showAddForm">
+      <div class="row">
+        <div class="col-md-3">
+          <mat-form-field appearance="fill" class="w-100"   [disabled]="showAddForm" [ngClass]="showAddForm === true ? 'disable-field pb-0 border-bottom-black' : ''">
+            <mat-label> {{ "Internal Violation Code" | translate }}</mat-label>
+            <input type="number"
+              matInput  value=""
+              placeholder="Internal Violation Code" [id]="'violCodeInt'"
+              formControlName="violCodeInt"  maxlength="5"
+            />
+         
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label> {{ "External Violation Code *" | translate }}</mat-label>
+            <input
+              matInput   specialIsAlphaNumeric
+              placeholder="External Violation Code" [id]="'violCodeExt'"
+              formControlName="violCodeExt" maxlength="20"
+            />
+                <!-- ERRORS -->
+                 <mat-error *ngIf="violatonForm.get('violCodeExt')?.hasError('required')"  [id]="'ErrorviolCodeExt1'" >
+                    {{ 'External Violation Code is Required' | translate }}
+                  </mat-error>
+                  <mat-error *ngIf="violatonForm.get('violCodeExt')?.hasError('invalid')"  [id]="'ErrorviolCodeExt2'" >
+                    {{ violatonForm.get('violCodeExt')?.getError('invalid') | translate}}
+                  </mat-error>
+                 
+               
+                 <!-- ERRORS -->
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>{{ "Full Name *" | translate }}</mat-label>
+            <input
+              matInput  
+              placeholder="Full Name" specialIsAlphaNumeric
+              formControlName="violLongName" maxlength="20" [id]="'violLongName'"
+            />
+              <mat-error [id]="'errorViolLongName'" *ngIf="violatonForm.get('violLongName')?.hasError('required')">
+              {{ "Full Name is Required" | translate }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>{{ "Short Name *" | translate }}</mat-label>
+            <input
+              matInput
+              placeholder="Short Name" specialIsAlphaNumeric
+              formControlName="violName"  maxlength="10" [id]="'violName'"
+            />
+                <mat-error [id]="'errorViolName'" *ngIf="violatonForm.get('violName')?.hasError('required')">
+              {{ "Short Name is Required" | translate }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label> {{ "Class *" | translate }}</mat-label>
+            <input matInput specialIsAlphaNumeric type="" placeholder="Class" formControlName="violClass" maxlength="1"  [id]="'violClass'"/>
+             <mat-error [id]="'errorViolClass'" *ngIf="violatonForm.get('violClass')?.hasError('required')">
+              {{ "Class is Required" | translate }}
+            </mat-error>
+          </mat-form-field>
+             
+        </div>
+        <div class="col-md-3">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>{{ "Type *" | translate }}</mat-label>
+            <input matInput specialIsAlphaNumeric placeholder="Type" formControlName="violType"  maxlength="1" [id]="'violType'"/>
+              <mat-error [id]="'errorViolType'" *ngIf="violatonForm.get('violType')?.hasError('required')">
+              {{ "Type is Required" | translate }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>{{ "Priority *" | translate }}</mat-label>
+            <input matInput type="number"  placeholder="Priority" min="0"  [id]="'violPriority'" formControlName="violPriority"  maxlength = "2"
+            />
+              <mat-error [id]="'errorViolPriority'" *ngIf="violatonForm.get('violPriority')?.hasError('required')">
+              {{ "Priority is Required" | translate }}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>{{
+              "Violation Long Description" | translate
+            }}</mat-label>
+            <input
+              matInput specialIsAlphaNumeric
+              placeholder="Violation Long Description" [id]="'violProcessDesc'"
+              formControlName="violProcessDesc" maxlength="50" 
+            />
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-3">
+
+
+     
+<mat-form-field appearance="fill" class="w-100">
+     <mat-label>{{ "Effective Year *" | translate }}</mat-label>
+ <input matInput type="date"  placeholder="{{'Date'|translate}}" formControlName="effDate1" [id]="'effDate1'"/>
+    <mat-error [id]="'errorEffDate1'" *ngIf="violatonForm.get('effDate1')?.hasError('required')">
+              {{ 'Effective year is required' | translate }}
+            </mat-error>          
+</mat-form-field>
+
+        </div>
+        <div class="col-md-9">
+          <div class="row">
+            <div class="col-md-2">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label> {{ "Standard Fine" | translate }}</mat-label>
+                <input matInput type="number"  min="0" max="99999.99" maxlength="8" placeholder="Type" [id]="'fine1'" formControlName="fine1"    appAllowDecimalNumber (blur)="transformTotal('fine1')" />
+                  <mat-error [id]="'errorfine1'" class="textlenth" matTooltip="{{ 'Max 5 Digit Allowed' | translate }}" *ngIf="violatonForm.get('fine1')?.hasError('max')" >
+              {{ 'Max 5 Digit Allowed' | translate }}
+            </mat-error>
+              </mat-form-field>
+          
+            </div>
+            <div class="col-md-2">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label> {{ "Penalty 1" | translate }}</mat-label>
+                <input matInput type="number" min="0" max="99999.99" maxlength="8" max="99999.99" maxlength="8" placeholder="Type" [id]="'pen1'" formControlName="pen1"     (blur)="transformTotal('pen1')"/>
+               <mat-error [id]="'errorPen1'" class="textlenth" matTooltip="{{ 'Max 5 Digit Allowed' | translate }}" *ngIf="violatonForm.get('pen1')?.hasError('max')">
+              {{ 'Max 5 Digit Allowed' | translate }}
+            </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label> {{ "Penalty 2" | translate }}</mat-label>
+                <input matInput type="number" min="0" max="99999.99" maxlength="8" placeholder="Type" [id]="'pen2'" formControlName="pen2"    (blur)="transformTotal('pen2')"/>
+              <mat-error [id]="'errorPen2'" class="textlenth" matTooltip="{{ 'Max 5 Digit Allowed' | translate }}" *ngIf="violatonForm.get('pen2')?.hasError('max')">
+              {{ 'Max 5 Digit Allowed' | translate }}
+            </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label> {{ "Penalty 3" | translate }}</mat-label>
+                <input matInput type="number" placeholder="Type"  min="0" max="99999.99" maxlength="8" [id]="'pen3'" formControlName="pen3"   (blur)="transformTotal('pen3')"/>
+               <mat-error [id]="'errorpen3'" class="textlenth" matTooltip="{{ 'Max 5 Digit Allowed' | translate }}" *ngIf="violatonForm.get('pen3')?.hasError('max')">
+              {{ 'Max 5 Digit Allowed' | translate }}
+            </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label> {{ "Penalty 4" | translate }}</mat-label>
+                <input matInput type="number"  min="0" max="99999.99" maxlength="8" placeholder="Type" [id]="'pen4'" formControlName="pen4"   (blur)="transformTotal('pen4')"/>
+               <mat-error [id]="'errorPen4'" class="textlenth" matTooltip="{{ 'Max 5 Digit Allowed' | translate }}" *ngIf="violatonForm.get('pen4')?.hasError('max')">
+              {{ 'Max 5 Digit Allowed' | translate }}
+            </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label> {{ "Penalty 5" | translate }}</mat-label>
+                <input matInput type="number"  min="0" max="99999.99" maxlength="8" placeholder="Type" [id]="'pen5'" formControlName="pen5"   (blur)="transformTotal('pen5')"/>
+               <mat-error [id]="'errorPen5'" class="textlenth" matTooltip="{{ 'Max 5 Digit Allowed' | translate }}" *ngIf="violatonForm.get('pen5')?.hasError('max')">
+              {{ 'Max 5 Digit Allowed' | translate }}
+            </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-3">
+<mat-form-field appearance="fill" class="w-100">
+     <mat-label>{{ "Effective Year" | translate }}</mat-label>
+ <input matInput type="date" [id]="'effDate2'" placeholder="{{'Date'|translate}}" formControlName="effDate2"/>        
+</mat-form-field>
+        </div>
+        <div class="col-md-9">
+          <div class="row">
+            <div class="col-md-2">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label> {{ "Standard Fine" | translate }}</mat-label>
+                <input matInput type="number"  min="0" max="99999.99" maxlength="8" [id]="'fine2'" placeholder="Type" formControlName="fine2"    (blur)="transformTotal('fine2')"/>
+             <mat-error [id]="'errorFine2'" class="textlenth" matTooltip="{{ 'Max 5 Digit Allowed' | translate }}" *ngIf="violatonForm.get('fine2')?.hasError('max')">
+              {{ 'Max 5 Digit Allowed' | translate }}
+            </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label> {{ "Penalty 1" | translate }}</mat-label>
+                <input matInput type="number"  min="0" max="99999.99" maxlength="8" [id]="'pen6'"  placeholder="Type" formControlName="pen6"  (blur)="transformTotal('pen6')"/>
+              <mat-error [id]="'errorPen6'" class="textlenth" matTooltip="{{ 'Max 5 Digit Allowed' | translate }}" *ngIf="violatonForm.get('pen6')?.hasError('max')">
+              {{ 'Max 5 Digit Allowed' | translate }}
+            </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label> {{ "Penalty 2" | translate }}</mat-label>
+                <input matInput type="number"   min="0" max="99999.99" maxlength="8" [id]="'pen7'" placeholder="Type" formControlName="pen7"   (blur)="transformTotal('pen7')"/>
+              <mat-error [id]="'errorPen7'" class="textlenth" matTooltip="{{ 'Max 5 Digit Allowed' | translate }}" *ngIf="violatonForm.get('pen7')?.hasError('max')">
+              {{ 'Max 5 Digit Allowed' | translate }}
+            </mat-error> 
+          </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label> {{ "Penalty 3" | translate }}</mat-label>
+                <input matInput type="number"  min="0" max="99999.99" maxlength="8" [id]="'pen8'" placeholder="Type" formControlName="pen8"  (blur)="transformTotal('pen8')"/>
+              <mat-error [id]="'errorPen8'" class="textlenth" matTooltip="{{ 'Max 5 Digit Allowed' | translate }}" *ngIf="violatonForm.get('pen8')?.hasError('max')">
+              {{ 'Max 5 Digit Allowed' | translate }}
+            </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label> {{ "Penalty 4" | translate }}</mat-label>
+                <input matInput type="number"  min="0" max="99999.99" maxlength="8" [id]="'pen9'" placeholder="Type" formControlName="pen9"  (blur)="transformTotal('pen9')"/>
+                 <mat-error [id]="'errorPen9'" class="textlenth" matTooltip="{{ 'Max 5 Digit Allowed' | translate }}" *ngIf="violatonForm.get('pen9')?.hasError('max')">
+              {{ 'Max 5 Digit Allowed' | translate }}
+            </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label> {{ "Penalty 5" | translate }}</mat-label>
+                <input matInput type="number"  min="0" max="99999.99" maxlength="8" [id]="'pen10'" placeholder="Type" formControlName="pen10"  (blur)="transformTotal('pen10')"/>
+               <mat-error [id]="'errorPen10'" class="textlenth" matTooltip="{{ 'Max 5 Digit Allowed' | translate }}" *ngIf="violatonForm.get('pen10')?.hasError('max')">
+              {{ 'Max 5 Digit Allowed' | translate }}
+            </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-3">
+
+<mat-form-field appearance="fill" class="w-100">
+     <mat-label>{{ "Effective Year" | translate }}</mat-label>
+ <input matInput type="date" [id]="'effDate3'" placeholder="{{'Date'|translate}}" formControlName="effDate3"/>        
+</mat-form-field>    
+        </div>
+        <div class="col-md-9">
+          <div class="row">
+            <div class="col-md-2">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label> {{ "Standard Fine" | translate }}</mat-label>
+                <input matInput type="number"  min="0" max="99999.99" maxlength="8" [id]="'fine3'" placeholder="Type" formControlName="fine3"  (blur)="transformTotal('fine3')"/>
+              <mat-error [id]="'errorFine3'" class="textlenth" matTooltip="{{ 'Max 5 Digit Allowed' | translate }}" *ngIf="violatonForm.get('fine3')?.hasError('max')">
+              {{ 'Max 5 Digit Allowed' | translate }}
+            </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label> {{ "Penalty 1" | translate }}</mat-label>
+                <input matInput type="number"  min="0" max="99999.99" maxlength="8"  [id]="'pen11'" placeholder="Type" formControlName="pen11"   (blur)="transformTotal('pen11')"/>
+               <mat-error [id]="'errorPen11'" class="textlenth" matTooltip="{{ 'Max 5 Digit Allowed' | translate }}" *ngIf="violatonForm.get('pen11')?.hasError('max')">
+              {{ 'Max 5 Digit Allowed' | translate }}
+            </mat-error>
+              </mat-form-field>
+          
+            </div>
+            <div class="col-md-2">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label> {{ "Penalty 2" | translate }}</mat-label>
+                <input matInput  type="number"  min="0" max="99999.99" maxlength="8" [id]="'pen12'" placeholder="Type" formControlName="pen12"  (blur)="transformTotal('pen12')"/>
+              <mat-error [id]="'errorPen12'" class="textlenth" matTooltip="{{ 'Max 5 Digit Allowed' | translate }}" *ngIf="violatonForm.get('pen12')?.hasError('max')">
+              {{ 'Max 5 Digit Allowed' | translate }}
+            </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label> {{ "Penalty 3" | translate }}</mat-label>
+                <input matInput type="number"  min="0" max="99999.99" maxlength="8" [id]="'pen13'" placeholder="Type" formControlName="pen13"   (blur)="transformTotal('pen13')"/>
+               <mat-error [id]="'errorPen13'" class="textlenth" matTooltip="{{ 'Max 5 Digit Allowed' | translate }}" *ngIf="violatonForm.get('pen13')?.hasError('max')">
+              {{ 'Max 5 Digit Allowed' | translate }}
+            </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label> {{ "Penalty 4" | translate }}</mat-label>
+                <input matInput type="number"  min="0" max="99999.99" maxlength="8" [id]="'pen14'" placeholder="Type" formControlName="pen14"  (blur)="transformTotal('pen14')"/>
+               <mat-error [id]="'errorPen14'" class="textlenth" matTooltip="{{ 'Max 5 Digit Allowed' | translate }}" *ngIf="violatonForm.get('pen14')?.hasError('max')">
+              {{ 'Max 5 Digit Allowed' | translate }}
+            </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label> {{ "Penalty 5" | translate }}</mat-label>
+                <input matInput type="number"  min="0" max="99999.99" maxlength="8" [id]="'pen15'" placeholder="Type" formControlName="pen15"  (blur)="transformTotal('pen15')"/>
+                <mat-error [id]="'errorPen15'" class="textlenth" matTooltip="{{ 'Max 5 Digit Allowed' | translate }}" *ngIf="violatonForm.get('pen15')?.hasError('max')">
+                  {{ 'Max 5 Digit Allowed' | translate }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field class="w-100" appearance="fill">
+            <mat-label> {{ "Leave a comment" | translate }}</mat-label>
+            <textarea
+              matInput [id]="'codeText'"
+              placeholder="Ex. It makes me feel..."
+              formControlName="codeText"  maxlength="4000"
+            ></textarea>
+          </mat-form-field>
+        </div>
+        <div class="align-items-end col-md-6 d-flex justify-content-end">
+          <!-- <button mat-raised-button class="m-1 color-blue">
+            {{ "Request Reserved" | translate }}
+          </button>
+
+          <button mat-raised-button class="m-1 color-blue">
+            {{ "Spell Check" | translate }}
+          </button> -->
+          <button
+            mat-raised-button
+            class="m-1 color-blue" [id]="'Cancel1'" 
+            (click)="cancelvoilation()"
+          >
+            {{ "Cancel" | translate }}
+          </button>
+          <button
+            mat-raised-button
+            *ngIf="addviolationButton"
+            class="m-1 color-blue" [id]="'Add1'" 
+          >
+            {{ "Add" | translate }}
+          </button>
+          <button
+            type="button"
+            *ngIf="!addviolationButton"
+            mat-raised-button
+            (click)="saveViolation(violatonForm.value)"
+            class="m-1 color-blue" [id]="'Save1'" 
+          >
+            {{ "Save" | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div id="list-table" [hidden]="showAddForm">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="align-items-center d-flex row">
+          <div class="col-6">
+            <mat-form-field appearance="fill">
+              <mat-label>{{ "Search" | translate }}</mat-label>
+              <input
+                matInput #search
+                placeholder="Type" [id]="'Search'" 
+                (keyup)="applyFilter($event)"
+              />
+            </mat-form-field>
+          </div>
+          <div class="col-6">
+            <div class="text-right">
+              <button
+                mat-raised-button [id]="'add2'" 
+                class="m-1 color-blue"
+                (click)="addviolation()"
+              >
+                {{ "Add" | translate }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mat-elevation-z8">
+      <table matSort mat-table [dataSource]="dataSource">
+        <!-- Position Column -->
+        <ng-container matColumnDef="violCodeInt">
+          <th mat-header-cell *matHeaderCellDef class="w-100px pl-0">
+            {{ "Int Viol Code" | translate }}<br />
+            {{ "Ext Viol Code" | translate }}<br />
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.violCodeInt }}<br />
+            {{ element.violCodeExt }}<br />
+          </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="violLongName">
+          <th mat-header-cell *matHeaderCellDef class="w-100px">
+            <p>
+              {{ "Full Name" | translate }}<br />
+              {{ "Short Name" | translate }}<br />
+              {{ "Class" | translate }}/{{ "Type" | translate }}/{{
+                "Priority" | translate
+              }}<br />
+              {{ "Violation Long Description" | translate }}<br />
+            </p>
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.violLongName }}<br />
+            {{ element.violName }}<br />
+            {{ element.violClass }}/{{ element.violType }}/{{
+              element.violPriority
+            }}<br />{{ element.violProcessDesc }}<br />
+          </td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="Effective Yr/Day" class="effectivedate">
+          <th mat-header-cell *matHeaderCellDef class="w-110px">
+            <p style="width: 100px; margin: 0 auto; justify-content: center">
+              {{ "Effective" | translate }}<br />
+              {{ "Date" | translate }}<br />
+            </p>
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{
+              element?.violationCodeCharges[0]?.effDate === (null || undefined)
+                ? "01/01/1900"
+                : element?.violationCodeCharges[0]?.effDate
+            }}
+            <br />
+            {{
+              element?.violationCodeCharges[1]?.effDate === (null || undefined)
+                ? "01/01/1900"
+                : element?.violationCodeCharges[1]?.effDate
+            }}
+            <br />
+            {{
+              element?.violationCodeCharges[2]?.effDate === (null || undefined)
+                ? "01/01/1900"
+                : element?.violationCodeCharges[2]?.effDate
+            }}
+          </td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="Std.Fine">
+          <th violationCodeCharges mat-header-cell *matHeaderCellDef>
+            {{ "Std.Fine" | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element" class="text-right">
+            ${{
+              element?.violationCodeCharges[0]?.fine === null
+                ? "0.00"
+                : (element?.violationCodeCharges[0]?.fine | number: "1.2-2")
+            }}<br />
+            ${{
+              element?.violationCodeCharges[1]?.fine === null
+                ? "0.00"
+                : (element?.violationCodeCharges[1]?.fine | number: "1.2-2")
+            }}<br />
+            ${{
+              element?.violationCodeCharges[2]?.fine === null
+                ? "0.00"
+                : (element?.violationCodeCharges[2]?.fine | number: "1.2-2")
+            }}<br />
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Penalty1">
+          <th violationCodeCharges mat-header-cell *matHeaderCellDef>
+            {{ "Penalty 1" | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element" class="text-right">
+            ${{
+              element?.violationCodeCharges[0]?.pen1 === null
+                ? "0.00"
+                : (element?.violationCodeCharges[0]?.pen1 | number: "1.2-2")
+            }}<br />
+            ${{
+              element?.violationCodeCharges[1]?.pen1 === null
+                ? "0.00"
+                : (element?.violationCodeCharges[1]?.pen1 | number: "1.2-2")
+            }}<br />
+            ${{
+              element?.violationCodeCharges[2]?.pen1 === null
+                ? "0.00"
+                : (element?.violationCodeCharges[2]?.pen1 | number: "1.2-2")
+            }}<br />
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Penalty2">
+          <th violationCodeCharges mat-header-cell *matHeaderCellDef>
+            {{ "Penalty 2" | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element" class="text-right">
+            ${{
+              element?.violationCodeCharges[0]?.pen2 === null
+                ? "0.00"
+                : (element?.violationCodeCharges[0]?.pen2 | number: "1.2-2")
+            }}<br />
+            ${{
+              element?.violationCodeCharges[1]?.pen2 === null
+                ? "0.00"
+                : (element?.violationCodeCharges[1]?.pen2 | number: "1.2-2")
+            }}<br />
+            ${{
+              element?.violationCodeCharges[2]?.pen2 === null
+                ? "0.00"
+                : (element?.violationCodeCharges[2]?.pen2 | number: "1.2-2")
+            }}<br />
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Penalty3">
+          <th violationCodeCharges mat-header-cell *matHeaderCellDef>
+            {{ "Penalty 3" | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element" class="text-right">
+            ${{
+              element?.violationCodeCharges[0]?.pen3 === null
+                ? "0.00"
+                : (element?.violationCodeCharges[0]?.pen3 | number: "1.2-2")
+            }}<br />
+            ${{
+              element?.violationCodeCharges[1]?.pen3 === null
+                ? "0.00"
+                : (element?.violationCodeCharges[1]?.pen3 | number: "1.2-2")
+            }}<br />
+            ${{
+              element?.violationCodeCharges[2]?.pen3 === null
+                ? "0.00"
+                : (element?.violationCodeCharges[2]?.pen3 | number: "1.2-2")
+            }}<br />
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Penalty4">
+          <th violationCodeCharges mat-header-cell *matHeaderCellDef>
+            {{ "Penalty 4" | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element" class="text-right">
+            ${{
+              element?.violationCodeCharges[0]?.pen4 === null
+                ? "0.00"
+                : (element?.violationCodeCharges[0]?.pen4 | number: "1.2-2")
+            }}<br />
+            ${{
+              element?.violationCodeCharges[1]?.pen4 === null
+                ? "0.00"
+                : (element?.violationCodeCharges[1]?.pen4 | number: "1.2-2")
+            }}<br />
+            ${{
+              element?.violationCodeCharges[2]?.pen4 === null
+                ? "0.00"
+                : (element?.violationCodeCharges[2]?.pen4 | number: "1.2-2")
+            }}<br />
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Penalty5">
+          <th violationCodeCharges mat-header-cell *matHeaderCellDef>
+            {{ "Penalty 5" | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element" class="text-right">
+            ${{
+              element?.violationCodeCharges[0]?.pen5 === null
+                ? "0.00"
+                : (element?.violationCodeCharges[0]?.pen5 | number: "1.2-2")
+            }}<br />
+            ${{
+              element?.violationCodeCharges[1]?.pen5 === null
+                ? "0.00"
+                : (element?.violationCodeCharges[1]?.pen5 | number: "1.2-2")
+            }}<br />
+            ${{
+              element?.violationCodeCharges[2]?.pen5 === null
+                ? "0.00"
+                : (element?.violationCodeCharges[2]?.pen5 | number: "1.2-2")
+            }}<br />
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="description">
+          <th
+            violationCodeCharges
+            mat-header-cell
+            *matHeaderCellDef
+            class="w-100px"
+          >
+            {{ "Description" | translate }}
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <p class="dec-tooldata" matTooltip="{{ element.codeText }}">
+              {{ element.codeText }}
+            </p>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+          <tr>
+            <th mat-header-cell *matHeaderCellDef>
+              {{ "Action" | translate }}
+            </th>
+          </tr>
+          <tr>
+            <td mat-cell *matCellDef="let row" class="text-center">
+              <button
+                mat-icon-button  [id]="'Edit'"
+                color="dark-grey"
+                title="Edit"
+                (click)="editViolation(row)"
+              >
+                <mat-icon class="edit-blue">edit</mat-icon>
+              </button>
+              <button
+                mat-icon-button   [id]="'Delete'"
+                color="dark-grey"
+                title="Delete"
+                (click)="deleteViolation(row)"
+              >
+                <mat-icon class="color-light-gray">delete</mat-icon>
+              </button>
+            </td>
+          </tr>
+
+          <tr></tr>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+     <div class="col-sm-12 text-center" *ngIf="dataSource.filteredData?.length === 0"> {{'No records found' | translate}}</div>
+      <mat-paginator
+        [pageSizeOptions]="[10, 20, 50, 100]"
+        showFirstLastButtons
+        aria-label="Select page of periodic elements"
+      >
+      </mat-paginator>
+    </div>
+  </div>
+</div>

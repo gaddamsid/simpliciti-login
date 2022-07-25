@@ -1,0 +1,545 @@
+<div class="container">
+    <form>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="leftwrrp">
+                    <div class="headding">
+                        <h3>{{"Customize Your layout" | translate }}</h3>
+                        <p>{{"Select your view" | translate }}</p>
+                    </div>
+                    <div class="view-select">
+                        <div (click)="toggleField('1')" [ngClass]="{'activeGrid':(customLayout?.layoutType === '1')}"
+                            [id]="'Layout1'">
+                            <img src="./assets/images/gp1.png">
+                        </div>
+                        <div (click)="toggleField('2')" [ngClass]="{'activeGrid':(customLayout?.layoutType === '2')}"
+                            [id]="'Layout2'">
+                            <img src="./assets/images/gp2.png">
+                        </div>
+                        <div (click)="toggleField('3')" [ngClass]="{'activeGrid':(customLayout?.layoutType === '3')}"
+                            [id]="'Layout3'">
+                            <img src="./assets/images/gp3.png">
+                        </div>
+                    </div>
+                    <div class="selection-view">
+                        <ul>
+                            <li>
+                                <div class="float-right  w-100">
+                                    <div class="form-group d-flex m-0 w-100">
+                                        <input type="checkbox" name="image" [checked]="customLayout?.image === 'Y'"
+                                            (click)="isChecked($event.target, 'image')" id="gallery">
+                                        <label for="gallery">{{ "Image" | translate }}</label>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="float-right  w-100">
+                                    <div class="form-group d-flex m-0 w-100">
+                                        <input type="checkbox" name="violation"
+                                            [checked]="customLayout?.violation === 'Y'"
+                                            (click)="isChecked($event.target, 'violation')" id="violation">
+                                        <label for="violation">{{"Violation Detail" | translate }}</label>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="float-right  w-100">
+                                    <div class="form-group d-flex m-0 w-100">
+                                        <input type="checkbox" name="nameAddress"
+                                            [checked]="customLayout?.nameAddress === 'Y'"
+                                            (click)="isChecked($event.target, 'nameAddress')" id="address">
+                                        <label for="address">{{"Name Address in Ticket" | translate }}</label>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="float-right  w-100">
+                                    <div class="form-group d-flex m-0 w-100">
+                                        <input type="checkbox" name="citation" [checked]="customLayout?.citation === 'Y'"
+                                            (click)="isChecked($event.target, 'citation')" id="citation">
+                                        <label for="citation">{{"Citation Detail" | translate }}</label>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="float-right  w-100">
+                                    <div class="form-group d-flex m-0 w-100">
+                                        <input type="checkbox" name="payments" [checked]="customLayout?.payments === 'Y'"
+                                            (click)="isChecked($event.target, 'payments')" id="payments">
+                                        <label for="payments">{{"Payments" | translate }}</label>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="float-right  w-100">
+                                    <div class="form-group d-flex m-0 w-100">
+                                        <input type="checkbox" name="processing"
+                                            [checked]="customLayout?.processing === 'Y'" value="processing"
+                                            (click)="isChecked($event.target, 'processing')" id="processing">
+                                        <label for="processing">{{"Processing" | translate }}</label>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" mat-raised-button appearance="fill" class="m-1 color-blue"
+                            (click)="SaveLayout()" [id]="'SaveLayout'">{{"Save as Default" | translate }}</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="right-wrp">
+                    <div class="row" [ngClass]="[(customLayout?.layoutType === '3') ? 'flex-column-reverse' : '']">
+                        <div class="col-md-6" [ngClass]="[(customLayout?.layoutType === '2') ? 'col-md-12' : '', 
+                    (customLayout.layoutType === '3') ? 'col-md-12' : '']">
+                            <div class="outer-box mb-3" *ngIf="customLayout?.image === 'Y'">
+                                <h2>{{"Image" | translate }}
+                                    <div class="float-right">
+                                        <mat-icon (click)="isChecked({checked: false}, 'image')">cancel</mat-icon>
+                                    </div>
+                                </h2>
+                                <div fxLayout="row" fxLayoutAlign="center center">
+                                    <div class="gallery-wrapper">
+                                        <app-gp-gallery></app-gp-gallery>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 toggled-flex" [ngClass]="[(customLayout?.layoutType === '2') ? 'col-md-12' : '', 
+                    (customLayout?.layoutType === '3') ? 'col-md-12' : '']">
+                            <div class="outer-box item-grid  mb-3" *ngIf="customLayout?.processing  === 'Y'">
+                                <h2>{{"Processing" | translate }}
+                                    <div class="float-right">
+                                        <mat-icon (click)="isChecked({checked: false}, 'processing')">cancel</mat-icon>
+                                    </div>
+                                </h2>
+                                <div class="resizable-content" [style.height]="customLayout.processingHeight + 'px'"
+                                    (resized)="ProcessingResized($event)">
+                                    <ul class="list-details">
+                                        <li class="d-flex justify-content-between align-items-center">
+                                            {{"Added to Etims" | translate }}
+                                            <span
+                                                class="cont-list-center">{{galleryDetails?.citationSearchResponse?.processingDetailResult?.addedtoeTims}}</span>
+                                        </li>
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Batch Date" | translate }}
+                                            <span
+                                                class="cont-list-center">{{galleryDetails?.citationSearchResponse?.processingDetailResult?.batchDate
+                                                | date}}
+                                            </span>
+                                        </li>
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Batch Number" | translate }}
+                                            <span
+                                                class="cont-list-center">{{galleryDetails?.citationSearchResponse?.processingDetailResult?.batchNumber}}</span>
+                                        </li>
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Microfilm Number" | translate }}
+                                            <span
+                                                class="cont-list-center">{{galleryDetails?.citationSearchResponse?.processingDetailResult?.microfilmNumber}}</span>
+                                        </li>
+
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Backlog Code" | translate }}
+                                            <span
+                                                class="cont-list-center">{{galleryDetails?.citationSearchResponse?.processingDetailResult?.backlogCode}}</span>
+                                        </li>
+
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Next Event" | translate }}
+                                            <span
+                                                class="cont-list-center">{{galleryDetails?.citationSearchResponse?.processingDetailResult?.nextEvent}}</span>
+                                        </li>
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Hold Status" | translate }}
+                                            <span
+                                                class="cont-list-center">{{galleryDetails?.citationSearchResponse?.processingDetailResult?.holdStatus}}</span>
+                                        </li>
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Hold Process Date" | translate }}
+                                            <span
+                                                class="cont-list-center">{{galleryDetails?.citationSearchResponse?.processingDetailResult?.holdProcessDate
+                                                | date }}
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="outer-box item-grid mb-3" *ngIf="customLayout?.violation  === 'Y'">
+                                <h2>{{"Violation Detail" | translate }}
+                                    <div class="float-right">
+                                        <mat-icon (click)="isChecked({checked: false}, 'violation')">cancel</mat-icon>
+                                    </div>
+                                </h2>
+                                <div class="resizable-content" [style.height]="customLayout.violationHeight + 'px'"
+                                    (resized)="ViolationResized($event)">
+                                    <ul class="list-details">
+                                        <li class="d-flex justify-content-between align-items-center">
+                                            {{"Discription" | translate }}
+                                            <span
+                                                class="cont-list-center">{{galleryDetails?.citationSearchResponse?.violatioDetailResult?.description}}</span>
+                                        </li>
+
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Violation Code" | translate }}
+                                            <span
+                                                class="cont-list-center">{{galleryDetails?.citationSearchResponse?.violatioDetailResult?.violationCode}}</span>
+                                        </li>
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Issue Date" | translate }}
+                                            <span
+                                                class="cont-list-center">{{galleryDetails?.citationSearchResponse?.violatioDetailResult?.issueDate
+                                                | date}}
+                                            </span>
+                                        </li>
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Location" | translate }}
+                                            <span
+                                                class="cont-list-center">{{galleryDetails?.citationSearchResponse?.violatioDetailResult?.location}}</span>
+                                        </li>
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Issuing Officer" | translate }}
+                                            <span
+                                                class="cont-list-center">{{galleryDetails?.citationSearchResponse?.violatioDetailResult?.issuingOfficer}}</span>
+                                        </li>
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Related Violation" | translate }}
+                                            <span
+                                                class="cont-list-center">{{galleryDetails?.citationSearchResponse?.violatioDetailResult?.relatedViolations}}</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="outer-box item-grid mb-3" *ngIf="customLayout?.nameAddress  === 'Y'">
+                                <h2> {{"Name Address in Ticket" | translate }}
+                                    <div class="float-right">
+                                        <mat-icon (click)="isChecked({checked: false}, 'nameAddress')">cancel</mat-icon>
+                                    </div>
+                                </h2>
+                                <div class="resizable-content" [style.height]="customLayout.nameAddressHeight + 'px'"
+                                    (resized)="AddressResized($event)">
+                                    <ul class="list-details">
+                                        <li class="d-flex justify-content-between align-items-center">
+                                            {{"First Name" | translate }}
+                                            <span
+                                                class="cont-list-center">{{galleryDetails?.citationSearchResponse?.nameAndAddressDetail?.firstName}}</span>
+                                        </li>
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Last Name" | translate }}
+                                            <span
+                                                class="cont-list-center">{{galleryDetails?.citationSearchResponse?.nameAndAddressDetail?.lastName}}</span>
+                                        </li>
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Address" | translate }}
+                                            <span
+                                                class="cont-list-center">{{galleryDetails?.citationSearchResponse?.nameAndAddressDetail?.fullAddress}}</span>
+                                        </li>
+
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"City,State,Zip" | translate }}
+                                            <span
+                                                class="cont-list-center">{{galleryDetails?.citationSearchResponse?.nameAndAddressDetail?.city}}
+                                                {{galleryDetails?.citationSearchResponse?.nameAndAddressDetail?.state}}
+                                                {{galleryDetails?.citationSearchResponse?.nameAndAddressDetail?.zip}}</span>
+                                        </li>
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Date of Birth" | translate }}
+                                            <span
+                                                class="cont-list-center">{{galleryDetails?.citationSearchResponse?.nameAndAddressDetail?.dateofBirth
+                                                | date}}</span>
+                                        </li>
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Last Update" | translate }}
+                                            <span
+                                                class="cont-list-center">{{galleryDetails?.citationSearchResponse?.nameAndAddressDetail?.lastUpdated
+                                                | date}}</span>
+                                        </li>
+
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Registration Expiration" | translate }}
+                                            <span
+                                                class="cont-list-center">{{galleryDetails?.citationSearchResponse?.nameAndAddressDetail?.registrationExpiration}}</span>
+                                        </li>
+
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Effective date" | translate }}
+                                            <span
+                                                class="cont-list-center">{{galleryDetails?.citationSearchResponse?.nameAndAddressDetail?.effectiveDate
+                                                | date}}</span>
+                                        </li>
+
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Address Source" | translate }}
+                                            <span
+                                                class="cont-list-center">{{galleryDetails?.citationSearchResponse?.nameAndAddressDetail?.addressSource}}</span>
+                                        </li>
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Phone Number" | translate }}
+                                            <span
+                                                class="cont-list-center">{{galleryDetails?.citationSearchResponse?.nameAndAddressDetail?.phoneNumber}}</span>
+                                        </li>
+
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Email" | translate }}
+                                            <span
+                                                class="cont-list-center">{{galleryDetails?.citationSearchResponse?.nameAndAddressDetail?.email}}</span>
+                                        </li>
+
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"San" | translate }}
+                                            <span
+                                                class="cont-list-center">{{galleryDetails?.citationSearchResponse?.nameAndAddressDetail?.san}}</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="outer-box item-grid  mb-3" *ngIf="customLayout?.citation  === 'Y'">
+                                <h2>{{"Citation Detail" | translate }}
+                                    <div class="float-right">
+                                        <mat-icon (click)="isChecked({checked: false}, 'citation')">cancel</mat-icon>
+                                    </div>
+                                </h2>
+                                <div class="resizable-content" [style.height]="customLayout.citationHeight + 'px'"
+                                    (resized)="CitationResized($event)">
+                                    <ul class="list-details">
+                                        <li class="d-flex justify-content-between align-items-center">
+                                            {{"Agency" | translate }}
+                                            <span class="cont-list-center">
+                                                {{galleryDetails?.citationSearchResponse?.citationDetailResult?.agency}}
+                                            </span>
+                                        </li>
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Make" | translate }}
+                                            <span class="cont-list-center">
+                                                {{galleryDetails?.citationSearchResponse?.citationDetailResult?.make}}
+                                            </span>
+                                        </li>
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Model" | translate }}
+                                            <span class="cont-list-center">
+                                                {{galleryDetails?.citationSearchResponse?.citationDetailResult?.model}}
+                                            </span>
+                                        </li>
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Body Style" | translate }}
+                                            <span class="cont-list-center">
+                                                {{galleryDetails?.citationSearchResponse?.citationDetailResult?.bodyStyle}}
+                                            </span>
+                                        </li>
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Vehicle Year" | translate }}
+                                            <span class="cont-list-center">
+                                                {{galleryDetails?.citationSearchResponse?.citationDetailResult?.vehicleYear}}
+                                            </span>
+                                        </li>
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Badge" | translate }}
+                                            <span class="cont-list-center">
+                                                {{galleryDetails?.citationSearchResponse?.citationDetailResult?.badge}}
+                                            </span>
+                                        </li>
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Division" | translate }}
+                                            <span class="cont-list-center">
+                                                {{galleryDetails?.citationSearchResponse?.citationDetailResult?.division}}
+                                            </span>
+                                        </li>
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Beat" | translate }}
+                                            <span class="cont-list-center">
+                                                {{galleryDetails?.citationSearchResponse?.citationDetailResult?.beat}}
+                                            </span>
+                                        </li>
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Color" | translate }}
+                                            <span class="cont-list-center">
+                                                {{galleryDetails?.citationSearchResponse?.citationDetailResult?.color}}
+                                            </span>
+                                        </li>
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Type" | translate }}
+                                            <span class="cont-list-center">
+                                                {{galleryDetails?.citationSearchResponse?.citationDetailResult?.type}}
+                                            </span>
+                                        </li>
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Plate" | translate }}
+                                            <span class="cont-list-center">
+                                                {{galleryDetails?.citationSearchResponse?.citationDetailResult?.plate}}
+                                            </span>
+                                        </li>
+
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Registration Expiration" | translate }}
+                                            <span class="cont-list-center">
+                                                {{galleryDetails?.citationSearchResponse?.citationDetailResult?.registrationExpiration}}
+                                            </span>
+                                        </li>
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Parking Permit Number" | translate }}
+                                            <span class="cont-list-center">
+                                                {{galleryDetails?.citationSearchResponse?.citationDetailResult?.parkingPermitNumber}}
+                                            </span>
+                                        </li>
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Meter" | translate }}
+                                            <span class="cont-list-center">
+                                                {{galleryDetails?.citationSearchResponse?.citationDetailResult?.meter}}
+                                            </span>
+                                        </li>
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Speed Zone" | translate }}
+                                            <span class="cont-list-center">
+                                                {{galleryDetails?.citationSearchResponse?.citationDetailResult?.speedZone}}
+                                            </span>
+                                        </li>
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Speed Actual" | translate }}
+                                            <span class="cont-list-center">
+                                                {{galleryDetails?.citationSearchResponse?.citationDetailResult?.speedActual}}
+                                            </span>
+                                        </li>
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Over Weight" | translate }}
+                                            <span class="cont-list-center">
+                                                {{galleryDetails?.citationSearchResponse?.citationDetailResult?.overWeight}}
+                                            </span>
+                                        </li>
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Hazard Indicator" | translate }}
+                                            <span class="cont-list-center">
+                                                {{galleryDetails?.citationSearchResponse?.citationDetailResult?.hazardIndicator}}
+                                            </span>
+                                        </li>
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Accident Number" | translate }}
+                                            <span class="cont-list-center">
+                                                {{galleryDetails?.citationSearchResponse?.citationDetailResult?.accidentNumber}}
+                                            </span>
+                                        </li>
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Plate Year" | translate }}
+                                            <span class="cont-list-center">
+                                                {{galleryDetails?.citationSearchResponse?.citationDetailResult?.plateYear}}
+                                            </span>
+                                        </li>
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Plate Color" | translate }}
+                                            <span class="cont-list-center">
+                                                {{galleryDetails?.citationSearchResponse?.citationDetailResult?.plateColor}}
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="outer-box item-grid mb-3" *ngIf="customLayout?.payments  === 'Y'">
+                                <h2>{{"Payment" | translate }}
+                                    <div class="float-right">
+                                        <mat-icon (click)="isChecked({checked: false}, 'payments')">cancel</mat-icon>
+                                    </div>
+                                </h2>
+                                <div class="resizable-content" [style.height]="customLayout.payementHeight + 'px'"
+                                    (resized)="PaymentsResized($event)">
+                                    <ul class="list-details">
+                                        <li class="d-flex justify-content-between align-items-center">
+                                            {{"Fine" | translate }}
+                                            <span
+                                                class="cont-list-center">{{galleryDetails?.citationSearchResponse?.paymentDetailResult?.fine}}</span>
+                                        </li>
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Penalty 1" | translate }}
+                                            <span
+                                                class="cont-list-center">{{galleryDetails?.citationSearchResponse?.paymentDetailResult?.penalty1}}</span>
+                                        </li>
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Penalty 2" | translate }}
+                                            <span
+                                                class="cont-list-center">{{galleryDetails?.citationSearchResponse?.paymentDetailResult?.penalty2}}</span>
+                                        </li>
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Penalty 3" | translate }}
+                                            <span
+                                                class="cont-list-center">{{galleryDetails?.citationSearchResponse?.paymentDetailResult?.penalty3}}</span>
+                                        </li>
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Penalty 4" | translate }}
+                                            <span
+                                                class="cont-list-center">{{galleryDetails?.citationSearchResponse?.paymentDetailResult?.penalty4}}</span>
+                                        </li>
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Penalty 5" | translate }}
+                                            <span
+                                                class="cont-list-center">{{galleryDetails?.citationSearchResponse?.paymentDetailResult?.penalty5}}</span>
+                                        </li>
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Reduction" | translate }}
+                                            <span
+                                                class="cont-list-center">{{galleryDetails?.citationSearchResponse?.paymentDetailResult?.reduction}}</span>
+                                        </li>
+
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Interest" | translate }}
+                                            <span
+                                                class="cont-list-center">{{galleryDetails?.citationSearchResponse?.paymentDetailResult?.interest}}</span>
+                                        </li>
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Batch Number" | translate }}
+                                            <span
+                                                class="cont-list-center">{{galleryDetails?.citationSearchResponse?.paymentDetailResult?.batchNumber}}</span>
+                                        </li>
+
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Type" | translate }}
+                                            <span
+                                                class="cont-list-center">{{galleryDetails?.citationSearchResponse?.paymentDetailResult?.type}}</span>
+                                        </li>
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Account" | translate }}
+                                            <span
+                                                class="cont-list-center">{{galleryDetails?.citationSearchResponse?.paymentDetailResult?.account}}</span>
+                                        </li>
+
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Process Date" | translate }}
+                                            <span
+                                                class="cont-list-center">{{galleryDetails?.citationSearchResponse?.paymentDetailResult?.processDate}}</span>
+                                        </li>
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Payment Dept" | translate }}
+                                            <span
+                                                class="cont-list-center">{{galleryDetails?.citationSearchResponse?.paymentDetailResult?.paymentDept}}</span>
+                                        </li>
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Method" | translate }}
+                                            <span
+                                                class="cont-list-center">{{galleryDetails?.citationSearchResponse?.paymentDetailResult?.method}}</span>
+                                        </li>
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Amount" | translate }}
+                                            <span
+                                                class="cont-list-center">{{galleryDetails?.citationSearchResponse?.paymentDetailResult?.amount}}</span>
+                                        </li>
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Refund Check Number" | translate }}
+                                            <span
+                                                class="cont-list-center">{{galleryDetails?.citationSearchResponse?.paymentDetailResult?.refundCheckNumber}}</span>
+                                        </li>
+                                        <li class=" d-flex justify-content-between align-items-center">
+                                            {{"Reapply Source" | translate }}
+                                            <span
+                                                class="cont-list-center">{{galleryDetails?.citationSearchResponse?.paymentDetailResult?.reapplySource}}</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<mat-dialog-actions align="end">
+    <button [id]="'event35'" mat-button matDialogClose color="primary">{{'Dismiss' | translate}}</button>
+</mat-dialog-actions>

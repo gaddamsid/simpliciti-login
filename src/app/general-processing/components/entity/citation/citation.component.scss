@@ -1,0 +1,104 @@
+.plate-info-link {
+    color: #007bff !important;
+    cursor: pointer;
+}
+
+.open-account {
+    margin-left: 10px;
+    box-sizing: border-box;
+
+    ::ng-deep {
+        .mat-form-field-flex {
+            padding: 0.4em 0.35em 0.1em 0.35em;
+            box-sizing: border-box;
+            height: 40px;
+        }
+    }
+}
+
+
+
+.search-event-entity {
+    ::ng-deep {
+        .mat-form-field-flex {
+            padding: 0.4em 0.35em 0.1em 0.35em;
+            box-sizing: border-box;
+            height: 40px;
+        }
+    }
+}
+
+.action-icons-search {
+    margin-top: 18px;
+    z-index: 1;
+    // .disabled{
+    //     background-color: #dadddc !important;
+    //     color: #000;
+    // }
+}
+
+.entity-icons-group.eventicons button {
+    height: 40px;
+    min-width: 44px;
+    width: 44px;
+}
+
+.flex-1 {
+  flex: 1;
+}
+.opacity-0 {
+  opacity: 0;
+}
+.event-button {
+    padding: 0 10px 0 10px;
+    border-radius: 0;
+    margin-bottom: 1px;
+    min-height: 40px;
+    height: 40px;
+    background-color: #55585a;
+  }
+  
+  
+  .entity-button {
+    padding: 0 10px 0 10px;
+    border-radius: 0;
+    margin-left: 1px !important;
+    margin-bottom: 1px;
+    min-height: 40px;
+    height: 40px;
+    background-color: #dadddc;
+    color: #000;
+  }
+  .button-selector {
+    margin-left: 13px;
+  }
+  .entity-button.active {
+    background-color: #55585a !important;
+    color: #fff !important;
+  }
+
+  .color-text {
+    color: #468cff!important;
+  }
+
+  .custom-suffle {
+    width: 1024px !important;
+
+}
+
+.layoutLinks {
+  position: absolute;
+  top: 50px !important;
+  right:50px !important;
+}
+.layoutLinks a{
+  color: blue;
+  margin-left: 15px;
+  cursor: pointer;
+}
+// .layoutLinks a:active {
+//   color: blue;
+// }
+.active-layout {
+  color: #dd51b8 !important;
+}

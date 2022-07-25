@@ -1,0 +1,194 @@
+<div class="spinner-wrapper spinn" *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
+</div>
+<div class="add-ticket-container">
+    <h3 class="header-title">
+        {{'Add a Ticket' | translate}}
+    </h3>
+    <div class="container-fluid">
+        <form [formGroup]="ticketDetailsForm" (ngSubmit)="addTicketDetails(ticketDetailsForm.value)">
+            <div class="row">
+                <!-- Customer Information box -->
+                <div class="col-md-3">
+                    <mat-card class="p-0">
+                        <div>
+                            <div class="align-items-center blacked-title d-flex justify-content-between m-0">
+                                <p class="align-items-center d-flex m-0"><span>
+                                        {{"Customer Information" | translate}}</span>
+                                </p>
+                            </div>
+                            <mat-card-content class="mat-card-content p-2 pt-0">
+                                <div class="innergrid border-0">
+                                    <table>
+                                        <tr>
+                                            <td>{{"Plate:" | translate}}</td>
+                                            <td class="font-weight-bold">{{plateNumber}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{"Ticket Type:" | translate}}</td>
+                                            <td class="font-weight-bold"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{"Name:" | translate}}</td>
+                                            <td class="font-weight-bold">{{entityDetails?.ownerDetails.ownerName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{"Address1:" | translate}}</td>
+                                            <td class="font-weight-bold" style="overflow-wrap: anywhere;">
+                                                {{entityDetails?.ownerDetails.address.streetLine1}}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{"Address2:" | translate}}</td>
+                                            <td class="font-weight-bold">
+                                                {{entityDetails?.ownerDetails.address.streetLine2}}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{"City:" | translate}}</td>
+                                            <td class="font-weight-bold">{{entityDetails?.ownerDetails.address.city}}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{"State:" | translate}}</td>
+                                            <td class="font-weight-bold">{{entityDetails?.ownerDetails.address.state}}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>{{"Zip:" | translate}}</td>
+                                            <td class="font-weight-bold">{{entityDetails?.ownerDetails.address.zipCode}}
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </mat-card-content>
+                        </div>
+                    </mat-card>
+                </div>
+                <!-- Ticket Details Information box -->
+                <div class="col-md-9">
+                    <mat-card class="p-0">
+                        <div>
+                            <div class="align-items-center blacked-title d-flex justify-content-between m-0">
+                                <p class="align-items-center d-flex m-0"><span>{{"Ticket Information" |
+                                        translate}}</span>
+                                </p>
+                                <mat-icon (click)="addTicketRow()" role="img" disable="disablePlusBtn" id="addIcon"
+                                    class="mat-icon notranslate" aria-hidden="true"><span class="material-icons cursor"
+                                        [ngClass]="disablePlusBtn === true ? 'disable-icon' : ''">add_circle_outline</span>
+                                </mat-icon>
+                            </div>
+                        </div>
+                        <mat-card-content class="mat-card-content p-2 pt-0">
+                            <div formArrayName="ticketData">
+                                <div class="row mt-2" *ngFor="let ticket of ticketData.controls; let i=index;"
+                                    [formGroupName]="i">
+                                    <div class="col-md-3">
+                                        <mat-form-field appearance="fill" class="w-100">
+                                            <mat-label>{{ "Ticket Number" | translate }}</mat-label>
+                                            <input matInput [id]="'ticketNum'+i" maxlength="11"
+                                                formControlName="ticketNum" (keyup)="checkTicketNum()"
+                                                (keypress)="noWhiteSpace($event)"
+                                                placeholder="{{ 'Ticket Number' | translate }}" />
+                                            <!-- ERRORS -->
+                                            <mat-error
+                                                *ngIf="ticketData.controls[i].get('ticketNum')?.errors?.['required']"
+                                                [id]="'errorTicketNum'+i">
+                                                {{'Ticket Number is Required' | translate}}
+                                            </mat-error>
+                                            <mat-error
+                                                *ngIf="ticketData.controls[i].get('ticketNum')?.errors?.['invalid']"
+                                                [id]="'dupTicketNum'+i">
+                                                {{'Ticket Number already exists' | translate}}
+                                            </mat-error>
+                                            <!-- ERRORS -->
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <mat-form-field appearance="fill" class="w-100">
+                                            <mat-label>{{ "Fine Amount" | translate }}</mat-label>
+                                            <input [id]="'amount'+i" matInput type="number" min="0" max="99999.99"
+                                                maxlength="8" placeholder="{{ 'Amount' | translate }}"
+                                                formControlName="amount" (blur)="transformTotal('amount',i)" />
+                                            <!-- ERRORS -->
+                                            <mat-error
+                                                *ngIf="ticketData.controls[i].get('amount')?.errors?.['required']"
+                                                [id]="'errorAmount'+i">
+                                                {{'Fine Amount is Required' | translate}}
+                                            </mat-error>
+                                            <mat-error *ngIf="ticketData.controls[i].get('amount')?.hasError('max')"
+                                                [id]="'errorAmountlen'+i" class="textlenth"
+                                                matTooltip="{{ 'Max 5 Digit Allowed' | translate }}">
+                                                {{ 'Max 5 Digit Allowed' | translate }}
+                                            </mat-error>
+                                            <!-- ERRORS -->
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <mat-form-field appearance="fill" class="w-100">
+                                            <mat-label>{{ "Agency" | translate }}</mat-label>
+                                            <mat-select formControlName="agency" [id]="'agency'+i"
+                                                (selectionChange)="agencySelect($event, i)">
+                                                <mat-option *ngFor="let item of agencyDetails"
+                                                    [value]="item.issuingAgencyId">
+                                                    {{item.agencyLongName}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <!-- ERRORS -->
+                                            <mat-error
+                                                *ngIf="ticketData.controls[i].get('agency')?.errors?.['required']"
+                                                [id]="'errorAgency'+i">
+                                                {{'Agency is Required' | translate}}
+                                            </mat-error>
+                                            <!-- ERRORS -->
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <mat-form-field appearance="fill" class="w-100">
+                                            <mat-label>{{ "Badge" | translate }}</mat-label>
+                                            <mat-select formControlName="badge" [id]="'badge'+i"
+                                                (selectionChange)="badgeSelect($event, i)">
+                                                <mat-option *ngFor="let item of badgeDetails"
+                                                    [value]="item.badgeNumberId">
+                                                    {{item.badgeOfficerName}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <!-- ERRORS -->
+                                            <mat-error *ngIf="ticketData.controls[i].get('badge')?.errors?.['required']"
+                                                [id]="'errorBadge'+i">
+                                                {{'Badge is Required' | translate}}
+                                            </mat-error>
+                                            <!-- ERRORS -->
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-2">
+                                <div class="col-md-6">
+                                    <mat-form-field appearance="fill" class="w-100">
+                                        <mat-label>{{ "Notes" | translate }}</mat-label>
+                                        <input id="notes" matInput placeholder="{{ 'Notes' | translate }}"
+                                            formControlName="notes" maxlength="150" />
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </div>
+            <div class="row mt-2 pr-0">
+                <div class="align-items-end col-md-12 mb-4 d-flex justify-content-end">
+                    <button type="button" mat-raised-button class="m-1 color-blue" id="cancel"
+                        (click)="cancelAddTicket()">
+                        {{'Cancel'| translate}}</button>
+                    <button type="button" mat-raised-button class="m-1 color-blue" id="validate"
+                        (click)="validateTicket(ticketDetailsForm.value)">
+                        {{'Validate' |translate}}</button>
+                    <button type="submit" [disabled]="addDisable" [ngClass]="addDisable ? 'btn-disable': ''" id="add"
+                        mat-raised-button class="m-1 color-blue">
+                        {{'Add' |translate}}</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

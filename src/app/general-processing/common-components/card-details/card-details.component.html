@@ -1,0 +1,24 @@
+<mat-card class="p-0 d-flex h-100 flex-column w-100">
+    <div class="align-items-center blacked-title d-flex  m-0" id="{{cardData?.id}}"
+        [ngClass]="cardData?.titleTextRight ? 'justify-content-end' : 'justify-content-between'"
+        *ngIf="cardData?.title">
+        <p class="align-items-center d-flex m-0">{{cardData?.title | translate}}</p>
+    </div>
+    <mat-card-content class="mat-card-content p-2 pt-0">
+        <div class="innergrid border-0">
+            <div class="row w-100 m-0" *ngIf="cardData?.details?.length == 0">
+                No Record Found
+            </div>
+            <ng-container *ngIf="cardData?.details?.length > 0">
+                <div *ngFor="let data of cardData.details; let i = index" id="card_body_{{i}}" class="row w-100 m-0">
+                    <div class="col-md-5 pl-0" [ngClass]="cardData?.headingTextRight ? 'text-right' : ''">
+                        {{data?.key | translate}}
+                    </div>
+                    <div class="font-weight-bold col-md-7 pr-0 word-break" [ngClass]="cardData?.bodyTextRight ? 'text-right' : ''">
+                        {{data?.value && data?.value !== 'undefined' && data?.value !== 'null' && data?.value !== ' ' ? data?.value : '-' }}
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </mat-card-content>
+</mat-card>

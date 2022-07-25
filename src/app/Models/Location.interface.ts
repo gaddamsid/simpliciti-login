@@ -1,0 +1,20 @@
+export interface LocationModel {
+    locationsID: number,
+    locationsCode: string,
+    locationsName: string,
+    contractID: number,
+    locationsDescription: string,
+    amberTime: string,
+    latitude: number,
+    longitude: number,
+    locationsEnabled: boolean,
+    active: boolean,
+    jurisdictionsName: null,
+    contractTypeId: number,
+    contractTypesName: null,
+    createUserID: number,
+    updateUserID: number,
+    createDatetime: string,
+    updateDatetime: string,
+    isDeleted: string
+}

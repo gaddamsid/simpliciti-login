@@ -1,0 +1,58 @@
+<div class="align-items-center d-flex h-100 notice">
+    <ul>
+        <li>
+            <mat-icon (click)="back()" class="line-text">keyboard_arrow_left</mat-icon><a href=""><span></span></a>
+        </li>
+    </ul>
+</div>
+
+<div class="spinner-wrapper" *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
+</div>
+<div *ngIf="!isLoading">
+    <div class="container-fluid">
+        <div class="row mt-2">
+            <div class="col-md-6">
+                <app-card-details [cardData]="noticeInfo"></app-card-details>
+            </div>
+            <div class="col-md-6">
+                <app-card-details [cardData]="ticketInfo"></app-card-details>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-md-6">
+                <app-card-details [cardData]="issuanceInfo"></app-card-details>
+            </div>
+            <div class="col-md-6">
+                <mat-card class="p-0 d-flex h-100 flex-column w-100">
+                    <div class="align-items-center blacked-title d-flex  m-0" id="{{financialInfo?.id}}"
+                        [ngClass]="financialInfo?.titleTextRight ? 'justify-content-end' : 'justify-content-between'"
+                        *ngIf="financialInfo?.title">
+                        <p class="align-items-center d-flex m-0">{{financialInfo?.title | translate}}</p>
+                    </div>
+                    <mat-card-content class="mat-card-content p-2 pt-0">
+                        <div class="innergrid border-0">
+                            <div class="row w-100 m-0" *ngIf="financialInfo?.details?.length == 0">
+                                No Record Found
+                            </div>
+                            <ng-container *ngIf="financialInfo?.details?.length > 0">
+                                <div *ngFor="let data of financialInfo.details; let i = index" id="card_body_{{i}}"
+                                    class="row w-100 m-0">
+                                    <div class="col-md-5 pl-0"
+                                        [ngClass]="financialInfo?.headingTextRight ? 'text-right' : ''">
+                                        {{data?.key | translate}}
+                                    </div>
+                                    <div class="font-weight-bold col-md-7 pr-0 word-break"
+                                        [ngClass]="financialInfo?.bodyTextRight ? 'text-right' : ''">
+                                        {{(data?.value && data?.value !== 'undefined' && data?.value !== 'null' ?
+                                        data?.value : '0') | currency}}
+                                    </div>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </div>
+    </div>
+</div>

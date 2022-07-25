@@ -1,0 +1,438 @@
+<div class="container-fluid">
+  <div class="mat-elevation-z8">
+    <table mat-table class="full-width-table event-table" matSort aria-label="Elements" [dataSource]="dataSource">
+      <!-- Id Column -->
+      <ng-container matColumnDef="Eventid" >
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Event id</th>
+        <td mat-cell *matCellDef="let row"><a href="">{{row.userId}}</a></td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="VoilationdateTime">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Voilation date |Time
+        </th>
+        <td mat-cell *matCellDef="let row">09/21/2020 |10:34:28 AM</td>
+      </ng-container>
+      <!-- Name Column -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>status</th>
+        <td mat-cell *matCellDef="let row">{{row.title}}</td>
+      </ng-container>
+      <!-- Name Column -->
+      <ng-container matColumnDef="Dategory">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Dategory</th>
+        <td mat-cell *matCellDef="let row">Speeding</td>
+      </ng-container>
+      <!-- Name Column -->
+      <ng-container matColumnDef="DeploymentID">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Deployment ID</th>
+        <td mat-cell *matCellDef="let row">52-202009211200</td>
+      </ng-container>
+      <!-- Name Column -->
+      <ng-container matColumnDef="LocationDescription">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Location Code | Description
+        </th>
+        <td mat-cell *matCellDef="let row">
+          117- 518 Taraval st, san Franciso, Ca 94118
+        </td>
+      </ng-container>
+      <!-- Name Column -->
+      <ng-container matColumnDef="LaneNumber">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>LaneNumber</th>
+        <td mat-cell *matCellDef="let row">1</td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="AmyDue">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>AmyDue</th>
+        <td mat-cell *matCellDef="let row">$98</td>
+      </ng-container>
+        <ng-container matColumnDef="iconmenu">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+          <td mat-cell *matCellDef="let row"><button mat-button >
+              <mat-icon> insert_drive_file</mat-icon>
+            </button>
+          
+          </td>
+        </ng-container>
+
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+
+    <mat-paginator
+      #paginator
+      [length]="dataSource?.data?.length"
+      [pageIndex]="0"
+      [pageSize]="10"
+      [pageSizeOptions]="[5, 10, 20]"
+      aria-label="Select page"
+    >
+    </mat-paginator>
+  </div>
+</div>
+
+<!-- 
+<div class="container-fluid">
+  <div class="row">
+    <div class="eventinner-tab">
+      <div class="top-bread">
+        <ul class="breadcrumb">
+          <li><a href="#"><mat-icon>home</mat-icon></a></li>
+          <li><a href="#">Search</a></li>
+          <li><a href="#">CA6ROH333</a></li>
+            <li><a href="#">100003909</a></li>
+  
+        </ul>
+      </div>
+    </div>
+  </div> -->
+
+
+  <!-- <div class="container-fluid">
+    <div class="row">
+      <div class="top-table">
+        <div class="icon">
+          <div class="row">
+            <div class="col-md-8">
+              <div class="eventicons">
+                <button mat-button>
+                  <img src="./assets/images/Add%20Ticket.png" />
+                </button>
+                <button mat-button>
+                  <img src="./assets/images/Group%207658.svg" />
+                </button>
+                <button mat-button>
+                  <img src="./assets/images/Group%208243.svg" />
+                </button>
+                <button mat-button [matMenuTriggerFor]="menu">
+                  <img src="./assets/images/Group%208102.svg" />
+                </button>
+                <button mat-button>
+                  <img src="./assets/images/Group%208257.svg" />
+                </button>
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item>Xl</button>
+                  <button mat-menu-item>Xl Detail</button>
+                  <button mat-menu-item>PDF</button>
+                  <button mat-menu-item>CSV</button>
+                  <button mat-menu-item>Print</button>
+                </mat-menu>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="plates">
+                <ul>
+                  <li>
+                    <mat-icon>keyboard_arrow_left</mat-icon><a href=""><span>PREVIOUS PLATE</span></a>
+                  </li>
+                  <li><a href=""><span>NEXT PLATE</span>
+                      <mat-icon>keyboard_arrow_right</mat-icon>
+                    </a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+ 
+<!--   
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-5">
+        <button mat-raised-button class="color-blue">Ticket Detail</button>
+        <button mat-raised-button class="color-blue">Ticket History</button>
+        <button mat-raised-button class="color-blue">Correspondance</button>
+
+        <div class="sider pt-5 m-2">
+          <img src="./assets/images/car.jfif">
+        </div>
+  <div class="card-box-wrp ">
+      <div class="col-12 p-2">
+        <div class="card">
+          <div class="d-flex justify-content-between align-items-start head-card">
+            <div class="ms-2 me-auto">
+              <mat-icon> location_on</mat-icon> Voilation detail
+      
+            </div>
+            <span class="">
+              <mat-icon class="edit-blue">edit</mat-icon>
+            </span>
+          </div>
+          <div class="list-group p-1">
+            <div class="d-flex justify-content-between align-items-start pb-3">
+              <div class="ms-2 me-auto">
+                <div class="">Discription</div>
+      
+              </div>
+              <span class="">Andrew john</span>
+            </div>
+            <div class=" d-flex justify-content-between align-items-start pb-3">
+              <div class="ms-2 me-auto">
+                <div class="">Violation Code</div>
+      
+              </div>
+              <span class="">7234158963</span>
+            </div>
+            <div class=" d-flex justify-content-between align-items-start pb-3">
+              <div class="ms-2 me-auto">
+                <div class="">Issue Date</div>
+      
+              </div>
+              <span class="">5/09/1986</span>
+            </div>
+            <div class=" d-flex justify-content-between align-items-start pb-3">
+              <div class="ms-2 me-auto">
+                <div class="">Location</div>
+      
+              </div>
+              <span class="">9915 HEROGATE RO, YORK 1742 </span>
+            </div>
+            <div class=" d-flex justify-content-between align-items-start pb-3">
+              <div class="ms-2 me-auto">
+                <div class="">issuing officer</div>
+      
+              </div>
+              <span class="">3467897349</span>
+            </div>
+            <div class=" d-flex justify-content-between align-items-start pb-3">
+              <div class="ms-2 me-auto">
+                <div class="">Related Violation</div>
+      
+              </div>
+              <span class="">11/12/2015</span>
+            </div>
+          </div>
+        </div>
+      </div>
+          </div>
+        </div>
+        <div class="col-7">
+          <div class="row">
+            <div class="col-7">
+              <div class="eventicons">
+                <button mat-button>
+                  <img src="./assets/images/Add%20Ticket.png" />
+                </button>
+                <button mat-button>
+                  <img src="./assets/images/Group%207658.svg" />
+                </button>
+                <button mat-button>
+                  <img src="./assets/images/Group%208243.svg" />
+                </button>
+                <button mat-button [matMenuTriggerFor]="menu">
+                  <img src="./assets/images/Group%208102.svg" />
+                </button>
+                <button mat-button>
+                  <img src="./assets/images/Group%208257.svg" />
+                </button>
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item>Xl</button>
+                  <button mat-menu-item>Xl Detail</button>
+                  <button mat-menu-item>PDF</button>
+                  <button mat-menu-item>CSV</button>
+                  <button mat-menu-item>Print</button>
+                </mat-menu>
+              </div>
+            </div>
+            <div class="col-5">
+              <div class="plates">
+                <ul>
+                  <li>
+                    <mat-icon>keyboard_arrow_left</mat-icon><a href=""><span>PREVIOUS PLATE</span></a>
+                  </li>
+                  <li><a href=""><span>NEXT PLATE</span>
+                      <mat-icon>keyboard_arrow_right</mat-icon>
+                    </a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+     <div class="card-box-wrp pt-5">
+            <div class="row">
+            <div class="col-12 p-2">
+              <div class="card">
+                <div class="d-flex justify-content-between align-items-start head-card">
+                  <div class="ms-2 me-auto">
+                 <mat-icon> location_on</mat-icon> Voilation detail
+               
+                  </div>
+                  <span class=""><mat-icon class="edit-blue">edit</mat-icon></span>
+                </div>
+                <div class="list-group p-1">
+                  <div class="d-flex justify-content-between align-items-start pb-3">
+                    <div class="ms-2 me-auto">
+                      <div class="">Discription</div>
+                     
+                    </div>
+                    <span class="">Andrew john</span>
+                  </div>
+                  <div class=" d-flex justify-content-between align-items-start pb-3">
+                    <div class="ms-2 me-auto">
+                      <div class="">Violation Code</div>
+                     
+                    </div>
+                    <span class="">7234158963</span>
+                  </div>
+                  <div class=" d-flex justify-content-between align-items-start pb-3">
+                    <div class="ms-2 me-auto">
+                      <div class="">Issue Date</div>
+                 
+                    </div>
+                    <span class="">5/09/1986</span>
+                  </div>
+                    <div class=" d-flex justify-content-between align-items-start pb-3">
+                      <div class="ms-2 me-auto">
+                        <div class="">Location</div>
+                    
+                      </div>
+                      <span class="">9915 HEROGATE RO, YORK 1742 </span>
+                    </div>
+                      <div class=" d-flex justify-content-between align-items-start pb-3">
+                        <div class="ms-2 me-auto">
+                          <div class="">issuing officer</div>
+                      
+                        </div>
+                        <span class="">3467897349</span>
+                      </div>
+                      <div class=" d-flex justify-content-between align-items-start pb-3">
+                        <div class="ms-2 me-auto">
+                          <div class="">Related Violation</div>
+                      
+                        </div>
+                        <span class="">11/12/2015</span>
+                      </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 p-2">
+              <div class="card">
+                <div class="d-flex justify-content-between align-items-start head-card">
+                  <div class="ms-2 me-auto">
+                    <mat-icon> location_on</mat-icon> Voilation detail
+            
+                  </div>
+                  <span class="">
+                    <mat-icon class="edit-blue">edit</mat-icon>
+                  </span>
+                </div>
+                <div class="list-group p-1">
+                  <div class="d-flex justify-content-between align-items-start pb-3">
+                    <div class="ms-2 me-auto">
+                      <div class="">Discription</div>
+            
+                    </div>
+                    <span class="">Andrew john</span>
+                  </div>
+                  <div class=" d-flex justify-content-between align-items-start pb-3">
+                    <div class="ms-2 me-auto">
+                      <div class="">Violation Code</div>
+            
+                    </div>
+                    <span class="">7234158963</span>
+                  </div>
+                  <div class=" d-flex justify-content-between align-items-start pb-3">
+                    <div class="ms-2 me-auto">
+                      <div class="">Issue Date</div>
+            
+                    </div>
+                    <span class="">5/09/1986</span>
+                  </div>
+                  <div class=" d-flex justify-content-between align-items-start pb-3">
+                    <div class="ms-2 me-auto">
+                      <div class="">Location</div>
+            
+                    </div>
+                    <span class="">9915 HEROGATE RO, YORK 1742 </span>
+                  </div>
+                  <div class=" d-flex justify-content-between align-items-start pb-3">
+                    <div class="ms-2 me-auto">
+                      <div class="">issuing officer</div>
+            
+                    </div>
+                    <span class="">3467897349</span>
+                  </div>
+                  <div class=" d-flex justify-content-between align-items-start pb-3">
+                    <div class="ms-2 me-auto">
+                      <div class="">Related Violation</div>
+            
+                    </div>
+                    <span class="">11/12/2015</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 p-2">
+              <div class="card">
+                <div class="d-flex justify-content-between align-items-start head-card">
+                  <div class="ms-2 me-auto">
+                    <mat-icon> location_on</mat-icon> Voilation detail
+            
+                  </div>
+                  <span class="">
+                    <mat-icon class="edit-blue">edit</mat-icon>
+                  </span>
+                </div>
+                <div class="list-group p-1">
+                  <div class="d-flex justify-content-between align-items-start pb-3">
+                    <div class="ms-2 me-auto">
+                      <div class="">Discription</div>
+            
+                    </div>
+                    <span class="">Andrew john</span>
+                  </div>
+                  <div class=" d-flex justify-content-between align-items-start pb-3">
+                    <div class="ms-2 me-auto">
+                      <div class="">Violation Code</div>
+            
+                    </div>
+                    <span class="">7234158963</span>
+                  </div>
+                  <div class=" d-flex justify-content-between align-items-start pb-3">
+                    <div class="ms-2 me-auto">
+                      <div class="">Issue Date</div>
+            
+                    </div>
+                    <span class="">5/09/1986</span>
+                  </div>
+                  <div class=" d-flex justify-content-between align-items-start pb-3">
+                    <div class="ms-2 me-auto">
+                      <div class="">Location</div>
+            
+                    </div>
+                    <span class="">9915 HEROGATE RO, YORK 1742 </span>
+                  </div>
+                  <div class=" d-flex justify-content-between align-items-start pb-3">
+                    <div class="ms-2 me-auto">
+                      <div class="">issuing officer</div>
+            
+                    </div>
+                    <span class="">3467897349</span>
+                  </div>
+                  <div class=" d-flex justify-content-between align-items-start pb-3">
+                    <div class="ms-2 me-auto">
+                      <div class="">Related Violation</div>
+            
+                    </div>
+                    <span class="">11/12/2015</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            </div>
+     </div>
+        </div>
+      
+      
+      </div>
+    </div> -->

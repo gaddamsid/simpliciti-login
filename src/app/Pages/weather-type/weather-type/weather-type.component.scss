@@ -1,0 +1,24 @@
+.createWTBtn .btn{
+    font-size: 0.75rem;
+    color: white;
+}
+.weatherTypesLength {
+    display: flex;
+    padding-right:5px;
+    align-items: center;
+}
+.entries {
+    width: auto;
+    margin-left: 1px;
+    margin-right: 1px;
+}
+.dataTables_filter {
+    position: absolute;
+    right: 0.25rem;
+    display: flex;
+    padding-right: 5px;
+    align-items: center;
+}
+.color-green {
+    color: green;
+}

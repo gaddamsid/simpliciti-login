@@ -1,0 +1,400 @@
+<app-bread-crumb></app-bread-crumb>
+<!-- Search Form -->
+<div class="notice-search" *ngIf="!hideSearch">
+  <div class="d-flex notice-searchBar">
+    <div class="container-fluid d-flex">
+      <div class="form">
+        <form [formGroup]="noticeSearchForm">
+          <div class="row">
+            <div class="col-md-3">
+              <mat-form-field class="w-100 mt-3 open-account" appearance="fill">
+                <mat-label>
+                  {{ "Notice Type" | translate }}
+                  <i *ngIf="loaderNoticeType" class="fa fa-spinner fa-spin"></i>
+                </mat-label>
+                <mat-select formControlName="noticeType">
+                  <mat-option (click)="toggleNoticeName('N/A')">
+                    N/A
+                  </mat-option>
+                  <mat-option
+                    *ngFor="let notice of noticeTypeDropDown"
+                    [value]="notice.noticeTypeID"
+                    (click)="toggleNoticeName(notice.noticeTypeLongName)"
+                  >
+                    {{ notice?.noticeType }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-3">
+              <mat-form-field
+                appearance="fill"
+                class="w-100 search-event-entity mt-3"
+              >
+                <mat-label>{{ "Notice Name" | translate }}</mat-label>
+                <input
+                  formControlName="noticeName"
+                  matInput
+                  placeholder="Notice Name"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-md-3">
+              <mat-form-field class="w-100 mt-3 date-select-input">
+                <input
+                  formControlName="dateMailed"
+                  matInput
+                  type="date"
+                  placeholder="{{ 'Date Mailed' | translate }}"
+                  (change)="onChangeMailDate($event)"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-md-3">
+              <mat-form-field class="w-100 mt-3 date-select-input">
+                <input
+                  formControlName="dateGenerated"
+                  matInput
+                  type="date"
+                  placeholder="{{ 'Date Generated' | translate }}"
+                  (change)="onChangeGeneratedDate($event)"
+                />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <mat-form-field
+                appearance="fill"
+                class="w-100 search-event-entity"
+              >
+                <mat-label>{{ "Sequence Number" | translate }}</mat-label>
+                <input
+                  formControlName="sequenceNumber"
+                  matInput
+                  oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                  maxlength="11"
+                  placeholder="{{ 'Sequence Number' | translate }}"
+                  (change)="onChangeSequenceNumber($event)"
+                />
+              </mat-form-field>
+            </div>
+            <div class="col-md-3">
+              <mat-form-field
+                appearance="fill"
+                class="w-100 search-event-entity"
+              >
+                <mat-label>{{ "Ticket Number" | translate }}</mat-label>
+                <input
+                  formControlName="citationNumberOrTicketNumber"
+                  matInput
+                  placeholder="{{ 'Ticket Number' | translate }}"
+                  maxlength="11"
+                  (change)="onChangeTicketNumber($event)"
+                />
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-1">
+              <mat-form-field
+                class="w-100 open-account state-drop-down"
+                appearance="fill"
+              >
+                <mat-label
+                  ><i *ngIf="loaderStateList" class="fa fa-spinner fa-spin"></i>
+                  {{ "State" | translate }}
+                </mat-label>
+                <mat-select formControlName="state">
+                  <mat-option (click)="toggleState('N/A')"> N/A </mat-option>
+                  <mat-option
+                    *ngFor="let state of stateDropDown"
+                    [value]="state"
+                    (click)="toggleState(state)"
+                  >
+                    {{ state }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field
+                appearance="fill"
+                class="w-100 search-event-entity"
+              >
+                <mat-label>{{ "Enter Plate" | translate }}</mat-label>
+                <input
+                  formControlName="plateID"
+                  matInput
+                  placeholder="{{ 'Enter Plate' | translate }}"
+                  maxlength="10"
+                  (change)="onChangeStatePlate($event)"
+                />
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-3">
+              <mat-form-field
+                appearance="fill"
+                class="w-100 search-event-entity"
+              >
+                <mat-label>{{ "Driver's License" | translate }}</mat-label>
+                <input
+                  formControlName="driverSearchLicense"
+                  matInput
+                  placeholder="{{ 'Drivers License' | translate }}"
+                  maxlength="10"
+                  (change)="onChangeDriversLicense($event)"
+                />
+              </mat-form-field>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div
+        class="button-submit d-flex justify-content-center align-item-center ml-5"
+      >
+        <button
+          mat-raised-button
+          color="primary"
+          class="w-200 notice-submit mt-5"
+          id="getSearchResults"
+          (click)="searchNotice()"
+          [disabled]="loader"
+        >
+          {{ "Search" | translate }}
+          <i *ngIf="loader" class="fa fa-spinner fa-spin"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid"></div>
+</div>
+
+<!-- Search Result Table -->
+<div class="container-fluid" *ngIf="!hideSearch">
+  <div *ngIf="showTable" class="mat-elevation-z8 table-border">
+    <div class="d-flex flex-1 justify-content-between">
+      <div class="opacity-0">.</div>
+      <div class="flex-1 d-flex">
+        <button mat-button>
+          <img src="./assets/images/Group%208102.svg" width="34px" />
+        </button>
+        <button mat-button>
+          <img src="./assets/images/scissorsIcon.png" width="34px" />
+        </button>
+        <button mat-button>
+          <mat-icon class="edit-blue">access_time</mat-icon>
+        </button>
+      </div>
+      <div class="flex-1">
+        <mat-form-field appearance="fill" class="mr-3 mt-3">
+          <mat-label>{{ "Search" | translate }}</mat-label>
+          <input matInput placeholder="Type" (keyup)="applyFilter($event)" />
+        </mat-form-field>
+      </div>
+    </div>
+    <table
+      mat-table
+      class="full-width-table plate-info-table"
+      matSort
+      aria-label="Elements"
+      [dataSource]="dataSource"
+      matSortDisableClear
+    >
+      <ng-container matColumnDef="select">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          style="padding: 0 !important; vertical-align: middle"
+          class="header-checkbox"
+        >
+          <mat-checkbox
+            color="primary"
+            (change)="$event ? masterToggle() : null"
+            [checked]="selection.hasValue() && isAllSelected()"
+            [indeterminate]="selection.hasValue() && !isAllSelected()"
+          >
+          </mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let row" class="text-center">
+          <mat-checkbox
+            color="primary"
+            (click)="$event.stopPropagation()"
+            (change)="$event ? selection.toggle(row) : null"
+            [checked]="selection.isSelected(row)"
+          >
+          </mat-checkbox>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="noticeTypeLongName">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          style="vertical-align: middle"
+        >
+          {{ "Notice Type" | translate }}
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <a
+            style="color: blue; cursor: pointer"
+            (click)="showNoticeDetails(row.noticeID)"
+            >{{ row.noticeTypeLongName ? row.noticeTypeLongName : "-" }}</a
+          >
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="dateSent">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          style="vertical-align: middle"
+        >
+          {{ "Date Sent" | translate }}
+        </th>
+        <td mat-cell *matCellDef="let row" class="text-center">
+          {{ row.dateSent && !_.includes(row.dateSent, 1900) ? (row.dateSent | date: globalFormats.dateOnly) : "-" }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="batchNumber">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          style="vertical-align: middle"
+        >
+          {{ "Batch No." | translate }}
+        </th>
+        <td mat-cell *matCellDef="let row" class="text-right">
+          {{ row.batchNumber ? row.batchNumber : "-" }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="status">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          style="vertical-align: middle"
+        >
+          {{ "Status" | translate }}
+        </th>
+        <td mat-cell *matCellDef="let row">
+          {{ row.status ? row.status : "-" }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="fileTransfer">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          style="vertical-align: middle"
+        >
+          {{ "File Transfer" | translate }}
+        </th>
+        <td mat-cell *matCellDef="let row">
+          {{ row.fileTransfer ? row.fileTransfer : "-" }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="sequenceNumber">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          style="vertical-align: middle"
+        >
+          {{ "Sequence" | translate }}
+        </th>
+        <td mat-cell *matCellDef="let row" class="text-right">
+          {{ row.sequenceNumber ? row.sequenceNumber : "-" }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="ticketcount">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          style="vertical-align: middle"
+        >
+          {{ "Ticket Count" | translate }}
+        </th>
+        <td mat-cell *matCellDef="let row" class="text-right">
+          {{ row.ticketcount ? row.ticketcount : "-" }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="noticeCount">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          style="vertical-align: middle"
+        >
+          {{ "Notice Count" | translate }}
+        </th>
+        <td mat-cell *matCellDef="let row" class="text-right">
+          {{ row.noticeCount ? row.noticeCount : "-" }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="pageCount">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          style="vertical-align: middle"
+        >
+          {{ "Page Count" | translate }}
+        </th>
+        <td mat-cell *matCellDef="let row" class="text-right">
+          {{ row.noticeCount ? row.pageCount : "-" }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="amtDue">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          style="vertical-align: middle"
+        >
+          {{ "Amount Due" | translate }}
+        </th>
+        <td mat-cell *matCellDef="let row" class="text-right">
+          {{ row.amtDue ? "$" + row.amtDue + ".00" : "-" }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="readLetter">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          style="vertical-align: middle"
+        ></th>
+        <td mat-cell *matCellDef="let row">
+          <mat-icon class="visibilityIcon" color="primary">visibility</mat-icon>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+    <div *ngIf="loader" class="d-flex justify-content-center mt-1">
+      <mat-spinner></mat-spinner>
+    </div>
+    <div
+      *ngIf="!loader"
+      class="col-sm-12 text-center"
+      [hidden]="dataSource.filteredData?.length !== 0"
+    >
+      {{ "No records found" | translate }}
+    </div>
+    <mat-paginator
+      #paginator
+      [pageSizeOptions]="[5,10,15,20]"
+      [pageSize]="5"
+      showFirstLastButtons
+      aria-label="Select page of periodic elements"
+    >
+    </mat-paginator>
+  </div>
+</div>
+
+<div *ngIf="hideSearch">
+  <router-outlet></router-outlet>
+</div>

@@ -1,0 +1,19 @@
+table.mat-table {
+    table-layout: fixed;
+    width: 100%;
+    display: table;
+}
+td , th {
+  // white-space: nowrap;
+  word-wrap: none;
+  max-width: 200px;
+  margin-left: 5px;
+}
+
+table {
+  width: 100%;
+}
+
+th.mat-sort-header-sorted {
+  color: black;
+}

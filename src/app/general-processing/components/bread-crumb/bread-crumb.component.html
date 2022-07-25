@@ -1,0 +1,12 @@
+<div #breadcrumbTemplate>
+    <ng-content></ng-content>
+</div>
+
+<div class="breadcrumb-container" *ngIf="breadcrumbTemplate?.children?.length == 0">
+    <div class="nav-wrapper">
+        <div class="breadcrumb" *ngFor="let route of breadcrumbs" [ngClass]="{'last': route?.terminal}">
+            <a href="" *ngIf="!route?.terminal" [routerLink]="route?.url">{{ route.displayName | translate}}</a>
+            <span *ngIf="route?.terminal"> {{route.displayName | translate}}</span>
+        </div>
+    </div>
+</div>

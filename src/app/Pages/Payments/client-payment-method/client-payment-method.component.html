@@ -1,0 +1,143 @@
+
+  <h3 class="header-title">
+    {{'Client Payment Method' | translate}}
+  </h3>
+<div class="container-fluid">
+  <!-- <p id="successMessage" style="color:green" *ngIf="successMsg"> {{successMsg}}</p> -->
+  <div id="add-form" *ngIf="showAddForm">
+    <form [formGroup]="paymentForm" (ngSubmit)="submitForm()">
+
+    
+    <!-- {{'payment method' | translate }} starts here -->
+    <div class="row">
+      <div class="col-md-3 disabled-border-bottom">
+        <mat-form-field  appearance="fill" class="w-100" [disabled]="showEditForm" [ngClass]="showEditForm == true ? 'disable-field pb-0 border-bottom-black' : ''">
+          <mat-label>{{'Payment Method' | translate }}</mat-label>
+          <!-- <input matInput /> -->
+          <mat-select [id]="'PAYMENTMODECD'" formControlName="PAYMENTMODECD" (selectionChange)="paymentMethodSelected($event)">
+            <mat-option class="PAYMENTMODECD_Option" *ngFor="let item of paymentMethods" [value]="item.paymentModeMasterId">{{item.paymentModeCD}}</mat-option>
+          </mat-select>
+       
+          <!-- <input type="text"  maxlength="3" matInput  formControlName="paymentModeCD"  /> -->
+        <mat-error [id]="'err_PAYMENTMODECD'" *ngIf="paymentForm.get('PAYMENTMODECD')?.hasError('required')">
+        {{'Payment Method is required' | translate }}  
+        </mat-error>
+        <mat-error [id]="'err_PAYMENTMODECD2'" *ngIf="paymentForm.get('PAYMENTMODECD')?.hasError('invalid')">
+          {{ paymentForm.get('PAYMENTMODECD')?.getError('invalid') | translate }}
+        </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-3">
+        <mat-form-field appearance="fill" class="w-100 disable-field pb-0 border-bottom-black" [disabled]="showEditForm" [ngClass]="showEditForm == true ? 'disable-field pb-0 border-bottom-black' : ''">
+          <mat-label>{{'Description' | translate }}</mat-label>
+          <!-- <input matInput /> -->
+          <input  type="text" maxlength="50" [id]="'paymentModeDesc'"  matInput  formControlName="paymentModeDesc" readonly />
+        <mat-error [id]="'err_paymentModeDesc'" *ngIf="paymentForm.get('paymentModeDesc')?.hasError('required')">
+           
+          {{'Description is required' | translate }}
+        </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <div class="row">
+          <div class="col-md-4">
+            <mat-form-field appearance="fill" class="w-100">
+              <mat-label>{{'Open Drawer' | translate}}</mat-label>
+              <mat-select [id]="'paymentOpenDrawer'" formControlName="paymentOpenDrawer" >
+                <mat-option selected value="Y" >Y</mat-option>
+                <mat-option value="N">N</mat-option>
+              </mat-select>
+              <mat-error [id]="'err_paymentOpenDrawer'" *ngIf="paymentForm.get('paymentOpenDrawer')?.hasError('required')">
+                 
+                {{'Open Drawer is required' | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="align-items-end col-md-12 mb-3 d-flex justify-content-end">
+        <button type="button" [id]="'btnCancel'" mat-raised-button class="m-1 color-blue" (click)="cancelAdding()">{{'Cancel' | translate}}</button>
+        <button  *ngIf="!showEditForm"  [id]="'btnAdd'"  mat-raised-button class="m-1 color-blue" >{{'Add' | translate}}</button>
+        <button type="button" *ngIf="showEditForm"  [id]="'btnSave'" mat-raised-button class="m-1 color-blue" (click)="savePayment()">
+          {{ 'Save' | translate }}
+        </button>
+      </div>
+    </div>
+  </form>
+  </div>
+
+  <!-- SEARCH BAR AND ADD PAYMENT -->
+  <div *ngIf="!showAddForm">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="align-items-center d-flex row">
+          <div class="col-6">
+            <mat-form-field appearance="fill">
+              <mat-label>{{ "Search" | translate }}</mat-label>
+
+              <input matInput placeholder="Type"  [id]="'txtSearch'" (keyup)="applyFilter($event)" />
+            </mat-form-field>
+          </div>
+          <div class="col-6">
+            <div class="text-right" >
+              <button  mat-raised-button [id]="'btnAddPaymnet'" class="m-1 color-blue" (click)="addPayment()">
+                {{ 'Add' | translate }}
+              </button>
+             
+            </div>
+          </div>
+         
+        </div>
+      </div>
+    </div>
+
+
+    <!-- PAYMENT TABLE STARTS HERE -->
+    <div id="list-table">
+      <div class="mat-elevation-z8">
+        <table mat-table class="full-width-table" matSort [dataSource]="datasource" aria-label="Elements">
+          <ng-container matColumnDef="paymentModeCD">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'Payment Method' | translate }}</th>
+            <td mat-cell *matCellDef="let element"><a href="">{{element.paymentModeCD}}</a></td>
+          </ng-container>
+
+          <ng-container matColumnDef="paymentModeDesc">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'Description' | translate}}</th>
+            <td mat-cell *matCellDef="let element">{{element.paymentModeDesc}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="paymentOpenDrawer">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'Open Drawer' | translate}}</th>
+            <td mat-cell *matCellDef="let element">{{element.paymentOpenDrawer}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="action">
+            <tr>
+              <th mat-header-cell *matHeaderCellDef>{{'Action'| translate}}</th>
+            </tr>
+            <tr>
+              <td mat-cell *matCellDef="let element" class="text-center">
+                <button mat-icon-button color="dark-grey" title="Edit" (click)="editPayment(element)">
+                  <mat-icon class="edit-blue">edit</mat-icon>
+                </button>
+                <button mat-icon-button color="dark-grey" title="Delete" (click)="deletePayment(element)">
+                  <mat-icon class="color-light-gray">delete</mat-icon>
+                </button>
+              </td>
+            <tr>
+          </ng-container>
+
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <div class="col-sm-12 text-center" *ngIf="datasource?.filteredData?.length === 0"> {{'No records found' | translate}}</div>
+        <mat-paginator showFirstLastButtons [pageSizeOptions]="[10,20,50,100]" 
+         ></mat-paginator> 
+        
+      </div>
+    </div>
+  </div>
+</div>

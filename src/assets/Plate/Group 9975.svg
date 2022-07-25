@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="30" height="30" viewBox="0 0 30 30">
+  <defs>
+    <filter id="Rectangle_3712" x="0" y="0" width="30" height="30" filterUnits="userSpaceOnUse">
+      <feOffset dy="2" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="1" result="blur"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Group_9975" data-name="Group 9975" transform="translate(2.59 1.063)">
+    <g id="Group_8093" data-name="Group 8093">
+      <g transform="matrix(1, 0, 0, 1, -2.59, -1.06)" filter="url(#Rectangle_3712)">
+        <g id="Rectangle_3712-2" data-name="Rectangle 3712" transform="translate(3 1)" fill="#274463" stroke="#fff" stroke-width="1">
+          <rect width="24" height="24" rx="3" stroke="none"/>
+          <rect x="0.5" y="0.5" width="23" height="23" rx="2.5" fill="none"/>
+        </g>
+      </g>
+      <rect id="Rectangle_4131" data-name="Rectangle 4131" width="16.914" height="9.449" rx="1" transform="translate(3.41 6.938)" fill="#fff"/>
+      <text id="_123" data-name="123" transform="translate(5.41 13.938)" fill="#274463" font-size="7" font-family="OpenSans-Bold, Open Sans" font-weight="700"><tspan x="0" y="0">123</tspan></text>
+    </g>
+  </g>
+</svg>

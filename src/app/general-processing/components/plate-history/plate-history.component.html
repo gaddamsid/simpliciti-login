@@ -1,0 +1,329 @@
+
+<!-- plate history -->
+<!-- <div class="spinner-wrapper" *ngIf="isLoading">
+  <mat-spinner></mat-spinner>
+</div> -->
+
+<div class="plate-history">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-6">
+          <mat-card class="p-0" [id]="'customer'" >
+            <div class="align-items-center blacked-title d-flex justify-content-between m-0">
+              <p class="align-items-center d-flex m-0">{{'Customer' | translate}}</p>
+            </div>
+            <mat-card-content class="mat-card-content p-2 pt-0">
+              <div class="innergrid border-0">
+                <table>
+                  <tr>
+                    <td>{{"First Name" | translate}}</td>
+                    <td class="font-weight-bold text-right">{{customerInformation?.fullName}}</td>
+                  </tr>
+                  <tr>
+                    <td>{{"Address" |translate}}</td>
+                    <td class="font-weight-bold text-right">{{customerInformation?.addressLine1}}</td>
+                  </tr>
+                  <tr>
+                    <td>{{"Status" | translate}}</td>
+                    <td class="font-weight-bold text-right">{{customerInformation?.status}}</td>
+                  </tr>
+                  <tr>
+                    <td>{{"Email" |translate}},{{"State" | translate}},{{"Zip" | translate}}</td>
+                    <td class="font-weight-bold text-right">{{customerInformation?.email}},{{customerInformation?.state}},{{customerInformation?.zip}}</td>
+                  </tr>
+  
+                  <tr>
+                    <td>{{"Entity Number" | translate}}</td>
+                    <td class="font-weight-bold text-right">{{customerInformation?.entityNumber}}</td>
+                  </tr>
+                  <tr>
+                    <td>{{"Corporate No." | translate}}</td>
+                    <td class="font-weight-bold text-right">{{customerInformation?.corporateIndicator}}</td>
+                  </tr>
+  
+                  <tr>
+                    <td>{{"SSN" | translate}}</td>
+                    <td class="font-weight-bold text-right">{{customerInformation?.ssn}}</td>
+                  </tr>
+  
+                  <tr>
+                    <td>{{"DOB" | translate}}</td>
+                    <td class="font-weight-bold text-right">{{customerInformation?.dob | date : 'mediumDate'}}</td>
+                  </tr>
+  
+                  <tr>
+                    <td>{{"Drivers Licence" | translate}}</td>
+                    <td class="font-weight-bold text-right">{{customerInformation?.driverLicense}}</td>
+                  </tr>
+  
+                  <tr>
+                    <td>{{"Ticket Type" | translate}}</td>
+                    <td class="font-weight-bold text-right">{{customerInformation?.ticketType}}</td>
+                  </tr>
+  
+                </table>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <div class="col-md-6">
+          <mat-card class="p-0" [id]="'Registry'">
+            <div class="align-items-center blacked-title d-flex justify-content-between m-0">
+              <p class="align-items-center d-flex m-0">{{'Registry ' | translate}}</p>
+            </div>
+            <mat-card-content class="mat-card-content p-2 pt-0">
+              <div class="innergrid border-0">
+                <table>
+                  <tr>
+                    <td>{{"Plate" | translate}}</td>
+                    <td class="font-weight-bold text-right">{{registryInformation?.plateNumber}}</td>
+                  </tr>
+                  <tr>
+                    <td>{{"Effective Date" |translate}}</td>
+                    <td class="font-weight-bold text-right">{{registryInformation?.effectiveDate | date : 'mediumDate'}}</td>
+                  </tr>
+                  <tr>
+                    <td>{{"Plate Type" | translate}}</td>
+                    <td class="font-weight-bold text-right">{{registryInformation?.plateType}}</td>
+                  </tr>
+                  <tr>
+                    <td>{{"Old Plate Type" |translate}}</td>
+                    <td class="font-weight-bold text-right">{{registryInformation?.oldPlateType}}</td>
+                  </tr>
+  
+                  <tr>
+                    <td>{{"Effective Date Source" | translate}}</td>
+                    <td class="font-weight-bold text-right">{{registryInformation?.effectiveDateSource}}</td>
+                  </tr>
+                  <tr>
+                    <td>{{"Plate Owenership Date" | translate}}</td>
+                    <td class="font-weight-bold text-right">{{registryInformation?.plateOwnershipDate | date : 'mediumDate'}}</td>
+                  </tr>
+  
+                  <tr>
+                    <td>{{"Plate Expiration Date" | translate}}</td>
+                    <td class="font-weight-bold text-right">{{registryInformation?.plateExpirationDate | date : 'mediumDate'}}</td>
+                  </tr>
+  
+                  <tr>
+                    <td>{{"VIN" | translate}}</td>
+                    <td class="font-weight-bold text-right">{{registryInformation?.vin}}</td>
+                  </tr>
+  
+                  <tr>
+                    <td>{{"Address Status" | translate}}</td>
+                    <td class="font-weight-bold text-right">{{registryInformation?.addressStatus}}</td>
+                  </tr>
+  
+                  <tr>
+                    <td>{{"Last Requested On" | translate}}</td>
+                    <td class="font-weight-bold text-right">{{registryInformation?.lastRequestedOn | date : 'mediumDate'}}</td>
+                  </tr>
+  
+                  <tr>
+                    <td>{{"Processed On" | translate}}</td>
+                    <td class="font-weight-bold text-right">{{registryInformation?.processedOn | date : 'mediumDate'}}</td>
+                  </tr>
+  
+                  <tr>
+                    <td>{{"Confirmed Action" | translate}}</td>
+                    <td class="font-weight-bold text-right">{{registryInformation?.confirmedOn | date : 'mediumDate'}}</td>
+                  </tr>
+  
+                  <tr>
+                    <td>{{"Combine Action" | translate}}</td>
+                    <td class="font-weight-bold text-right">{{registryInformation?.combineAction}}</td>
+                  </tr>
+  
+                  <tr>
+                    <td>{{"Combine Date" | translate}}</td>
+                    <td class="font-weight-bold text-right">{{registryInformation?.combineDate | date : 'mediumDate'}}</td>
+                  </tr>
+  
+                  <tr>
+                    <td>{{"Combine User ID" | translate}}</td>
+                    <td class="font-weight-bold text-right">{{registryInformation?.combineUserId}}</td>
+                  </tr>
+                </table>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        </div>
+        <div class="row">
+        <div class="col-md-6">
+          <mat-card class="p-0" [id]="'Customer Information'">
+            <div class="align-items-center blacked-title d-flex justify-content-between m-0">
+              <p class="align-items-center d-flex m-0">Customer Information</p>
+            </div>
+            <mat-card-content class="mat-card-content p-2 pt-0">
+              <div class="innergrid border-0">
+                <table>
+                  <tr>
+                    <td>{{"First Name" | translate}}</td>
+                    <td class="font-weight-bold text-right">{{customerInformation?.fullName}}</td>
+                  </tr>
+                  <tr>
+                    <td>{{"Address" |translate}}</td>
+                    <td class="font-weight-bold text-right">{{customerInformation?.addressLine1}}</td>
+                  </tr>
+                  <tr>
+                    <td>{{"Status" | translate}}</td>
+                    <td class="font-weight-bold text-right">{{customerInformation?.status}}</td>
+                  </tr>
+                  <tr>
+                    <td>{{"Email" |translate}},{{"State" | translate}},{{"Zip" | translate}}</td>
+                    <td class="font-weight-bold text-right">{{customerInformation?.email}}{{customerInformation?.state}}{{customerInformation?.zip}}</td>
+                  </tr>
+  
+                  <tr>
+                    <td>{{"Entity Number" | translate}}</td>
+                    <td class="font-weight-bold text-right">{{customerInformation?.entityNumber}}</td>
+                  </tr>
+                  <tr>
+                    <td>{{"Corporate No." | translate}}</td>
+                    <td class="font-weight-bold text-right">{{customerInformation?.corporateIndicator}}</td>
+                  </tr>
+  
+                  <tr>
+                    <td>{{"SSN" | translate}}</td>
+                    <td class="font-weight-bold text-right">{{customerInformation?.ssn}}</td>
+                  </tr>
+  
+                  <tr>
+                    <td>{{"DOB" | translate}}</td>
+                    <td class="font-weight-bold text-right">{{customerInformation?.dob | date : 'mediumDate'}}</td>
+                  </tr>
+  
+                  <tr>
+                    <td>{{"Drivers Licence" | translate}}</td>
+                    <td class="font-weight-bold text-right">{{customerInformation?.driverLicense}}</td>
+                  </tr>
+  
+                  <tr>
+                    <td>{{"Ticket Type" | translate}}</td>
+                    <td class="font-weight-bold text-right">{{customerInformation?.ticketType}}</td>
+                  </tr>
+  
+                  <tr>
+                    <td>{{"Reason In History" | translate}}</td>
+                    <td class="font-weight-bold text-right">{{customerInformation?.reasonInHistory}}</td>
+                  </tr>
+  
+                  <tr>
+                    <td>{{"Ticket Caused History" | translate}}</td>
+                    <td class="font-weight-bold text-right">{{customerInformation?.ticketCausedHistory}}</td>
+                  </tr>
+  
+                  <tr>
+                    <td>{{"Moved to History" | translate}}</td>
+                    <td class="font-weight-bold text-right">{{customerInformation?.movedToHistory}}</td>
+                  </tr>
+  
+                </table>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <div class="col-md-6">
+          <mat-card class="p-0" [id]="'Registry Information'">
+            <div class="align-items-center blacked-title d-flex justify-content-between m-0">
+              <p class="align-items-center d-flex m-0">Registry Information</p>
+            </div>
+            <mat-card-content class="mat-card-content p-2 pt-0">
+              <div class="innergrid border-0">
+                <table>
+                  <tr>
+                    <td>{{"Plate" | translate}}</td>
+                    <td class="font-weight-bold text-right">{{registryInformation?.plateNumber}}</td>
+                  </tr>
+                  <tr>
+                    <td>{{"Effective Date" |translate}}</td>
+                    <td class="font-weight-bold text-right">{{registryInformation?.effectiveDate | date : 'mediumDate'}}</td>
+                  </tr>
+                  <tr>
+                    <td>{{"Plate Type" | translate}}</td>
+                    <td class="font-weight-bold text-right">{{registryInformation?.plateType}}</td>
+                  </tr>
+                  <tr>
+                    <td>{{"Old Plate Type" |translate}}</td>
+                    <td class="font-weight-bold text-right">{{registryInformation?.oldPlateType}}</td>
+                  </tr>
+  
+                  <tr>
+                    <td>{{"Effective Date Source" | translate}}</td>
+                    <td class="font-weight-bold text-right">{{registryInformation?.effectiveDateSource | date : 'mediumDate'}}</td>
+                  </tr>
+                  <tr>
+                    <td>{{"Plate Owenership Date" | translate}}</td>
+                    <td class="font-weight-bold text-right">{{registryInformation?.plateOwnershipDate | date : 'mediumDate'}}</td>
+                  </tr>
+  
+                  <tr>
+                    <td>{{"Plate Expiration Date" | translate}}</td>
+                    <td class="font-weight-bold text-right">{{registryInformation?.plateExpirationDate | date : 'mediumDate'}}</td>
+                  </tr>
+  
+                  <tr>
+                    <td>{{"VIN" | translate}}</td>
+                    <td class="font-weight-bold text-right">{{registryInformation?.vin}}</td>
+                  </tr>
+  
+                  <tr>
+                    <td>{{"Address Status" | translate}}</td>
+                    <td class="font-weight-bold text-right">{{registryInformation?.addressStatus}}</td>
+                  </tr>
+  
+                  <tr>
+                    <td>{{"Last Requested On" | translate}}</td>
+                    <td class="font-weight-bold text-right">{{registryInformation?.lastRequestedOn | date : 'mediumDate'}}</td>
+                  </tr>
+  
+                  <tr>
+                    <td>{{"Processed On" | translate}}</td>
+                    <td class="font-weight-bold text-right">{{registryInformation?.processedOn | date : 'mediumDate'}}</td>
+                  </tr>
+  
+                  <tr>
+                    <td>{{"Confirmed Action" | translate}}</td>
+                    <td class="font-weight-bold text-right">{{registryInformation?.confirmedOn | date : 'mediumDate'}}</td>
+                  </tr>
+  
+                  <tr>
+                    <td>{{"Combine Action" | translate}}</td>
+                    <td class="font-weight-bold text-right">{{registryInformation?.combineAction}}</td>
+                  </tr>
+  
+                  <tr>
+                    <td>{{"Combine Date" | translate}}</td>
+                    <td class="font-weight-bold text-right">{{registryInformation?.combineDate | date : 'mediumDate'}}</td>
+                  </tr>
+  
+                  <tr>
+                    <td>{{"Combine User ID" | translate}}</td>
+                    <td class="font-weight-bold text-right">{{registryInformation?.combineUserId}}</td>
+                  </tr>
+                  <tr>
+                    <td>{{"Nixie Status" | translate}}</td>
+                    <td class="font-weight-bold text-right">{{registryInformation?.nixieStatus}}</td>
+                  </tr>
+                  <tr>
+                    <td>{{"Nixie Date" | translate}}</td>
+                    <td class="font-weight-bold text-right">{{registryInformation?.nixieDate | date : 'mediumDate'}}</td>
+                  </tr>
+  
+                </table>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+
+      <div class="col-md-12 mt-2 pr-0">
+        <div class="align-items-end col-md-12 mb-4 d-flex justify-content-end">
+            <button type="button" mat-raised-button class="m-1 color-blue" [id]="'cancelAddNotes'" (click)="cancelplateHistory()">
+                {{'Cancel'| translate}}</button>
+      </div>
+      </div>
+    </div>
+  </div>

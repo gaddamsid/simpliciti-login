@@ -1,0 +1,342 @@
+
+<h3 class="header-title"> {{'IVR/PBW' | translate}}</h3>
+<div class="container-fluid">
+    <form [formGroup]="paymentIvrForm" (ngSubmit)="updatepaymentIvr(paymentIvrForm.value)">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="ivr-card">
+        <h4 class="blacked-title">{{'Cards' | translate}}</h4>
+        <div class="ivr-card-content">
+          <div class="row">
+            <div class="col-md-4">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label>{{"Visa/MC" | translate}}</mat-label>
+                <mat-select formControlName="cardsVisaMasterCard" [id]="'visaMc'">
+                  <mat-option value="Y">Y</mat-option>
+                  <mat-option value="N">N</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label>{{"Discover" | translate}}</mat-label>
+                <mat-select formControlName="cardsDiscover" [id]="'cardsDiscover'">
+                    <mat-option value="Y">Y</mat-option>
+                    <mat-option value="N">N</mat-option>
+                  </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label>{{"Amex" | translate}}</mat-label>
+                <mat-select formControlName="cardsAmex" [id]="'cardsAmex'">
+                    <mat-option value="Y">Y</mat-option>
+                    <mat-option value="N">N</mat-option>
+                  </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- phone -->
+
+<div class="ivr-card mt-3">
+        <h4 class="blacked-title">{{"Check Digit" | translate}}</h4>
+        <div class="ivr-card-content">
+          <div class="row">
+            <div class="col-md-12">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label>{{"Check Digit" | translate}}</mat-label>
+                <mat-select  formControlName="creditClCheckDigit" [id]="'creditClCheckDigit'">
+                    <mat-option value="Y">Y</mat-option>
+                    <mat-option value="N">N</mat-option>
+                  </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="col-md-4">
+      
+      <div class="ivr-card">
+        <h4 class="blacked-title">{{"Notice Default" | translate}}</h4>
+        <div class="ivr-card-content">
+          <div class="row">
+            <div class="col-md-12">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label>{{"Notice Default" | translate}}</mat-label>
+                <mat-select  formControlName="creditClNoticeFlag" [id]="'creditClNoticeFlag'">
+                    <mat-option value="Y">Y</mat-option>
+                    <mat-option value="N">N</mat-option>
+                  </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      
+
+
+      <div class="ivr-card mt-3">
+        <h4 class="blacked-title">{{"Compress" | translate}}</h4>
+        <div class="ivr-card-content">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>{{"Compress" | translate}}</mat-label>
+            <mat-select formControlName="creditClCompressFlag" [id]="'creditClCompressFlag'">
+                <mat-option value="Y">Y</mat-option>
+                <mat-option value="N">N</mat-option>
+              </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+
+    </div>
+    <div class="col-md-4">
+
+
+      <div class="ivr-card">
+        <h4 class="blacked-title">{{"Inquiry" | translate}}</h4>
+        <div class="ivr-card-content">
+          <div class="row">
+            <div class="col-md-4">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label>{{"By Collate " | translate}}</mat-label>
+                <mat-select formControlName="inquiryCollate" [id]="'inquiryCollate'">
+                    <mat-option value="Y">Y</mat-option>
+                    <mat-option value="N">N</mat-option>
+                  </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label>{{"By Fee" | translate}}</mat-label>
+                <mat-select formControlName="inquiryFee" [id]="'inquiryFee'">
+                    <mat-option value="Y">Y</mat-option>
+                    <mat-option value="N">N</mat-option>
+                  </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label>{{"By Fleet" | translate}}</mat-label>
+                <mat-select  formControlName="inquiryFleet" [id]="'inquiryFleet'">
+                    <mat-option value="Y">Y</mat-option>
+                    <mat-option value="N">N</mat-option>
+                  </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label>{{"By IPP " | translate}}</mat-label>
+                <mat-select formControlName="inquiryIPP" [id]="'inquiryIPP'">
+                    <mat-option value="Y">Y</mat-option>
+                    <mat-option value="N">N</mat-option>
+                  </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label>{{"By License" | translate}}</mat-label>
+                <mat-select formControlName="inquiryLicense" [id]="'inquiryLicense'">
+                    <mat-option value="Y">Y</mat-option>
+                    <mat-option value="N">N</mat-option>
+                  </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label>{{"By Notice" | translate}}</mat-label>
+                <mat-select formControlName="inquiryNotice" [id]="'inquiryNotice'">
+                    <mat-option value="Y">Y</mat-option>
+                    <mat-option value="N">N</mat-option>
+                  </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label>{{"By Plate" | translate}}</mat-label>
+                <mat-select formControlName="inquiryPlate" [id]="'inquiryPlate'">
+                    <mat-option value="Y">Y</mat-option>
+                    <mat-option value="N">N</mat-option>
+                  </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label>{{"By Ticket" | translate}}</mat-label>
+                <mat-select formControlName="inquiryTicket" [id]="'inquiryTicket'">
+                    <mat-option value="Y">Y</mat-option>
+                    <mat-option value="N">N</mat-option>
+                  </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label>{{"By Redlight" | translate}}</mat-label>
+                <mat-select formControlName="inquiryRedlight" [id]="'inquiryRedlight'">
+                    <mat-option value="Y">Y</mat-option>
+                    <mat-option value="N">N</mat-option>
+                  </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-md-8">
+      <div class="ivr-card">
+        <h4 class="blacked-title">{{"Payment" | translate}}</h4>
+        <div class="ivr-card-content">
+          <div class="row">
+            <div class="col-md-4">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label>{{"Item" | translate}}</mat-label>
+                <mat-select formControlName="paymentItem" [id]="'paymentItem'">
+                    <mat-option value="Y">Y</mat-option>
+                    <mat-option value="N">N</mat-option>
+                  </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label>{{"All" | translate}}</mat-label>
+                <mat-select formControlName="paymentAll" [id]="'paymentAll'">
+                    <mat-option value="Y">Y</mat-option>
+                    <mat-option value="N">N</mat-option>
+                  </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label>{{"Restore" | translate}}</mat-label>
+                <mat-select formControlName="paymentRestore" [id]="'paymentRestore'">
+                    <mat-option value="Y">Y</mat-option>
+                    <mat-option value="N">N</mat-option>
+                  </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label>{{"Any" | translate}}</mat-label>
+                <mat-select formControlName="paymentAny" [id]="'paymentAny'">
+                    <mat-option value="Y">Y</mat-option>
+                    <mat-option value="N">N</mat-option>
+                  </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label>{{"List" | translate}}</mat-label>
+                <mat-select formControlName="paymentList" [id]="'paymentList'">
+                    <mat-option value="Y">Y</mat-option>
+                    <mat-option value="N">N</mat-option>
+                  </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label>{{"List Any" | translate}}</mat-label>
+                <mat-select formControlName="paymentListAny" [id]="'paymentListAny'">
+                    <mat-option value="Y">Y</mat-option>
+                    <mat-option value="N">N</mat-option>
+                  </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label>{{"List Special" | translate}}</mat-label>
+                <mat-select formControlName="paymentListSpecial" [id]="'paymentListSpecial'">
+                    <mat-option value="Y">Y</mat-option>
+                    <mat-option value="N">N</mat-option>
+                  </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-4">
+      <div class="ivr-card ">
+        <h4 class="blacked-title">{{ "Phone" | translate }}</h4>
+        <div class="ivr-card-content">
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label>{{ "Fee" | translate }}</mat-label>
+                <input  min="0" matInput placeholder="Fee" formControlName="creditClPhoneFee" maxlength="8" max="99999.99"  oninput="this.value=this.value.slice(0,this.maxLength)" (blur)="transformTotalFee('creditClPhoneFee')"  [id]="'creditClPhoneFee'" appDecimal />
+                <mat-error *ngIf="paymentIvrForm.get('creditClPhoneFee')?.hasError('max')">{{'Please Enter a value below 99999.99' | translate}}</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label>{{ "Surcharge" | translate }}</mat-label>
+                <input   min="0" matInput placeholder="Surcharge"  formControlName="creditClPhoneSurcharge" maxlength="10" max="99999.9999"  (blur)="transformTotal('creditClPhoneSurcharge')" oninput="this.value=this.value.slice(0,this.maxLength)" [id]="'creditClPhoneSurcharge'" appFourdecimal/>
+                <mat-error *ngIf="paymentIvrForm.get('creditClPhoneSurcharge')?.hasError('max')">{{'Please Enter a value below 99999.9999' | translate}}</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      
+      <div class="ivr-card mt-3">
+        <h4 class="blacked-title">{{ "Web" | translate }}</h4>
+        <div class="ivr-card-content">
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label>{{ "Fee" | translate }}</mat-label>
+                <input  min="0" matInput placeholder="Fee" formControlName="creditClWebFee"  maxlength="8" max="99999.99"  oninput="this.value=this.value.slice(0,this.maxLength)"  (blur)="transformTotalFee('creditClWebFee')"  [id]="'creditClWebFee'" appDecimal />
+                <mat-error *ngIf="paymentIvrForm.get('creditClWebFee')?.hasError('max')">{{'Please Enter a value below 99999.99' | translate}}</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field appearance="fill" class="w-100">
+                <mat-label>{{ "Surcharge" | translate }}</mat-label>
+                <input  min="0" matInput placeholder="Surcharge" formControlName="creditClWebSurcharge" max="99999.9999" (blur)="transformTotal('creditClWebSurcharge')" maxlength="10"   oninput="this.value=this.value.slice(0,this.maxLength)" [id]="'creditClWebSurcharge'" appFourdecimal/>
+                <mat-error *ngIf="paymentIvrForm.get('creditClWebSurcharge')?.hasError('max')">{{'Please Enter a value below 99999.9999' | translate}}</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-md-4">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="d-flex justify-content-end">
+        <button type="button" mat-raised-button appearance="fill" class="m-1 color-blue" (click)="cancelChanges()">
+          {{ "Cancel" | translate }}
+        </button>
+        <button mat-raised-button appearance="fill" class="m-1 color-blue">
+          {{ "Save" | translate }}
+        </button>
+      </div>
+    </div>
+    </div>
+</form>
+</div>
+
+

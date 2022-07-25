@@ -1,0 +1,332 @@
+
+<mat-spinner *ngIf="pageLoader" class="spiner justify-content-center text-center" ></mat-spinner>
+
+<div *ngIf="!pageLoader" class="container-fluid">
+  <div class="court-schedule pt-4">
+    <div class="row">
+       <!-- Form Fields -->
+      <div class="col-md-4">
+        <form [formGroup]="scheduleForm">
+          <mat-accordion class="mt-2">
+            <mat-expansion-panel class="p-0">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  {{ "Basic Information" | translate }}
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <mat-form-field color="primary" class="w-100 open-account mt-3" appearance="fill">
+                <mat-label>{{ "Location" | translate }}</mat-label>
+                <mat-select formControlName="location">
+                  <mat-option *ngFor="let locatn of locationObj" (click)="loadCalendar(locatn?.courtsId)" [value]="locatn?.courtsId">{{ locatn?.name }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <div>
+                <mat-error [id]="'err_leadDays'" *ngIf="
+                    scheduleForm.get('location')?.touched &&
+                    scheduleForm.get('location')?.hasError('required')
+                  ">
+                  {{ "Location is Required" | translate }}
+                </mat-error>
+              </div>
+              <mat-form-field color="primary" class="w-100 mt-3 open-account" appearance="fill">
+                <mat-label>{{ "Type" | translate }}</mat-label>
+                <mat-select formControlName="type">
+                  <mat-option *ngFor="let type of types" [value]="type">{{
+                    type
+                    }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-error [id]="'err_leadDays'" *ngIf="
+                  scheduleForm.get('type')?.touched &&
+                  scheduleForm.get('type')?.hasError('required')
+                ">
+                {{ "Type is Required" | translate }}
+              </mat-error>
+              <mat-form-field color="primary" class="w-100 mt-3 open-account" appearance="fill">
+                <mat-label>{{ "Category" | translate }}</mat-label>
+                <mat-select formControlName="category">
+                  <mat-option *ngFor="let cateogry of categories" [value]="cateogry">{{ cateogry }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-error [id]="'err_leadDays'" *ngIf="
+                  scheduleForm.get('category')?.touched &&
+                  scheduleForm.get('category')?.hasError('required')
+                ">
+                {{ "Category is Required" | translate }}
+              </mat-error>
+            </mat-expansion-panel>
+          </mat-accordion>
+          <mat-accordion class="mt-2">
+            <mat-expansion-panel class="p-0">
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  {{ "Date Range and Holidays" | translate }}
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div class="row mt-3">
+                <div class="col-6">
+                  <mat-form-field class="w-100 m-2 p-1">
+                    <input matInput type="date" placeholder="{{'From'| translate}}" formControlName="dateRangeFrom"
+                      [id]="'dateRangeFrom'" />
+                  </mat-form-field>
+                </div>
+
+                <div class="col-6">
+                  <mat-form-field class="w-100 m-2 p-1">
+                    <input matInput type="date" placeholder="{{'To'| translate}}" formControlName="dateRangeTo"
+                      [id]="'dateRangeTo'" />
+                  </mat-form-field>
+                </div>
+                <div class="col-md-12">
+                  <mat-error class="mb-3" [id]="'err_leadDays'" *ngIf="
+                    (scheduleForm.get('dateRangeFrom')?.touched ||
+                      scheduleForm.get('dateRangeTo')?.touched) &&
+                    (scheduleForm.get('dateRangeFrom')?.hasError('required') ||
+                      scheduleForm.get('dateRangeTo')?.hasError('required'))
+                  ">
+                    {{ "Date from and Date to is Required" | translate }}
+                  </mat-error>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="time-selctor">
+                    <input matInput placeholder="{{'Start Time *' | translate}}" [ngxTimepicker]="min" [min]="'08:00 am'"
+                      readonly formControlName="dateStartTime" />
+                    <ngx-material-timepicker #min></ngx-material-timepicker>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="time-selctor">
+                    <input matInput placeholder="{{'End Time *' | translate}}" [ngxTimepicker]="max" max="08:00 pm"
+                      readonly formControlName="dateEndTime" />
+                    <ngx-material-timepicker #max></ngx-material-timepicker>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <mat-error class="mt-3" [id]="'err_leadDays'" *ngIf="
+                    (scheduleForm.get('dateStartTime')?.touched ||
+                      scheduleForm.get('dateEndTime')?.touched) &&
+                    (scheduleForm.get('dateStartTime')?.hasError('required') ||
+                      scheduleForm.get('dateEndTime')?.hasError('required'))
+                  ">
+                    {{ "Time interval is Required" | translate }}
+                  </mat-error>
+                </div>
+
+              </div>
+
+              <div class="d-flex flex-column chip-selector-container mt-3">
+                <mat-form-field class="example-chip-list" appearance="fill" class="w-100">
+                  <mat-label>{{ "Days of the Weeks" | translate }}</mat-label>
+                  <mat-select formControlName="daysOfWeek" multiple>
+                    <mat-select-trigger>
+                      <mat-chip-list>
+                        <mat-chip *ngFor="
+                            let week of scheduleForm.controls['daysOfWeek']
+                              .value
+                          " [removable]="true" (removed)="onWeeksRemoved(week)">
+                          {{ week }}
+                          <mat-icon matChipRemove>cancel</mat-icon>
+                        </mat-chip>
+                      </mat-chip-list>
+                    </mat-select-trigger>
+
+                    <mat-option *ngFor="let week of weekDaysResp" [value]="week">{{ week }}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <mat-error [id]="'err_leadDays'"
+                  *ngIf="scheduleForm.get('daysOfWeek')?.touched && scheduleForm.get('daysOfWeek')?.hasError('required')">
+                  {{ "Days of the Weeks are Required" | translate }}
+                </mat-error>
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>
+          <mat-accordion class="mt-2">
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title> {{ "Breaks" | translate }} </mat-panel-title>
+              </mat-expansion-panel-header>
+              <div class="row mt-3">
+                <div class="col-md-6">
+                  <div class="time-selctor">
+                    <mat-label> </mat-label>
+                    <input matInput placeholder="{{'Start Time *' | translate}}" [ngxTimepicker]="breakmin"
+                      [min]="'10:15 am'" readonly formControlName="breakStartTime" />
+                    <ngx-material-timepicker #breakmin></ngx-material-timepicker>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="time-selctor">
+                    <input matInput  [ngxTimepicker]="breakmax" max="06:18 pm"
+                      readonly formControlName="breakEndTime" placeholder="{{'End Time *' | translate}}"/>
+                    <ngx-material-timepicker #breakmax></ngx-material-timepicker>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <mat-error class="mt-3" [id]="'err_leadDays'" *ngIf="
+                    (scheduleForm.get('breakStartTime')?.touched ||
+                      scheduleForm.get('breakEndTime')?.touched) &&
+                    (scheduleForm.get('breakStartTime')?.hasError('required') ||
+                      scheduleForm.get('breakEndTime')?.hasError('required'))
+                  ">
+                    {{ "Time interval is Required" | translate }}
+                  </mat-error>
+                </div>
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>
+          <mat-accordion class="mt-2">
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  {{ "Slots and Rooms" | translate }}
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <mat-form-field color="primary" class="w-100 open-account mt-3" appearance="fill">
+                <mat-label>{{
+                  "# of Rooms/ Hearing Officers" | translate
+                  }}</mat-label>
+                <mat-select formControlName="numberOfRooms">
+                  <mat-option *ngFor="let number of arrayOfNumber" [value]="number">{{ number }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-error [id]="'err_leadDays'"
+                *ngIf="scheduleForm.get('numberOfRooms')?.touched && scheduleForm.get('numberOfRooms')?.hasError('required')">
+                {{ "# of Rooms/ Hearing Officers is required" | translate }}
+              </mat-error>
+              <mat-form-field color="primary" class="w-100 mt-3 open-account" appearance="fill">
+                <mat-label>{{ "# of Slots" | translate }}</mat-label>
+                <input
+                  formControlName="numberOfSlots"
+                  matInput
+                  placeholder="# of Slots"
+                />
+                <!-- <mat-select formControlName="numberOfSlots">
+                  <mat-option *ngFor="let number of arrayOfNumber" [value]="number">{{ number }}</mat-option>
+                </mat-select> -->
+              </mat-form-field>
+              <mat-error [id]="'err_leadDays'"
+                *ngIf="scheduleForm.get('numberOfSlots')?.touched && scheduleForm.get('numberOfSlots')?.hasError('required')">
+                {{ "# of Slots is Required" | translate }}
+              </mat-error>
+              <mat-form-field color="primary" class="w-100 mt-3 open-account" appearance="fill">
+                <mat-label>{{ "Slot Length" | translate }}</mat-label>
+                <mat-select formControlName="slotLength" >
+                  <mat-option *ngFor="let mins of arayOfMins" [value]="mins" (click)="onSlotLengthSelection(mins)">{{ mins }} mins</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-error class="mb-3" [id]="'err_leadDays'"
+                *ngIf="scheduleForm.get('slotLength')?.touched && scheduleForm.get('slotLength')?.hasError('required')">
+                {{ "Slot Length is Required" | translate }}
+              </mat-error>
+
+              <mat-form-field class="w-100" appearance="fill">
+                <mat-label>{{
+                  "Max # of Tickets / Plates per slot" | translate
+                  }}</mat-label>
+                <input 
+                matInput 
+                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                formControlName="maxNumbersOfTickets" 
+                maxlength="2"/>
+              </mat-form-field>
+              <mat-error [id]="'err_leadDays'" *ngIf="
+                scheduleForm.get('maxNumbersOfTickets')?.touched && 
+                scheduleForm.get('maxNumbersOfTickets')?.hasError('required')
+                ">
+                {{
+                "Max # of Tickets / Plates per slot is required" | translate
+                }}
+              </mat-error>
+              <mat-error [id]="'err_leadDays'" *ngIf="
+                scheduleForm.get('maxNumbersOfTickets')?.touched && scheduleForm
+                    .get('maxNumbersOfTickets')
+                    ?.hasError('maxLength(2)')
+                ">
+                {{ "Length is long, must be 2 characters" | translate }}
+              </mat-error>
+            </mat-expansion-panel>
+          </mat-accordion>
+        </form>
+
+        <div class="d-flex justify-content-center">
+          <button mat-stroked-button class="apply-form edit-blue mt-4" [disabled]="disableWhenSaved" (click)="applyChangesOnCalendar(scheduleForm.value)">
+            {{ "APPLY" | translate }}
+          </button>
+        </div>
+      </div>
+      <!-- Calendar -->
+
+      <div class="col-md-8">
+        <!-- <mat-spinner *ngIf="calendarLoader" class="spiner justify-content-center text-center" ></mat-spinner> -->
+        <div class="container">
+          <div class="row text-center">
+            <div class="col-md-4">
+              <div class="btn-group">
+                <div class="btn btn-primary" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
+                  (viewDateChange)="closeOpenMonthViewDay()">
+                  Previous
+                </div>
+                <div class="btn btn-outline-secondary" mwlCalendarToday [(viewDate)]="viewDate">
+                  Today
+                </div>
+                <div class="btn btn-primary" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
+                  (viewDateChange)="closeOpenMonthViewDay()">
+                  Next
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+            </div>
+            <div class="col-md-4">
+              <div class="btn-group">
+                <div class="btn btn-primary" (click)="setView(CalendarView.Month)"
+                  [class.active]="view === CalendarView.Month">
+                  Month
+                </div>
+                <div class="btn btn-primary" (click)="setView(CalendarView.Week)"
+                  [class.active]="view === CalendarView.Week">
+                  Week
+                </div>
+                <div class="btn btn-primary" (click)="setView(CalendarView.Day)"
+                  [class.active]="view === CalendarView.Day">
+                  Day
+                </div>
+              </div>
+            </div>
+          </div>
+          <br />
+          <div [ngSwitch]="view" #calendar>
+            <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events"
+              [refresh]="refresh" (dayClicked)="dayClicked($event.day)"
+               (eventTimesChanged)="eventTimesChanged($event)">
+            </mwl-calendar-month-view>
+            <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [viewDate]="viewDate" [events]="events"
+              [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
+              (eventTimesChanged)="eventTimesChanged($event)">
+            </mwl-calendar-week-view>
+            <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [events]="events"
+              [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
+              (eventTimesChanged)="eventTimesChanged($event)">
+            </mwl-calendar-day-view>
+          </div>
+
+          <div class="row tableActions">
+            <div class="col-md-12 align-items-end justify-content-center d-flex">
+              <button mat-stroked-button [disabled]="disableWhenSaved" (click)="resetForm()" class="apply-form edit-blue mt-4">
+                {{ "Cancel" | translate }}
+              </button>
+              <button [disabled]="disableSave" (click)="saveASchedule(scheduleForm.value)" mat-raised-button
+                class="color-blue ml-2">
+                {{ "Save" | translate }}
+              </button>
+              <mat-spinner class="spiner" *ngIf="loader" ></mat-spinner>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

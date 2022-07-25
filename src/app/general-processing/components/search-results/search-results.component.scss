@@ -1,0 +1,70 @@
+.open-account {
+    margin-left: 10px;
+    box-sizing: border-box;
+  
+    ::ng-deep {
+      .mat-form-field-flex {
+        padding: 0.4em 0.35em 0.1em 0.35em;
+        box-sizing: border-box;
+        height: 44px;
+      }
+    }
+  }
+  
+  .event-button {
+    padding: 0 20px 0 20px;
+    border-radius: 5px 0px 0px 0px;
+    margin-bottom: 1px;
+    min-height: 44px;
+    height: 44px;
+  }
+  
+  
+  .entity-button {
+    padding: 0 20px 0 20px;
+    border-radius: 0 4px 0px 0px !important;
+    margin-left: 1px !important;
+    margin-bottom: 1px;
+    min-height: 44px;
+    height: 44px;
+  }
+  
+  .custom-button-size {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+  }
+  
+  .width-unset {
+    width: unset !important;
+  }
+  
+  .table-container {
+    ::ng-deep .container-fluid {
+      padding: 0;
+      margin-top: -18px;
+    }
+  }
+  
+  .button-selector {
+    width: 243px;
+    z-index: 2;
+    height: 60px;
+  }
+  
+  .router-outlet-container {
+    margin-left: -200px;
+  }
+  
+  
+  
+  .table-container {
+    margin-top: -18px;
+  }
+  
+  .tab-enabled {
+    background-color: #d1d1d1;
+    color: #5a6268;
+    border-color: #d1d1d1;
+  }

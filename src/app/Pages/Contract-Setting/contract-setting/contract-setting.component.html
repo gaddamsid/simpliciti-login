@@ -1,0 +1,277 @@
+<div class="container-fluid">
+  <h3>
+    {{"Contract" | translate}}
+  </h3>
+  <form [formGroup]="contractSettingForm">
+    <div class="row">
+      <div class="col-md-4">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>{{ "Event Sequence Number" | translate }}</mat-label>
+          <input matInput formControlName="eventSequenceNumber"  value="0" />
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>{{ "Citation Number Format" | translate }}</mat-label>
+          <input matInput formControlName="citationNumberFormat"  />
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>{{ "Citation Sequence Number" | translate }}</mat-label>
+          <input matInput formControlName="citationSequenceNumber" />
+
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>{{ "Second Citation Number Format" | translate }}</mat-label>
+          <input matInput formControlName="secondCitationNumberFormat" />
+
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>{{ "Second Citation Sequence Number" | translate }}</mat-label>
+          <input matInput formControlName="secondCitationSequenceNumber" />
+
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>{{
+            "Warning Citation Number Format" | translate
+            }}</mat-label>
+          <input matInput formControlName="warningCitationNumberFormat" />
+
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>{{
+            "Warning Citation Sequence Number" | translate
+            }}</mat-label>
+          <input matInput formControlName="warningCitationSequenceNumber" />
+
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>{{ "TolCitationNumberFormat" | translate }}</mat-label>
+          <input matInput formControlName="tolCitationNumberFormat" />
+
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>TolCitationSequenceNumber</mat-label>
+          <input matInput formControlName="tolCitationSequenceNumber" type="number" min="10" />
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>{{ "Convenience Fee" | translate }}</mat-label>
+          <input matInput formControlName="convenienceFee" />
+
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Percentage Convenience Fee ( % Amount )</mat-label>
+          <input matInput type="number" formControlName="percentageConvenienceFee" min="10" />
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>{{
+            "Threshold Amount For Percentage Convenience Fee" | translate
+            }}</mat-label>
+          <input matInput formControlName="thresholdAmountConvenienceFee" />
+
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Maximum Batch Size</mat-label>
+          <input matInput type="maximumBatchSize" min="10" />
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>{{ "Offline Batch Limit" | translate }}</mat-label>
+          <input matInput formControlName="offlineBatchLimit" />
+
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>{{ "Batch Sequence Number" | translate }}</mat-label>
+          <input matInput formControlName="batchSequenceNumber" />
+
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Batch Encryption Password</mat-label>
+          <input matInput type="batchEncryptionPassword"  min="10" />
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>{{ "Overtime Cutoff Time (EST/EDT)" | translate }}</mat-label>
+          <input matInput formControlName="OvertimeCutoffTime" />
+
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>Neighbor Threshold (Seconds)</mat-label>
+          <input matInput formControlName="neighborThreshold" type="number"  min="10" />
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>{{ "Points of Contact Name" | translate }}</mat-label>
+          <input matInput formControlName="pointOfContactName" />
+
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>{{ "Points of Contact Email" | translate }}</mat-label>
+          <input matInput formControlName="pointOfContactEmail" />
+
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>{{"Maximum results in Advanced Search(Enter below 20000 for better Performance)"| translate }}</mat-label>
+          <input matInput type="number" formControlName="maxoutAdvanceSearchResults"  min="10" />
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>{{ "Maximum results in printing archive (Enter below 20000 for better Performence)" | translate }}
+          </mat-label>
+          <input matInput formControlName="maxoutPrintingArchiveResults" />
+
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>{{ "Court Events Cut Off Days" | translate }}</mat-label>
+          <input matInput formControlName="courtEventsCutOffDays" />
+
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>{{ "Court Events Cut Off Days" | translate }}</mat-label>
+          <input matInput formControlName="courtEventsCutOffDays" />
+        </mat-form-field>
+      </div>
+    </div>
+      <div class="form-group row">
+        <div class="col-sm-10">
+          <div class="form-check">
+            <mat-checkbox color="primary" formControlName="partialPayment">{{"Partial Payment" | translate}}</mat-checkbox>
+          </div>
+        </div>
+        <div class="col-sm-10">
+          <div class="form-check">
+            <mat-checkbox color="primary" formControlName="percentageBasedConvenienceFee">{{"Percentage Based Convenience Fee" | translate}}</mat-checkbox>
+          </div>
+        </div>
+        <div class="col-sm-10">
+          <div class="form-check">
+            <mat-checkbox color="primary" formControlName="convenienceFeePerCitation">{{"Convenience Fee Per Citation" | translate}}</mat-checkbox>
+          </div>
+        </div>
+        <div class="col-sm-10">
+          <div class="form-check">
+            <mat-checkbox color="primary" formControlName="clearPlate">{{"Clear Plate on Reject" | translate}}</mat-checkbox>
+          </div>
+        </div>
+        <div class="col-sm-10">
+          <div class="form-check">
+            <mat-checkbox color="primary" formControlName="showDLBasic">{{"Show DL Basic Information" | translate}}</mat-checkbox>
+          </div>
+        </div>
+        <div class="col-sm-10">
+          <div class="form-check">
+            <mat-checkbox color="primary" formControlName="showDOBGender">{{"Show DOB and Gender" | translate}}</mat-checkbox>
+          </div>
+        </div>
+        <div class="col-sm-10">
+          <div class="form-check">
+            <mat-checkbox color="primary" formControlName="showDriverDescriptors">{{"Show Height/Weight etc." | translate}}</mat-checkbox>
+          </div>
+        </div>
+        <div class="col-sm-10">
+          <div class="form-check">
+            <mat-checkbox color="primary" formControlName="showCoOwner">{{"Show Co-Owner Informationow" | translate}}</mat-checkbox>
+          </div>
+        </div>
+        <div class="col-sm-10">
+          <div class="form-check">
+            <mat-checkbox color="primary" formControlName="enableCustomerServiceTracking">{{"Enable Customer Service Tracking" | translate}}</mat-checkbox>
+          </div>
+        </div>
+        <div class="col-sm-10">
+          <div class="form-check">
+            <mat-checkbox color="primary" formControlName="enableOmniChannel">{{"Enable OmniChannel" | translate}}</mat-checkbox>
+          </div>
+        </div>
+        <div class="col-sm-10">
+          <div class="form-check">
+            <mat-checkbox color="primary" formControlName="enablePlateExample">{{"Enable Plate Example File" | translate}}</mat-checkbox>
+          </div>
+        </div>
+        <div class="col-sm-10">
+          <div class="form-check">
+            <mat-checkbox color="primary" formControlName="enableOfflinePrintingContract">{{"Enable Offline Printing Contract" | translate}}</mat-checkbox>
+          </div>
+        </div>
+        <div class="col-sm-10">
+          <div class="form-check">
+            <mat-checkbox color="primary" formControlName="enableDistribution">{{"Enable Cashiering Distribution" | translate}}</mat-checkbox>
+          </div>
+        </div>
+        <div class="col-sm-10">
+          <div class="form-check">
+            <mat-checkbox color="primary" formControlName="enableDistributionDisplay">{{"Enable Distribution Display" | translate }}</mat-checkbox>
+          </div>
+        </div>
+      </div>
+  </form>
+  <div class="row">
+    <div class="align-items-end col-md-12 mb-3 d-flex justify-content-end">
+      <button mat-raised-button class="m-1 color-blue" (click)="addSetting">{{"Save" | translate }}</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,88 @@
+table.GeneratedTable {
+    width: 100%;
+    background-color: #ffffff;
+    border-collapse: collapse;
+    border-width: 0px;
+    border-color: #ffcc00;
+    border-style: solid;
+    color: #000000;
+  }
+  
+  table.GeneratedTable td,
+  table.GeneratedTable th {
+    // border-width: 2px;
+    border-color: transparent;
+    border-style: solid;
+    padding: 3px;
+  }
+  
+  table.GeneratedTable thead {
+    background-color: #ffcc00;
+  }
+  
+  .time-selctor {
+    input {
+      background: whitesmoke;
+      padding: 16px 10px;
+      box-sizing: border-box;
+      border-bottom: 1px solid #8e8e8e;
+    }
+  }
+  .court-schedule{
+    mat-expansion-panel-header{
+      background-color: whitesmoke;
+    }
+  }
+  .chip-selector-container{
+    mat-chip{
+      background: #3c6ab7;
+      color: #fff;
+      font-size: 12px;
+      padding-top: 2px;
+      letter-spacing: 0.5px;
+      padding-bottom: 0;
+      min-height: 24px;
+      display: flex;
+      justify-content: space-between;
+      padding-right: 3px;
+      padding-left: 7px;
+      width: max-content;
+    }
+    button{
+      opacity: 1;
+      color: #fff;
+      mat-icon{
+        font-size: 16px;
+      }
+    }
+  }
+  .apply-form{
+    border: 1px solid #0f73ee;
+    letter-spacing: 1px;
+  }
+  .tableActions{
+    button{
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+  }
+
+  tr {
+    background: #3c6ab7;
+}
+
+tr:nth-child(4n+1) {
+    background: #458cff;
+}
+
+tr:nth-child(4n+2) {
+    background: #458cff;
+}
+
+  tr:nth-child(4n+1), tr:nth-child(4n+2) {
+    background:#458cff;
+}
+
+.spiner{
+    height: min-content;
+}

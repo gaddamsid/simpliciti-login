@@ -1,0 +1,342 @@
+<div class="spinner-wrapper" *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
+</div>
+
+<div class="search-wrapper" color="primary">
+    <form class="example-form" [formGroup]="searchForm">
+        <div class="search-container">
+            <div>
+                <mat-form-field class="mat-form-wrp" appearance="fill">
+                    <mat-label>{{'Citation Number' | translate}}</mat-label>
+                    <input matInput id="citationNumber" placeholder="{{'Citation Number' | translate}}"
+                        oninput="this.value = this.value.replace(/[^a-zA-Z0-9]/g, '')" maxlength="11"
+                        formControlName="citationNumber" (change)="onCitationNumberChange($event)" />
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field class="mat-form-wrp" appearance="fill">
+                    <mat-label>{{'Event ID' | translate}}</mat-label>
+                    <input matInput id="eventId" placeholder="{{'Event ID' | translate}}"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '')" maxlength="11"
+                        formControlName="eventId" (change)="onEventIdChange($event)" />
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field class="mat-form-wrp" appearance="fill">
+                    <mat-label>{{'Plate Number' | translate}}</mat-label>
+                    <input matInput id="plateNumber" placeholder="{{'Plate Number' | translate}}"
+                        oninput="this.value = this.value.replace(/[^a-zA-Z0-9]/g, '')" maxlength="10"
+                        formControlName="plateNumber" (change)="onPlateNumberChange($event)" />
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field class="mat-form-wrp" appearance="fill">
+                    <mat-label>{{"Driver's License" | translate}}</mat-label>
+                    <input matInput id="licenseNumber" placeholder="{{ 'Driver\'s License' | translate}}"
+                        oninput="this.value = this.value.replace(/[^a-zA-Z0-9]/g, '')" maxlength="23"
+                        formControlName="licenseNumber" (change)="onLicenseChange($event)" />
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field class="mat-form-wrp" appearance="fill">
+                    <mat-label>{{"Name" | translate}}</mat-label>
+                    <input matInput id="name" placeholder="{{'Name' | translate}}"
+                        onkeydown="return /[A-Z,a-z, ]/i.test(event.key)"
+                        onblur="if (this.value == '') {this.value = '';}"
+                        onfocus="if (this.value == '') {this.value = '';}" formControlName="name"
+                        (change)="onNameorZipChange($event)" />
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field class="mat-form-wrp" appearance="fill">
+                    <mat-label>{{"Zip Code" | translate}}</mat-label>
+                    <input matInput id="zipCode" placeholder="{{'Zip Code' | translate}}"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '')" minlength="5" maxlength="9"
+                        formControlName="zipCode" (change)="onNameorZipChange($event)" />
+                    <mat-error *ngIf="searchForm.get('zipCode')?.errors?.['minlength']" id="zipCodeMin">
+                        {{'Zip Code min length is 5' | translate}}
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="w-100">
+                <button mat-raised-button color="primary" class="w-100" id="getSearchResults"
+                    (click)="(!isShow ? onSearch() : '')">
+                    {{"Search" | translate}}
+                    <i class="fa fa-spinner fa-spin" *ngIf="isLoading"></i>
+                </button>
+            </div>
+        </div>
+    </form>
+    <div class="advance-flex">
+        <div>
+            <section class="example-section">
+                <mat-checkbox color="primary" id="openAccounts" class="example-margin">{{"Open Accounts" | translate}}
+                </mat-checkbox>
+            </section>
+        </div>
+        <div class="advance-sarch" style="margin-left:100px">
+            <div class="advance-flex" [ngClass]="{'advance-search-disable': !isAdvanceSearch}">
+                <span (click)="toggleStatus();">{{"Advance Search" | translate}} </span>
+                <mat-icon>arrow_downward</mat-icon>
+            </div>
+            <div class="advance-search-form">
+                <div *ngIf="isShow" class="advance-search-modal">
+                    <form [formGroup]="advanceSearchForm">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <mat-form-field appearance="fill" class="w-100">
+                                    <mat-label>{{"Status" | translate}} </mat-label>
+                                    <mat-select id="workflowStateId" formControlName="workflowStateId">
+                                        <mat-option [value]=""></mat-option>
+                                        <mat-option *ngFor="let item of statusList" [value]="item?.workflowStatesID">
+                                            {{ item?.workflowStatesName }}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field appearance="fill" class="w-100">
+                                    <mat-label>{{"Category" | translate}}</mat-label>
+                                    <mat-select id="categoriesId" formControlName="categoriesId">
+                                        <mat-option [value]=""></mat-option>
+                                        <mat-option *ngFor="let item of categoryList" [value]="item?.categoryTypesID">
+                                            {{ item?.categoriesName }}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field appearance="fill" class="w-100">
+                                    <mat-label>{{"Location" | translate}}</mat-label>
+                                    <mat-select id="locationsId" formControlName="locationsId">
+                                        <mat-option [value]=""></mat-option>
+                                        <mat-option *ngFor="let item of locationList" [value]="item?.locationsID">
+                                            {{ item?.locationsName }}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field appearance="fill" class="w-100">
+                                    <mat-label>{{"Deployment ID" | translate}}</mat-label>
+                                    <input matInput id="deploymentId" formControlName="deploymentId" />
+                                </mat-form-field>
+                                <mat-form-field appearance="fill" class="w-100">
+                                    <mat-label>{{"Address" | translate}}</mat-label>
+                                    <input matInput id="address" formControlName="address" />
+                                </mat-form-field>
+                                <mat-checkbox color="primary" id="searchTicketLevel" formControlName="searchTicketLevel"
+                                    class="w-100">
+                                    {{"Search Ticket Level Name & Address" | translate}}
+                                </mat-checkbox>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <mat-form-field appearance="fill" class="w-100">
+                                            <mat-label>{{"City" | translate}}</mat-label>
+                                            <input matInput id="city" formControlName="city" />
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <mat-form-field appearance="fill" class="w-100">
+                                            <mat-label>{{"State" | translate}}</mat-label>
+                                            <mat-select id="stateProvincesId" formControlName="stateProvincesId">
+                                                <mat-option [value]=""></mat-option>
+                                                <mat-option *ngFor="let item of stateList"
+                                                    [value]="item?.stateProvincesID">
+                                                    {{ item?.stateProvincesName }}</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <mat-form-field appearance="fill" class="w-100">
+                                    <mat-label>{{"Approving Officer" | translate}}</mat-label>
+                                    <mat-select id="approvingOfficerId" formControlName="approvingOfficerId">
+                                        <mat-option [value]=""></mat-option>
+                                        <mat-option *ngFor="let item of approvingOfficerList"
+                                            [value]="item?.approvingOfficerId">
+                                            {{ item?.badgeOfficerName }}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <mat-form-field appearance="fill" class="w-100">
+                                            <mat-label>{{"Court" | translate}}</mat-label>
+                                            <mat-select id="court" formControlName="court">
+                                                <mat-option [value]=""></mat-option>
+                                                <mat-option *ngFor="let item of courtList"
+                                                    [value]="item?.workflowStatesID">
+                                                    {{ item?.workflowStatesName }}</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <mat-form-field class="w-100 p-1">
+                                            <input matInput aria-disabled='true'
+                                                placeholder="{{'Schedule Time' | translate}}"
+                                                formControlName="scheduleTime" [id]="'scheduleTime'">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <mat-form-field appearance="fill" class="w-100">
+                                    <mat-label>{{"Lane" | translate}}</mat-label>
+                                    <input matInput id="lane" formControlName="lane" />
+                                </mat-form-field>
+                                <mat-form-field appearance="fill" class="w-100">
+                                    <mat-label>{{"Jurisdiction" | translate}}</mat-label>
+                                    <mat-select id="jurisdictionId" formControlName="jurisdictionId">
+                                        <mat-option [value]=""></mat-option>
+                                        <mat-option *ngFor="let item of juridictionList"
+                                            [value]="item?.jurisdictionsID">
+                                            {{ item?.jurisdictionsName }}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field appearance="fill" class="w-100">
+                                    <mat-label>{{"Print Batch ID" | translate}}</mat-label>
+                                    <input matInput id="batchId" formControlName="batchId" />
+                                </mat-form-field>
+                                <mat-form-field appearance="fill" class="w-100">
+                                    <mat-label>{{"Workflow Queues" | translate}}</mat-label>
+                                    <mat-select id="workFlowQueuesId" formControlName="workFlowQueuesId">
+                                        <mat-option [value]=""></mat-option>
+                                        <mat-option *ngFor="let item of queueList" [value]="item?.queuesID">
+                                            {{ item?.queuesName }}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field appearance="fill" class="mt-25 w-100">
+                                    <mat-label>{{"Workflow User" | translate}}</mat-label>
+                                    <mat-select id="workFlowUserId" formControlName="workFlowUserId">
+                                        <mat-option [value]=""></mat-option>
+                                        <mat-option *ngFor="let item of userList" [value]="item?.updateUserID">
+                                            {{ item?.userName }}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field appearance="fill" class="w-100">
+                                    <mat-label>{{"Payment Plan ID" | translate}}</mat-label>
+                                    <input matInput id="paymentPlanId" formControlName="paymentPlanId" />
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <mat-form-field appearance="fill" class="w-100">
+                                            <mat-label>{{"Amber Range(From)" | translate}}</mat-label>
+                                            <input matInput id="amberRangeFrom" type="number" min="0" max="999"
+                                                formControlName="amberRangeFrom" />
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <mat-form-field appearance="fill" class="w-100">
+                                            <mat-label>{{"Amber Range(To)" | translate}}</mat-label>
+                                            <input matInput id="amberRangeTo" type="number" min="0" max="999"
+                                                formControlName="amberRangeTo" />
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <mat-form-field appearance="fill" class="w-100">
+                                            <mat-label>{{"Red Range(From)" | translate}}</mat-label>
+                                            <input matInput id="redRangeFrom" type="number" min="0" max="999"
+                                                formControlName="redRangeFrom" />
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <mat-form-field appearance="fill" class="w-100">
+                                            <mat-label>{{"Red Range(To)" | translate}}</mat-label>
+                                            <input matInput id="redRangeTo" type="number" min="0" max="999"
+                                                formControlName="redRangeTo" />
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <mat-form-field appearance="fill" class="w-100">
+                                            <mat-label>{{"Speed Range(From)" | translate}}</mat-label>
+                                            <input matInput id="speedRangeFrom" type="number" min="0" max="999"
+                                                formControlName="speedRangeFrom" />
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <mat-form-field appearance="fill" class="w-100">
+                                            <mat-label>{{"Speed Range(To)" | translate}}</mat-label>
+                                            <input matInput id="speedRangeTo" type="number" min="0" max="999"
+                                                formControlName="speedRangeTo" />
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <mat-form-field class="w-100 m-2 p-1">
+                                    <input matInput type="date" aria-disabled='true'
+                                        placeholder="{{'Default Judgement Search' | translate}}"
+                                        formControlName="defaultJudgement" [id]="'defaultJudgement'" />
+                                </mat-form-field>
+                                <mat-form-field class="w-100 m-2 p-1">
+                                    <input matInput type="date" aria-disabled='true'
+                                        placeholder="{{'Notice Date' | translate}}" formControlName="noticeDate"
+                                        [id]="'noticeDate'" />
+                                </mat-form-field>
+                                <mat-form-field class="w-100 m-2 p-1">
+                                    <mat-label>{{'Violation Date Range' | translate}}</mat-label>
+                                    <mat-date-range-input [formGroup]="advanceSearchForm" [rangePicker]="picker">
+                                        <input matStartDate [id]="'violationDateRangeFrom'"
+                                            formControlName="violationDateRangeFrom"
+                                            placeholder="{{'Violation From Date' | translate}}">
+                                        <input matEndDate [id]="'violationDateRangeTo'"
+                                            formControlName="violationDateRangeTo"
+                                            placeholder="{{'Violation To Date' | translate}}">
+                                    </mat-date-range-input>
+                                    <mat-datepicker-toggle matSuffix [for]="picker" [id]="'violationDateRange'">
+                                    </mat-datepicker-toggle>
+                                    <mat-date-range-picker #picker></mat-date-range-picker>
+                                    <mat-error
+                                        *ngIf="advanceSearchForm?.get('violationDateRangeFrom')?.hasError('matStartDateInvalid')">
+                                        {{'Violation From Date must be less than Violation To Date' | translate}}
+                                    </mat-error>
+                                    <mat-error
+                                        *ngIf="advanceSearchForm?.get('violationDateRangeFrom')?.hasError('matDatepickerParse')">
+                                        {{'Invalid Violation From Date' | translate}}
+                                    </mat-error>
+                                    <mat-error
+                                        *ngIf="advanceSearchForm?.get('violationDateRangeTo')?.hasError('matDatepickerParse')">
+                                        {{'Invalid Violation To Date' | translate}}
+                                    </mat-error>
+                                    <mat-error
+                                        *ngIf="advanceSearchForm?.get('violationDateRangeTo')?.hasError('matEndDateInvalid')">
+                                        {{'Violation To Date must be greater than Violation From Date' | translate}}
+                                    </mat-error>
+                                    <!-- <mat-error
+                                        *ngIf="advanceSearchForm.get('violationDateRangeFrom')?.invalid || advanceSearchForm.get('violationDateRangeTo')?.invalid">
+                                        Valid date required.
+                                    </mat-error> -->
+                                </mat-form-field>
+                                <div class="row ml-2">
+                                    <div class="col-md-6">
+                                        <button mat-raised-button color="primary" class="w-100"
+                                            id="clearAdvanceSearchData" (click)="onClearAdvanceSearch()">{{"Clear" |
+                                            translate}}</button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button mat-raised-button color="primary" class="w-100 pull-right"
+                                            id="getAdvanceSearchResults" (click)="onClickAdvanceSearch()">
+                                            {{"Search" | translate}}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div>
+            <form class="example-section" [formGroup]="searchForm">
+                <mat-checkbox color="primary" class="mat-form-wrp" formControlName="driverType">
+                    {{"Driver Name" | translate}}
+                </mat-checkbox>
+            </form>
+        </div>
+        <div class="advance-flex right-btns">
+            <button mat-button id="previousResults"> {{"Previous Results" | translate}}</button>
+            <button mat-button id="recentSearchResults" [matMenuTriggerFor]="RecentSearches">{{"Recent Searches" |
+                translate}}<mat-icon>
+                    keyboard_arrow_down
+                </mat-icon></button>
+            <mat-menu #RecentSearches="matMenu">
+                <button mat-menu-item id="recentSearchResultsItem1">Item 1</button>
+                <button mat-menu-item id="recentSearchResultsItem2">Item 2</button>
+            </mat-menu>
+        </div>
+    </div>
+</div>

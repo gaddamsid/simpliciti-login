@@ -1,0 +1,53 @@
+<div class="sarch-table">
+    <div class="row m-0 mt-3">
+        <div class="col-lg-4">
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <button type="button" class="btn btn-secondary" routerLink="event"routerLinkActive="active" > Event</button>
+                <button type="button" class="btn btn-secondary" routerLink="entity">Entity</button>
+              <mat-form-field appearance="fill" class="open-account">                    <mat-label>Open Accounts</mat-label>
+                    <select matNativeControl>
+                        <option value=""></option>
+                        <option value="">Option</option>
+                    </select>
+                </mat-form-field> 
+            </div>
+        </div>
+       <div class="col-lg-6">
+            <div class="eventicons">
+                <button mat-button>
+                    <img src="./assets/images/Path%205744.svg" />
+                </button>
+                <button mat-button>
+                    <img src="./assets/images/Group%208090.svg" />
+                </button>
+                <button mat-button>
+                    <img src="./assets/images/Group%208089.svg" />
+                </button>
+                <button mat-button [matMenuTriggerFor]="menu">
+                    <img src="./assets/images/Group%208102.svg" />
+                </button>
+                <button mat-button>
+                    <img src="./assets/images/Group%208091.svg" />
+                </button>
+            </div>
+        </div> 
+      <mat-menu #menu="matMenu">
+            <button mat-menu-item>Xl</button>
+            <button mat-menu-item>Xl Detail</button>
+            <button mat-menu-item>PDF</button>
+            <button mat-menu-item>CSV</button>
+            <button mat-menu-item>Print</button>
+        </mat-menu> 
+
+      <div class="col-lg-2 align-right">
+            <input class="form-control" ng-model="search" type="text" placeholder="Search" />
+        </div> 
+    </div>
+    <div>
+        <router-outlet></router-outlet>
+    </div>
+</div>
+
+ 
+
+

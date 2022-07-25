@@ -1,0 +1,28 @@
+.add-ticket-container{
+    margin-top: 18px;
+}
+
+.cursor{
+    cursor: pointer;
+}
+
+.disable-icon{
+    cursor: not-allowed;
+}
+
+.btn-disable{
+    color: white !important;
+    opacity: 0.4;
+}
+
+.custom-error-div {
+    margin-top: -18px;
+    padding: 0.1em 0.75em 0 0.75em;
+    line-height: 1.125;
+    letter-spacing: normal;
+}
+
+.custom-error-span {
+    color: #f44336;
+    font-size: 75%;
+}

@@ -1,0 +1,23 @@
+<div class="d-flex mt-2 container-fluid" *ngIf="isSearchResultShow">
+    <div class="button-selector">
+        <button type="button" [ngClass]="{'tab-enabled': !isEventTabShow}" class="btn btn-secondary event-button"
+            (click)="toNavigate(true)"> {{"Event" | translate}}</button>
+        <button type="button" [ngClass]="{'tab-enabled': isEventTabShow}" class="btn btn-secondary entity-button"
+            (click)="toNavigate(false)"> {{"Entity" | translate}}</button>
+    </div>
+    <div class="table-container w-100">
+        <div class="router-outlet-container">
+            <app-event *ngIf="isEventTabShow"></app-event>
+            <app-entity *ngIf="!isEventTabShow"></app-entity>
+        </div>
+    </div>
+</div>
+<div class="d-flex mt-2 container-fluid" *ngIf="!isSearchResultShow">
+    <div class="col-12 text-center mt-3">
+        <h2 class="text-uppercase text-danger"> {{'No records found' | translate}}</h2>
+        <div *ngIf="isAddTicketButtonShow">
+            <button type="button" mat-raised-button class="m-1 color-blue btn btn-secondary" (click)="goToAddTicketPage();">
+                {{"Add Ticket" | translate}}</button>
+        </div>
+    </div>
+</div>

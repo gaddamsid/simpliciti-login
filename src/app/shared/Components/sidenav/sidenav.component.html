@@ -1,0 +1,423 @@
+<mat-sidenav-container class="example-container" autosize fullscreen>
+  <app-header></app-header>
+  <mat-sidenav #sidenav class="example-sidenav background-gray" mode="side" opened="true" [id]="'sidenav1'">
+    <h1 class="title-brand"><img [src]="cite_img" width="24"><span *ngIf="isExpanded">SimpliCiti</span></h1>
+    <mat-nav-list>
+
+      <mat-list-item (click)="showSubmenu = !showSubmenu" class="parent" [id]="'sidenav2'">
+        <span class="full-width" *ngIf="isExpanded || isShowing">{{'San Francisco' | translate}}</span>
+        <mat-icon mat-list-icon>supervised_user_circle</mat-icon>
+        <mat-icon class="menu-button" [ngClass]="{'rotated' : showSubmenu}" *ngIf="isExpanded || isShowing">expand_more
+        </mat-icon>
+      </mat-list-item>
+
+      <div class="submenu" [ngClass]="{'expanded' : showSubmenu}" *ngIf="isShowing || isExpanded" [id]="'sidenav3'">
+        <!-- <a mat-list-item href="..." class="submenu">Submenu Item 1</a>
+        <a mat-list-item href="..." class="submenu">Submenu Item 2</a> -->
+        <!--(click)="selectContract(contract.contractID)"-->
+        <a mat-list-item class="submenu" *ngFor="let contract of contractList" href="..."
+        >{{contract.contractName}}</a>
+      </div>
+
+
+      <!-- <mat-list-item [id]="'sidenav4'">
+        <img src="../../../../assets/images/Group 9961.png" />
+        <span class="full-width" mat-list-item [routerLink]="['admin/Queue']" [routerLinkActive]="['active']"
+          *ngIf="isExpanded">{{'Queue'
+          | translate}}</span>
+      </mat-list-item> -->
+
+      <mat-list-item (click)="NewMenu = !NewMenu" class="parent" [id]="'sidenav99'">
+        <span class="full-width" *ngIf="isExpanded || isShowing" (click)="initialQueue()">{{'Queue' | translate}}</span>
+        <mat-icon mat-list-icon>supervised_user_circle</mat-icon>
+        <mat-icon class="menu-button" [ngClass]="{'rotated' : NewMenu}" *ngIf="isExpanded || isShowing">expand_more
+        </mat-icon>
+      </mat-list-item>
+
+      <div class="submenu" [ngClass]="{'expanded' : NewMenu}" *ngIf="isShowing || isExpanded" [id]="'sidenav100'">
+        <a mat-list-item class="submenu" *ngFor="let queue of queueList"
+          (click)="selectQueue(queue.queuesID)">{{queue.queuesName}}</a>
+      </div>
+
+
+      <mat-list-item mat-list-item [routerLink]="['gp/search/analytics']" [routerLinkActive]="['active']"
+        [id]="'sidenav5'">
+        <img [src]="gp_img" />
+        <span class="full-width" *ngIf="isExpanded">{{'General Processing' | translate}}</span>
+      </mat-list-item>
+
+
+
+      <mat-list-item mat-list-item [routerLink]="['2']" [routerLinkActive]="['active']" [id]="'sidenav6'">
+        <img [src]="fleet_img" />
+        <span class="full-width" *ngIf="isExpanded">{{'Fleets' | translate}}</span>
+      </mat-list-item>
+
+      <!-- <mat-list-item mat-list-item [routerLink]="['2']" [routerLinkActive]="['active']">
+        <img [src]="bt_img" />
+        <span class="full-width" *ngIf="isExpanded">{{'Boot And Tow' | translate}}</span>
+      </mat-list-item> -->
+
+      <!-- <mat-list-item mat-list-item [routerLink]="['2']" [routerLinkActive]="['active']">
+        <img [src]="pymt_img" />
+        <span class="full-width" *ngIf="isExpanded">{{'Payments' | translate}}</span>
+      </mat-list-item> -->
+
+      <mat-list-item mat-list-item [routerLink]="['2']" [routerLinkActive]="['active']" [id]="'sidenav7'">
+        <img [src]="installment_img" />
+        <span class="full-width" *ngIf="isExpanded">{{'Installment Plan' | translate}}</span>
+      </mat-list-item>
+
+
+      <mat-list-item (click)="Court = !Court" class="parent" [id]="'sidenav14'">
+        <img [src]="court_img" />
+        <span class="full-width" [routerLink]="['court/scheduling']" *ngIf="isExpanded || isShowing">{{'Court' | translate}}</span>
+        <mat-icon class="menu-button" [ngClass]="{'rotated' : Court}" *ngIf="isExpanded || isShowing">
+          expand_more</mat-icon>
+      </mat-list-item>
+      <div class="submenu " [ngClass]="{'expanded' : Court}" *ngIf="isShowing || isExpanded" [id]="'sidenav8'">
+        <a class="submenu " mat-list-item [routerLink]="['court/schedule/schedule-hearing']"
+          [routerLinkActive]="['active']">{{'Schedule Hearing' | translate}}</a>
+
+      </div>
+
+      <mat-list-item mat-list-item [routerLink]="['2']" [routerLinkActive]="['active']" [id]="'sidenav9'">
+        <img [src]="DMV_img" />
+        <span class="full-width" *ngIf="isExpanded">{{'DMV Inquiry' | translate}}</span>
+      </mat-list-item>
+
+      <mat-list-item mat-list-item [routerLink]="['2']" [routerLinkActive]="['active']" [id]="'sidenav10'">
+        <img [src]="Permits_img" />
+        <span class="full-width" *ngIf="isExpanded">{{'Permits' | translate}}</span>
+      </mat-list-item>
+
+
+      <mat-list-item (click)="showAdminTabs = !showAdminTabs" class="parent" mat-list-item [id]="'sidenav11'">
+        <img [src]="admin_img" />
+        <span class="full-width" *ngIf="isExpanded">{{'Administration' | translate}}</span>
+        <mat-icon class="menu-button" [ngClass]="{'rotated' : showAdminTabs}" *ngIf="isExpanded || isShowing">
+          expand_more
+        </mat-icon>
+      </mat-list-item>
+      <div class="submenu" [ngClass]="{'expanded' : showAdminTabs}" *ngIf="isShowing || isExpanded">
+        <!-- <div class="menu-search">
+          <mat-form-field appearance="fill" class="menu-search-input w-100">
+            <mat-label>{{ "Search" | translate }}</mat-label>
+            <input matInput placeholder="Search" />
+        </mat-form-field>
+        </div> -->
+
+
+
+        <!---System Administration--->
+        <mat-list-item (click)="showSubSubMenu = !showSubSubMenu" class="parent admin-subment" [id]="'sidenav12'">
+          <span class="full-width" *ngIf="isExpanded || isShowing">{{'System Administration' | translate}}</span>
+          <mat-icon class="menu-button" [ngClass]="{'rotated' : showSubSubMenu}" *ngIf="isExpanded || isShowing">
+            expand_more</mat-icon>
+        </mat-list-item>
+        <div class="submenu" [ngClass]="{'expanded' : showSubSubMenu}" *ngIf="isShowing || isExpanded"
+          [id]="'sidenav13'">
+          <a class="submenu admin-subsubment" mat-list-item [routerLink]="['admin/User-Management']"
+            [routerLinkActive]="['active']">{{'User Management' | translate}}</a>
+          <a class="submenu admin-subsubment" mat-list-item [routerLink]="['admin/client-management']"
+            [routerLinkActive]="['active']">{{'Client Management' | translate}}</a>
+          <a class="submenu admin-subsubment" mat-list-item [routerLink]="['admin/contract']"
+            [routerLinkActive]="['active']">{{'Contract' | translate}}</a>
+          <a class="submenu admin-subsubment" mat-list-item [routerLink]="['admin/global-holiday']"
+            [routerLinkActive]="['active']">{{'Global Holiday' | translate}}</a>
+
+          <!---Payment-->
+          <mat-list-item (click)="PaymentMenu = !PaymentMenu" class="parent admin-subsubment" [id]="'sidenav14'">
+            <span class="full-width" *ngIf="isExpanded || isShowing">Payment</span>
+            <mat-icon class="menu-button" [ngClass]="{'rotated' : PaymentMenu}" *ngIf="isExpanded || isShowing">
+              expand_more</mat-icon>
+          </mat-list-item>
+          <div class="submenu " [ngClass]="{'expanded' : PaymentMenu}" *ngIf="isShowing || isExpanded"
+            [id]="'sidenav15'">
+            <a class="submenu subsubment" mat-list-item [routerLink]="['admin/master-payment']"
+              [routerLinkActive]="['active']">{{'master-payment-type' | translate}}</a>
+            <a class="submenu subsubment" mat-list-item [routerLink]="['admin/master-payment-method']"
+              [routerLinkActive]="['active']">{{'master-payment-method' | translate}}</a>
+          </div>
+        </div>
+
+        <!--Contract Administration-->
+        <mat-list-item (click)="ContractMenu = !ContractMenu" class="parent admin-subment" [id]="'sidenav16'">
+          <span class="full-width" *ngIf="isExpanded || isShowing">{{'Contract Administration' | translate}}</span>
+          <mat-icon class="menu-button" [ngClass]="{'rotated' : ContractMenu}" *ngIf="isExpanded || isShowing">
+            expand_more</mat-icon>
+        </mat-list-item>
+        <div class="submenu" [ngClass]="{'expanded' : ContractMenu}" *ngIf="isShowing || isExpanded" [id]="'sidenav17'">
+          <mat-list-item (click)="ContractPaymentMenu = !ContractPaymentMenu" class="parent admin-subsubment">
+            <span class="full-width" *ngIf="isExpanded || isShowing">{{'Payment' | translate}}</span>
+            <mat-icon class="menu-button" [ngClass]="{'rotated' : ContractPaymentMenu}" *ngIf="isExpanded || isShowing">
+              expand_more</mat-icon>
+          </mat-list-item>
+          <div class="submenu " [ngClass]="{'expanded' : ContractPaymentMenu}" *ngIf="isShowing || isExpanded"
+            [id]="'sidenav18'">
+            <a class="submenu subsubment" mat-list-item [routerLink]="['admin/client-payment-method']"
+              [routerLinkActive]="['active']">{{'Client Payment Method' | translate}}</a>
+            <a class="submenu subsubment" mat-list-item [routerLink]="['admin/ClientPaymentType']"
+              [routerLinkActive]="['active']">{{'Client Payment Type' | translate}}</a>
+            <a class="submenu subsubment" mat-list-item [routerLink]="['admin/payment-agencies']"
+              [routerLinkActive]="['active']">{{'Agencies' | translate}}</a>
+            <a class="submenu subsubment" mat-list-item [routerLink]="['admin/PaymentFee']"
+              [routerLinkActive]="['active']">{{'Payment Fee' | translate}}</a>
+            <a class="submenu subsubment" mat-list-item [routerLink]="['admin/payment-ivr']"
+              [routerLinkActive]="['active']">{{'IVR/PBW' | translate}}</a>
+            <a class="submenu subsubment" mat-list-item [routerLink]="['admin/payment-accountcode']"
+              [routerLinkActive]="['active']">{{'Account Code' | translate}}</a>
+          </div>
+
+
+          <!---Notices & Correspondence-->
+          <mat-list-item (click)="NoticesMenu = !NoticesMenu" class="parent admin-subsubment" [id]="'sidenav19'">
+            <span class="full-width" *ngIf="isExpanded || isShowing"> {{'Notices & Correspondence' | translate}}</span>
+            <mat-icon class="menu-button" [ngClass]="{'rotated' : NoticesMenu}" *ngIf="isExpanded || isShowing">
+              expand_more</mat-icon>
+          </mat-list-item>
+          <div class="submenu" [ngClass]="{'expanded' : NoticesMenu}" *ngIf="isShowing || isExpanded"
+            [id]="'sidenav20'">
+
+            <a class="submenu subsubment" mat-list-item [routerLink]="['admin/correspondence-type']"
+              [routerLinkActive]="['active']">{{'Correspondence Type' |translate}}</a>
+            <a class="submenu subsubment" mat-list-item [routerLink]="['admin/customer-interaction']"
+              [routerLinkActive]="['active']">{{'Customer Interaction' | translate}}</a>
+            <a class="submenu subsubment" mat-list-item [routerLink]="['admin/Phone-Extension']"
+              [routerLinkActive]="['active']">{{'Phone Extensions' | translate}}</a>
+            <a class="submenu subsubment" mat-list-item [routerLink]="['admin/notice-type']"
+              [routerLinkActive]="['active']">{{'noticeType' | translate}}</a>
+            <a class="submenu subsubment" mat-list-item [routerLink]="['admin/Phone-Status']"
+              [routerLinkActive]="['active']">{{'Phone Status' | translate}}</a>
+            <a class="submenu subsubment" mat-list-item [routerLink]="['admin/paylock-email']"
+              [routerLinkActive]="['active']">{{'Pay Lock Email' | translate}}</a>
+
+
+          </div>
+
+
+          <!---Court & Disposition-->
+          <mat-list-item (click)="DispositionMenu = !DispositionMenu" class="parent admin-subsubment"
+            [id]="'sidenav21'">
+            <span class="full-width" *ngIf="isExpanded || isShowing">{{'Court & Disposition' | translate}}</span>
+            <mat-icon class="menu-button" [ngClass]="{'rotated' : DispositionMenu}" *ngIf="isExpanded || isShowing">
+              expand_more</mat-icon>
+          </mat-list-item>
+          <div class="submenu" [ngClass]="{'expanded' : DispositionMenu}" *ngIf="isShowing || isExpanded"
+            [id]="'sidenav22'">
+            <a class="submenu subsubment" mat-list-item [routerLink]="['admin/disposition-code']"
+              [routerLinkActive]="['active']">{{'Disposition Code' | translate}}</a>
+            <a class="submenu subsubment" mat-list-item [routerLink]="['admin/suspend-codes']"
+              [routerLinkActive]="['active']">{{'Suspend Codes' | translate}}</a>
+            <a class="submenu subsubment" mat-list-item [routerLink]="['admin/court-holiday']"
+              [routerLinkActive]="['active']">{{'Court Holiday' | translate}}</a>
+
+            <a class="submenu subsubment" mat-list-item [routerLink]="['admin/court']"
+              [routerLinkActive]="['active']">{{'Court' | translate}}</a>
+
+            <a class="submenu subsubment" mat-list-item [routerLink]="['admin/hearing-Officer']"
+              [routerLinkActive]="['active']">{{'Hearing Officer' | translate}}</a>
+
+          </div>
+
+          <!--Boot & Tow-->
+          <mat-list-item (click)="BoottowMenu = !BoottowMenu" class="parent admin-subsubment" [id]="'sidenav23'">
+            <span class="full-width" *ngIf="isExpanded || isShowing">{{'Boot & Tow' | translate}}</span>
+            <mat-icon class="menu-button" [ngClass]="{'rotated' : BoottowMenu}" *ngIf="isExpanded || isShowing">
+              expand_more</mat-icon>
+          </mat-list-item>
+          <div class="submenu" [ngClass]="{'expanded' : BoottowMenu}" *ngIf="isShowing || isExpanded"
+            [id]="'sidenav24'">
+            <a class="submenu subsubment" mat-list-item [routerLink]="['admin/crew-table']"
+              [routerLinkActive]="['active']">{{'Crew Table' | translate}}</a>
+            <a class="submenu subsubment" mat-list-item [routerLink]="['admin/boot-tow-process']"
+              [routerLinkActive]="['active']">{{'Boot And Tow Process' | translate}}</a>
+
+            <a class="submenu subsubment" mat-list-item [routerLink]="['admin/Garage']"
+              [routerLinkActive]="['active']">{{'Garage' | translate}}</a>
+          </div>
+
+          <!--Issuance-->
+          <mat-list-item (click)="IssuanceMenu = !IssuanceMenu" class="parent admin-subsubment" [id]="'sidenav25'">
+            <span class="full-width" *ngIf="isExpanded || isShowing">{{'Issuance' | translate}}</span>
+            <mat-icon class="menu-button" [ngClass]="{'rotated' : IssuanceMenu}" *ngIf="isExpanded || isShowing">
+              expand_more</mat-icon>
+          </mat-list-item>
+          <div class="submenu" [ngClass]="{'expanded' : IssuanceMenu}" *ngIf="isShowing || isExpanded"
+            [id]="'sidenav26'">
+            <a class="submenu subsubment" mat-list-item [routerLink]="['admin/issuing-agency']"
+              [routerLinkActive]="['active']">{{'Issuing Agency' | translate}}</a>
+            <a class="submenu subsubment" mat-list-item [routerLink]="['admin/badge-number']"
+              [routerLinkActive]="['active']">{{'Issuing Officer Number' | translate}}</a>
+            <a class="submenu subsubment" mat-list-item [routerLink]="['admin/violation-code']"
+              [routerLinkActive]="['active']">{{'Violation Code' | translate}}</a>
+          </div>
+
+          <!--Collection-->
+          <mat-list-item (click)="CollectionMenu = !CollectionMenu" class="parent admin-subsubment" [id]="'sidenav27'">
+            <span class="full-width" *ngIf="isExpanded || isShowing">{{'Collection' | translate}}</span>
+            <mat-icon class="menu-button" [ngClass]="{'rotated' : CollectionMenu}" *ngIf="isExpanded || isShowing">
+              expand_more</mat-icon>
+          </mat-list-item>
+          <div class="submenu" [ngClass]="{'expanded' : CollectionMenu}" *ngIf="isShowing || isExpanded"
+            [id]="'sidenav28'">
+            <a class="submenu subsubment" mat-list-item [routerLink]="['admin/assign-agency']"
+              [routerLinkActive]="['active']">{{'Assign Agency' | translate}}</a>
+          </div>
+
+          <!---Citation-->
+          <mat-list-item (click)="CitationMenu = !CitationMenu" class="parent admin-subsubment" [id]="'sidenav29'">
+            <span class="full-width" *ngIf="isExpanded || isShowing">{{'Citation' | translate}}</span>
+            <mat-icon class="menu-button" [ngClass]="{'rotated' : CitationMenu}" *ngIf="isExpanded || isShowing">
+              expand_more</mat-icon>
+          </mat-list-item>
+          <div class="submenu" [ngClass]="{'expanded' : CitationMenu}" *ngIf="isShowing || isExpanded"
+            [id]="'sidenav30'">
+            <a class="submenu subsubment" mat-list-item [routerLink]="['admin/citation-ticket']"
+              [routerLinkActive]="['active']">{{'Citation Ticket Type' | translate}}</a>
+          </div>
+
+          <!---Workflow Queue setting-->
+          <mat-list-item (click)="WorkflowMenu = !WorkflowMenu" class="parent  admin-subsubment" [id]="'sidenav31'">
+            <span class="full-width" *ngIf="isExpanded || isShowing">{{'Workflow Queue Setting' | translate}}</span>
+            <mat-icon class="menu-button" [ngClass]="{'rotated' : WorkflowMenu}" *ngIf="isExpanded || isShowing">
+              expand_more</mat-icon>
+          </mat-list-item>
+          <div class="submenu" [ngClass]="{'expanded' : WorkflowMenu}" *ngIf="isShowing || isExpanded"
+            [id]="'sidenav32'">
+            <a class="submenu subsubment" mat-list-item [routerLink]="['admin/actions-categories']"
+              [routerLinkActive]="['active']">{{'Actions Categories' | translate}}</a>
+            <a class="submenu subsubment" mat-list-item [routerLink]="['admin/end-behaviors']"
+              [routerLinkActive]="['active']">{{'End Behaviors' | translate}}</a>
+            <a class="submenu subsubment" mat-list-item [routerLink]="['admin/workflowstates']"
+              [routerLinkActive]="['active']">{{'Workflow_States' | translate}}</a>
+            <a class="submenu subsubment" mat-list-item [routerLink]="['admin/file-transfer']"
+              [routerLinkActive]="['active']">{{'File Transfer' | translate}}</a>
+            <a class="submenu subsubment" mat-list-item [routerLink]="['admin/create-list']"
+              [routerLinkActive]="['active']">{{'Media File Configuration' | translate}}</a>
+            <a class="submenu subsubment" mat-list-item [routerLink]="['admin/ingestion-setting']"
+              [routerLinkActive]="['active']">{{'INGESTION_SETTING' | translate}}</a>
+            <a class="submenu subsubment" mat-list-item [routerLink]="['admin/create-camera']"
+              [routerLinkActive]="['active']">{{'Create Camera' | translate}}</a>
+          </div>
+
+          <!---location-->
+          <mat-list-item (click)="locationMenu = !locationMenu" class="parent admin-subsubment" [id]="'sidenav33'">
+            <span class="full-width" *ngIf="isExpanded || isShowing">{{'Location' | translate}}</span>
+            <mat-icon class="menu-button" [ngClass]="{'rotated' : locationMenu}" *ngIf="isExpanded || isShowing">
+              expand_more</mat-icon>
+          </mat-list-item>
+          <div class="submenu" [ngClass]="{'expanded' : locationMenu}" *ngIf="isShowing || isExpanded"
+            [id]="'sidenav34'">
+            <a class="submenu subsubment" mat-list-item [routerLink]="['admin/admin-sections']"
+              [routerLinkActive]="['active']">{{'Sections' | translate}}</a>
+            <a class="submenu subsubment" mat-list-item [routerLink]="['admin/Jurisdiction']"
+              [routerLinkActive]="['active']">{{'Jurisdiction' | translate}}</a>
+            <a class="submenu subsubment" mat-list-item [routerLink]="['admin/location-list']"
+              [routerLinkActive]="['active']">{{'location_list' | translate}}</a>
+
+          </div>
+
+
+          <a class="submenu admin-subsubment" mat-list-item [routerLink]="['admin/address-source']"
+            [routerLinkActive]="['active']">{{'Address Source' | translate}}</a>
+
+
+
+          <a class="submenu admin-subsubment" mat-list-item [routerLink]="['admin/weather-type']"
+            [routerLinkActive]="['active']">{{'Weather Types' | translate}}</a>
+
+          <a class="submenu admin-subsubment" mat-list-item [routerLink]="['admin/admin-queues']"
+            [routerLinkActive]="['active']">{{'Queues' | translate}}</a>
+
+
+
+
+
+          <!---Assets-->
+          <mat-list-item (click)="AssetsMenu = !AssetsMenu" class="parent admin-subsubment" [id]="'sidenav35'">
+            <span class="full-width" *ngIf="isExpanded || isShowing">{{'Assets' | translate}}</span>
+            <mat-icon class="menu-button" [ngClass]="{'rotated' : AssetsMenu}" *ngIf="isExpanded || isShowing">
+              expand_more</mat-icon>
+          </mat-list-item>
+          <div class="submenu" [ngClass]="{'expanded' : AssetsMenu}" *ngIf="isShowing || isExpanded" [id]="'sidenav36'">
+            <a class="submenu subsubment" mat-list-item [routerLink]="['admin/asset-setting']"
+              [routerLinkActive]="['active']">{{'Asset Setting' | translate}}</a>
+          </div>
+
+
+
+
+        </div>
+
+      </div>
+
+
+
+
+      <mat-list-item routerLink="2">
+        <img [src]="Meters_img" />
+        <span class="full-width" *ngIf="isExpanded">{{'Meters' | translate}}</span>
+      </mat-list-item>
+
+      <mat-list-item routerLink="notice/search">
+        <img [src]="notice_img" />
+        <span class="full-width" *ngIf="isExpanded">{{'Noticing' | translate}}</span>
+      </mat-list-item>
+
+      <mat-list-item routerLink="2">
+        <img [src]="qc_img" />
+        <span class="full-width" *ngIf="isExpanded">{{'Quality Control' | translate}}</span>
+      </mat-list-item>
+
+      <mat-list-item routerLink="2">
+        <img [src]="bc_img" />
+        <span class="full-width" *ngIf="isExpanded">{{'Batch Control' | translate}}</span>
+      </mat-list-item>
+
+      <mat-list-item routerLink="2">
+        <img [src]="reports_img" />
+        <span class="full-width" *ngIf="isExpanded">{{'Reports' | translate}}</span>
+      </mat-list-item>
+
+      <mat-list-item routerLink="2">
+        <mat-icon mat-list-icon>camera_alt</mat-icon>
+        <span class="full-width" *ngIf="isExpanded">{{'CBI' | translate}}</span>
+      </mat-list-item>
+
+      <!-- <mat-list-item routerLink="2"  >
+        <mat-icon mat-list-icon>camera_alt</mat-icon>
+        <span class="full-width" *ngIf="isExpanded">{{'Correspondence type' | translate}}</span>
+      </mat-list-item> -->
+
+      <mat-list-item routerLink="2">
+        <mat-icon mat-list-icon>print</mat-icon>
+        <span class="full-width" *ngIf="isExpanded">{{'Printing' | translate}}</span>
+      </mat-list-item>
+    </mat-nav-list>
+    <!-- <mat-list-item routerLink="2">
+      <a class="full-width" mat-list-item [routerLink]="['admin/Ui-design']" [routerLinkActive]="['active']">{{'UIComponent' | translate}}</a>
+    </mat-list-item> -->
+
+
+
+  </mat-sidenav>
+  <button mat-icon-button (click)="isExpanded = !isExpanded" (click)="clickEvent()"
+    [ngClass]="status ? 'transform-arrow' : 'normal-arrow'" class="arrow-icon">
+    <mat-icon>arrow_back_ios</mat-icon>
+  </button>
+
+
+  <!--searchbar--->
+  <main>
+    <router-outlet></router-outlet>
+  </main>
+
+</mat-sidenav-container>
+
+
+
+
+<!-- Copyright 2017 Google Inc. All Rights Reserved.
+    Use of this source code is governed by an MIT-style license that
+    can be found in the LICENSE file at http://angular.io/license -->

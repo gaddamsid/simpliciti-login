@@ -1,0 +1,115 @@
+.eventicons {
+    button {
+        min-width: 20px;
+        line-height: 20px;
+        padding: 0 9px;
+    }
+}
+
+.open-account {
+    ::ng-deep {
+        .mat-form-field-flex {
+            padding: 0.4em 0.35em 0.1em 0.35em;
+            box-sizing: border-box;
+            height: 44px;
+            background-color: transparent;
+        }
+    }
+}
+
+.align-center {
+    text-align: center;
+}
+
+.color-text {
+    color: #468cff !important;
+}
+
+.plate-info-link {
+    color: #007bff !important;
+    cursor: pointer;
+}
+
+.custom-suffle {
+    width: 1024px !important;
+
+}
+
+.spinn {
+    height: 300px;
+}
+
+.table-border {
+    border: 1px solid #ccc;
+
+    table {
+        th {
+            text-transform: capitalize;
+
+            mat-checkbox {
+                color: #fff;
+
+                ::ng-deep {
+                    .mat-checkbox-frame {
+                        border-color: white
+                    }
+                }
+            }
+        }
+
+        td {
+            border-top: 0;
+            border-bottom: 0;
+        }
+
+        tr {
+
+            &:last-child {
+                box-shadow: inset 0px -3px 0px -2px #ccc;
+            }
+        }
+
+        .header-checkbox {
+            ::ng-deep {
+                label {
+                    margin: 0;
+                }
+            }
+
+            ::ng-deep {
+                .mat-checkbox-frame {
+                    border-color: white
+                }
+            }
+        }
+    }
+}
+
+.shuffle-gallery-scroll {
+    &::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+        background-color: #f5f5f5;
+    }
+
+    &::-webkit-scrollbar {
+        width: 6px;
+        background-color: #f5f5f5;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+        background-color: #b3b3b3;
+    }
+}
+.spinner-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 800px;
+    background: rgba($color: #ffffff, $alpha: 0.7);
+    position: absolute;
+    z-index: 1000;
+    width: 100%;
+  }

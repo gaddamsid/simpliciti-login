@@ -1,0 +1,176 @@
+<!-- <h3 class="header-title">
+    {{"Create Camera"| translate }}
+  </h3>
+<p>create-camera works!</p> -->
+
+<h3 class="header-title"> {{'Camera Details List' | translate}}</h3>
+<div class="container-fluid">
+  <form [formGroup]="CameraForm" #formDirective="ngForm"  (ngSubmit)="addData(CameraForm.value,formDirective)">
+    <div *ngIf="showAddForm">
+      <!-- (ngSubmit)="addData(CameraForm.value)" -->
+      <div class="row">
+        <div class="col-md-3">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>{{"Camera Type" | translate}}</mat-label>
+            <mat-select [id]="'cameraTypesName'" tabindex="-1" name="cameraTypesName" formControlName="cameraTypesName" [id]="'cameraTypesName'">
+              <mat-option *ngFor="let item of cameraList" value="{{item.cameraTypesID}}">
+                {{item.cameraTypesName}} </mat-option>
+            </mat-select>
+            <mat-error *ngIf="CameraForm.get('cameraTypesName')?.hasError('required')" [id]="'error_cameraTypesName'">{{'Camera Type is Required' | translate}}</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>{{"Location" | translate}}</mat-label>
+            <mat-select [id]="'Workflow2'" tabindex="-1" name="locationsName" 
+            formControlName="locationsName" [id]="'locationsName'">
+              <mat-option *ngFor="let item of locationList"
+               value="{{item.locationsID}}">
+                {{item.locationsName}} </mat-option>
+            </mat-select>
+            <mat-error *ngIf="CameraForm.get('locationsName')?.hasError('required')" [id]="'error_locationsName'">{{'Location is Required' | translate}}</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>{{ "Asset" | translate }}</mat-label>
+            <input matInput placeholder="Type" [id]="'Search'" oninput="this.value=this.value.slice(0,this.maxLength)" maxlength="140" [id]="'asset'" tabindex="-1" name="asset"
+              formControlName="asset" [id]="'asset'" appNotAllowWhiteSpaceStart/>
+              <mat-error *ngIf="CameraForm.get('asset')?.hasError('required')" [id]="'error_locationsName'">{{'Asset is Required' | translate}}</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>{{"Firmware Version" | translate}}</mat-label>
+            <mat-select [id]="'firmwareVersionsID'" tabindex="-1" name="firmwareVersionsID" [id]="'firmwareVersionsID'"  formControlName="firmwareVersionsID">
+              <mat-option *ngFor="let item of firmwareList" 
+              value="{{item.firmwareVersionsID}}">
+                {{item.firmwareVersionsName}} </mat-option>
+            </mat-select>
+            <mat-error *ngIf="CameraForm.get('firmwareVersionsID')?.hasError('required')" [id]="'error_firmwareVersionsID'">{{'Firmware Version is Required' | translate}}</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>{{"File Transfer" | translate}}</mat-label>
+            <mat-select [id]="'Workflow2'" tabindex="-1" name="fileTransfersID" [id]="'fileTransfersID'" formControlName="fileTransfersID">
+              <mat-option *ngFor="let item of filetransferList" value="{{item.fileTransfersID}}">
+                {{item.name}} </mat-option>
+            </mat-select>
+            <mat-error *ngIf="CameraForm.get('fileTransfersID')?.hasError('required')" [id]="'error_fileTransfersID'">{{'File Transfer is Required' | translate}}</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>{{ "Rentention Days" | translate }}</mat-label>
+            <input type="number" matInput placeholder="Type" min="0" oninput="this.value=this.value.slice(0,this.maxLength)" maxlength="4" [id]="'retentionDays'"  tabindex="-1"
+              name="retentionDays" formControlName="retentionDays" onkeypress="return event.charCode >= 48 && event.charCode <= 57" />
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>{{ "Lattitude" | translate }}</mat-label>
+            <input matInput  placeholder="Lattitude" [id]="'latitude'" maxlength="10" oninput="this.value=this.value.slice(0,this.maxLength)"  name="latitude" 
+              formControlName="latitude"  appNotAllowWhiteSpaceStart/>
+              <mat-error *ngIf="CameraForm.get('latitude')?.hasError('pattern')" [id]="'error_fileTransfersID'">{{'The Latitude Value Must Be Between +90.000000 to -90.000000' | translate}}</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>{{"Longitude" | translate}}</mat-label>
+            <input matInput  placeholder="Longitude" [id]="'Longitude'" maxlength="10" oninput="this.value=this.value.slice(0,this.maxLength)" name="longitude" 
+              formControlName="longitude" appNotAllowWhiteSpaceStart/>
+            <!-- <mat-select [id]="'Workflow2'" tabindex="-1" name="longitude" formControlName="longitude">
+            <mat-option>Y</mat-option>
+            <mat-option>N</mat-option>
+          </mat-select> -->
+          <mat-error *ngIf="CameraForm.get('longitude')?.hasError('pattern')" [id]="'error_fileTransfersID'">{{'The Longitude Value Must Be Between +180.000000 to -180.000000' | translate}}</mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="col-md-3">
+          <mat-checkbox color="primary" formControlName="inAlarm" [id]="'inAlarm'">{{"Is Alarm" | translate}}</mat-checkbox>
+        </div>
+        <div class="col-md-3">
+          <mat-checkbox color="primary" formControlName="isEnforcement" [id]="'isEnforcement'">{{"Is Enforcement" | translate}}</mat-checkbox>
+        </div>
+        <div class="col-md-3">
+          <mat-checkbox color="primary" formControlName="isEncrypted" [id]="'isEncrypted'" (change)="enabledEncryption($event)" #inputCheck>{{"Is Encrypted" | translate}}</mat-checkbox>
+        </div>
+        <div class="col-md-3">
+          <mat-checkbox color="primary" formControlName="cameraEnabled" [id]="'cameraEnabled'">{{"Camera Enable" | translate}}</mat-checkbox>
+        </div>
+      </div>
+      <div class="row mt-1">
+        <div class="col-md-3">
+          <mat-form-field appearance="fill" class="w-100" [disabled]="enableFile" [ngClass]="enableFile == false ? 'disable-field pb-0 border-bottom-black' : ''">
+            <mat-label>{{ "Encrypted File" | translate }}</mat-label>
+            <input matInput placeholder="Encrypted File" [id]="'encryprtionFile'" maxlength="140" oninput="this.value=this.value.slice(0,this.maxLength)"  tabindex="-1"
+              name="encryprtionFile" formControlName="encryprtionFile" appNotAllowWhiteSpaceStart />
+              <mat-error *ngIf="CameraForm.get('encryprtionFile')?.hasError('required')" [id]="'error_fileTransfersID'">{{'Encrypted File is Required' | translate}}</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>{{ "Approach" | translate }}</mat-label>
+            <input matInput placeholder="Approach" [id]="'approach'"  maxlength="140" oninput="this.value=this.value.slice(0,this.maxLength)" tabindex="-1" name="approach"
+              formControlName="approach" />
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>{{ "Description" | translate }}</mat-label>
+            <textarea matInput placeholder="Description" [id]="'cameraDescription'" oninput="this.value=this.value.slice(0,this.maxLength)" maxlength="140" tabindex="-1" name="cameraDescription"
+              formControlName="cameraDescription"></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="align-items-end col-md-12 mb-3 d-flex justify-content-end">
+          <button mat-raised-button class="m-1 color-blue" [id]="'error_cancel'" (click)="cancelAdd_Save(formDirective)">{{'Cancel'|
+            translate}}</button>
+          <button mat-raised-button class="color-blue m-1" *ngIf="addBtn" [id]="'error_add'">{{'Add' |
+            translate}}</button>
+          <button type="button" mat-raised-button class="m-1 color-blue" [id]="'error_save'" *ngIf="!addBtn"
+            (click)="updateRecord(CameraForm.value)">
+            {{'Save' |translate}}
+          </button>
+      </div>
+    </div>
+    </div>
+  </form>
+  <div class="tab-pane fade active show" id="paymentPanel" role="tabpanel" aria-labelledby="paymentTab"
+    [hidden]="showAddForm">
+    <div class="data-region">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="align-items-center d-flex row">
+            <div class="col-6">
+              <mat-form-field appearance="fill">
+                <mat-label>{{ "Search" | translate }}</mat-label>
+                <input matInput [(ngModel)]="searchData" [id]="'searchData'" placeholder="Type"
+                  (keyup)="applyFilter($event)" />
+              </mat-form-field>
+            </div>
+            <div class="col-6">
+              <div class="text-right">
+                <button [id]="'addButton'" mat-raised-button class="m-1 color-blue" (click)="addCameraType()"
+                  title="{{ 'Add' | translate }}">
+                  {{ "Add" | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+          <app-table [confiData]="tableDisplayedColumns"  (editRowOutput)="editRowOutput($event)"
+          (deleteRowOutput)="deleteRowOutput($event)" (enableRowOutput)="enableRowOutput($event)"
+          [displayedColumns]="displayedColumns" [dataSource]="dataSource"></app-table>
+    </div>
+    </div>
+  </div>
+<!-- ending create Camera -->

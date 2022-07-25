@@ -1,0 +1,119 @@
+<app-categories *ngIf="!showAddForm" (onCategoriADDEdit)="onCategoriADDEdit($event)" (onAcionListForm)="onAcionList($event)" [showCatForm]="showCatForm"></app-categories>
+<br><br>
+<div *ngIf="!isCategoriADDEdit">
+
+    <!-- Action n Categories -->
+    <h3 class="header-title" *ngIf="showAddForm || showEditForm || isActionListPage">
+        {{"Actions" | translate}}
+    </h3>
+    <div class="container-fluid">
+        <div *ngIf="showAddForm || showEditForm">
+            <form [formGroup]="actionForm" (ngSubmit)="addRecord(actionForm.value)">
+                <div class="row">
+                    <div class="col-md-3">
+                        <mat-form-field appearance="fill" class="w-100">
+                            <mat-label>{{"Name" | translate}}</mat-label>
+                            <input type="Text" matInput formControlName="actionsName" [id]="'actionsName'"
+                                maxlength="50" />
+                            <mat-error *ngIf="actionForm.get('actionsName')?.hasError('required')"
+                                [id]="'err_actionsName'">{{'name Required' | translate}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="align-items-end col-md-12 mb-4 d-flex justify-content-end">
+                        <button mat-raised-button class="m-1 color-blue" [id]="'cancelAddA'" (click)="cancelAdd_Save()">{{'Cancel'|
+                            translate}}</button>
+                        <button mat-raised-button class="m-1 color-blue" [id]="'AddA'" type="submit" *ngIf="showAddForm">
+                            {{'Add' |translate}}</button>
+                        <button type="button" mat-raised-button class="m-1 color-blue" [id]="'updateAction'" *ngIf="showEditForm"
+                            (click)="updateBadgeRecord(actionForm.value)">
+                            {{'Save' |translate}}
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- Search Bar -->
+        <div [hidden]="showAddForm || showEditForm" *ngIf="showAddForm || showEditForm || isActionListPage">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="align-items-center d-flex row">
+                        <div class="col-6">
+                            <mat-form-field appearance="fill">
+                                <mat-label>{{ "Search" | translate }}</mat-label>
+                                <input matInput placeholder="Type" #searchField [id]="'searchAction'"  (keyup)="applyFilter($event)" />
+                            </mat-form-field>
+                        </div>
+                        <div class="col-6">
+                            <div class="text-right">
+                                <button mat-raised-button appearance="fill" [id]="'Addnew1'" class="m-1 color-blue"
+                                    (click)="showAddFormPage()">
+                                    {{ "Add" | translate }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mat-elevation-z8">
+                <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
+                    <!-- Badge Number -->
+                    <ng-container matColumnDef="actionsName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            {{ "Name" | translate }}</th>
+                        <td mat-cell *matCellDef="let element" class="text-left w-350px">{{
+                            element.actionsName }}
+                        </td>
+                    </ng-container>
+
+                    <!-- Office Name -->
+                    <ng-container matColumnDef="actionQueueNames">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            {{ "Queue Count" | translate }}</th>
+                        <td mat-cell *matCellDef="let element" class="text-right">{{
+                            actionQueueNamesCount(element.actionQueueNames) }} <mat-icon
+                                *ngIf="actionQueueNamesCount(element.actionQueueNames) >0"
+                                matTooltip="{{parseJson(element?.actionQueueNames)}}">info</mat-icon>
+                        </td>
+                    </ng-container>
+
+                    <!-- Symbol Column -->
+                    <ng-container matColumnDef="Action">
+                        <tr>
+                            <th mat-header-cell *matHeaderCellDef class="text-center">
+                                {{'Action' | translate}}</th>
+                        </tr>
+                        <tr>
+                            <td mat-cell *matCellDef="let element" class="text-center">
+                                <button mat-icon-button color="dark-grey" title="{{'Edit' | translate }}">
+                                    <mat-icon class="edit-blue" (click)="editIconClicked(element)">edit</mat-icon>
+                                </button>
+                                <button mat-icon-button color="dark-grey" [id]="'Disable'"
+                                    title="{{'Disable' | translate }}"
+                                    (click)="toggleType(element.actionsID, element.active)" *ngIf="element.active">
+                                    <mat-icon class="color-red">block</mat-icon>
+                                </button>
+                                <button mat-icon-button color="dark-grey" [id]="'Enable'"
+                                    title="{{'Enable' | translate }}"
+                                    (click)="toggleType(element.actionsID, element.active)" *ngIf="!element.active">
+                                    <mat-icon class="color-green">done_outline</mat-icon>
+                                </button>
+
+                            </td>
+                        <tr>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                </table>
+                <div class="col-sm-12 text-center" [hidden]="dataSource.filteredData?.length !== 0">
+                    {{'No records found' | translate}}</div>
+                <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons
+                    aria-label="Select page of periodic elements">
+                </mat-paginator>
+            </div>
+        </div>
+    </div>
+</div>

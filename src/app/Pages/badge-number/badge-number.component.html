@@ -1,0 +1,236 @@
+<h3 class="header-title">
+  {{'Issuing Officer Number' | translate}}
+</h3>
+<div class="container-fluid">
+  <div *ngIf="showAddForm || showEditForm">
+    <form [formGroup]="badgeNumberForm" (ngSubmit)="addBadgeRecord(badgeNumberForm.value)">
+      <div class="row">
+        <div class="col-md-4">
+          <mat-form-field appearance="fill" class="w-100" [disabled]="showEditForm"
+            [ngClass]="showEditForm == true ? 'disable-field pb-0 border-bottom-black' : ''">
+            <mat-label>{{'Issuing Officer Number' | translate}}</mat-label>
+            <input type="text" specialIsAlphaNumeric matInput formControlName="badgeNumber" min="1" maxlength="6"
+              [id]="'Issuing Officer Number'" *ngIf="showAddForm" />
+            <input type="text" specialIsAlphaNumeric matInput formControlName="badgeNumber" min="1" maxlength="6"
+              [id]="'Issuing Officer Number'" tabindex="-1" *ngIf="showEditForm" />
+            <!-- ERRORS -->
+            <mat-error [id]="'badgeNumber1'" *ngIf="badgeNumberForm.get('badgeNumber')?.hasError('required')">
+              {{ 'Issuing Officer Number is Required' | translate }}
+            </mat-error>
+            <mat-error [id]="'badgeNumber2'" *ngIf="badgeNumberForm.get('badgeNumber')?.hasError('invalid')">
+              {{ badgeNumberForm.get('badgeNumber')?.getError('invalid') |
+              translate }}
+            </mat-error>
+            <!-- <mat-error *ngIf="badgeNumberForm.controls['badgeNumber'].touched && badgeNumberForm.controls['badgeNumber'].hasError('maxlength')">
+                    {{ 'Maximum of 15 characters' | translate }}
+                  </mat-error> -->
+            <!-- ERRORS -->
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>{{'Officer Name' | translate}}</mat-label>
+            <input matInput type="text" maxlength="50" formControlName="badgeOfficerName" [id]="'badgeOfficerName'"
+              appNotAllowWhiteSpaceStart />
+            <!-- ERRORS -->
+            <mat-error [id]="'badgeNumber3'" *ngIf="badgeNumberForm.get('badgeOfficerName')?.hasError('required')">
+              {{ 'Officer Name is Required' | translate }}
+            </mat-error>
+            <mat-error [id]="'badgeNumber4'" *ngIf="badgeNumberForm.get('badgeOfficerName')?.hasError('invalid')">
+              {{ badgeNumberForm.get('badgeOfficerName')?.getError('invalid') |
+              translate }}
+            </mat-error>
+            <!-- ERRORS -->
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label>{{'Agency' | translate}}</mat-label>
+            <input matInput type="number" formControlName="badgeAgency" [id]="'badgeAgency'" maxlength="2"
+              oninput="this.value=this.value.slice(0,this.maxLength)" />
+            <!-- ERRORS -->
+            <mat-error [id]="'badgeNumber5'" *ngIf="badgeNumberForm.get('badgeAgency')?.hasError('required')">
+              {{ 'Agency required' | translate }}
+            </mat-error>
+            <mat-error [id]="'badgeNumber6'" *ngIf="badgeNumberForm.get('badgeAgency')?.hasError('invalid')">
+              {{ badgeNumberForm.get('badgeAgency')?.getError('invalid') |
+              translate }}
+            </mat-error>
+            <mat-error [id]="'badgeNumber7'" *ngIf="!badgeNumberForm.get('badgeAgency')?.hasError('invalid')">
+              {{'Agency must be greater than zero' |translate }}
+            </mat-error>
+            <!-- ERRORS -->
+          </mat-form-field>
+        </div>
+        <div class="col-md-2">
+          <mat-form-field appearance="fill" class="w-100">
+            <mat-label> {{'Division' | translate}}</mat-label>
+            <input matInput type="number" formControlName="badgeDivision" [id]="'badgeDivision'" maxlength="2"
+              oninput="this.value=this.value.slice(0,this.maxLength)" />
+            <!-- ERRORS -->
+            <mat-error [id]="'badgeNumber8'" *ngIf="badgeNumberForm.get('badgeDivision')?.hasError('required')">
+              {{ 'Division required' | translate }}
+            </mat-error>
+            <mat-error [id]="'badgeNumber9'" *ngIf="badgeNumberForm.get('badgeDivision')?.hasError('invalid')">
+              {{ badgeNumberForm.get('badgeDivision')?.getError('invalid') |
+              translate }}
+            </mat-error>
+            <mat-error [id]="'badgeNumber10'" *ngIf="!badgeNumberForm.get('badgeDivision')?.hasError('invalid')">
+              {{'Division must be greater than zero' |translate }}
+            </mat-error>
+            <!-- ERRORS -->
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row align-items-center">
+        <div class="col-md-12 align-items-center mt-3">
+          <mat-label> {{'Signature Upload' | translate}}</mat-label>
+          <div class="button-wrap position-relative">
+            <div class="d-flex">
+              <label for="signature-upload" class="custom-file-upload bg-file mt-1 h-45 d-flex ">
+                <input #fileInput hidden id="signature-upload" type="file" formControlName="signatureUpload"
+                  (change)="UploadFile($event)" accept="image/png,image/jpeg" />
+                <button mat-raised-button type="button" class="m-1 color-blue w-120px" [id]="'chooseFile'"
+                  (click)="fileInput.click()">{{"Choose File" | translate}}</button>
+                {{file}}
+              </label>
+              <!-- <mat-icon class="fixed-remove-attachment-button remove-attachment margin-top-6px" *ngIf="showCross"
+                    (click)="resetUpload()">close</mat-icon> -->
+            </div>
+            <span [id]="'errormsg'" class="f-12">
+              {{'Please Upload file only JPEG/PNG format' |translate }}
+            </span>
+
+            <div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-3">
+        <div class="align-items-end col-md-12 mb-4 d-flex justify-content-end">
+          <button mat-raised-button class="m-1 color-blue" [id]="'Cancel'" (click)="cancelAdd_Save()">{{'Cancel'|
+            translate}}</button>
+          <button mat-raised-button class="m-1 color-blue" [id]="'AddSubmit'" type="submit" *ngIf="showAddForm">
+            {{'Add' |translate}}</button>
+          <button type="button" [id]="'SaveSubmit'" mat-raised-button class="m-1 color-blue" *ngIf="showEditForm"
+            (click)="updateBadgeRecord(badgeNumberForm.value)">
+            {{'Save' |translate}}
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <!-- Search Bar -->
+  <div [hidden]="showAddForm || showEditForm">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="align-items-center d-flex row">
+          <div class="col-6">
+            <mat-form-field appearance="fill">
+              <mat-label>{{ "Search" | translate }}</mat-label>
+              <input matInput placeholder="Type" [id]="'Search'" #searchField (keyup)="applyFilter($event)" />
+            </mat-form-field>
+          </div>
+          <div class="col-6">
+            <div class="text-right">
+              <button mat-raised-button appearance="fill" [id]="'AddNew'" class="m-1 color-blue"
+                (click)="showAddFormPage()">
+                {{ "Add" | translate }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
+        <!-- Issuing Officer number -->
+        <ng-container matColumnDef="badgeNumber">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ "Issuing Officer Number" | translate }}</th>
+          <td mat-cell *matCellDef="let element" class="text-right">{{
+            element.badgeNumber }}</td>
+        </ng-container>
+
+        <!-- Office Name -->
+        <ng-container matColumnDef="badgeOfficerName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ "Officer Name" | translate }}</th>
+          <td mat-cell *matCellDef="let element" class="text-left">{{
+            element.badgeOfficerName }}</td>
+        </ng-container>
+        <!-- Agency -->
+        <ng-container matColumnDef="badgeAgency">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ "Agency" | translate }}</th>
+          <td mat-cell *matCellDef="let element" class="text-right">{{
+            element.badgeAgency }}</td>
+        </ng-container>
+        <!-- Division -->
+        <ng-container matColumnDef="badgeDivision">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            {{ "Division" | translate }}</th>
+          <td mat-cell *matCellDef="let element" class="text-right">{{
+            element.badgeDivision }}</td>
+        </ng-container>
+
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="Action">
+          <tr>
+            <th mat-header-cell *matHeaderCellDef class="text-center">
+              {{'Action' | translate}}</th>
+          </tr>
+          <tr>
+            <td mat-cell *matCellDef="let element" class="text-center">
+              <div class="table-icon-container">
+                <button mat-icon-button color="dark-grey" title="{{'Edit' | translate }}">
+                  <mat-icon class="edit-blue" (click)="editIconClicked(element)">edit</mat-icon>
+                </button>
+                <button mat-icon-button color="dark-grey" title="{{'Delete' | translate }}">
+                  <mat-icon class="color-light-gray" (click)="deleteBadgeRecord(element.badgenumberId)">delete
+                  </mat-icon>
+                </button>
+                <button mat-icon-button *ngIf="element.isUploaded === 'Y'" color="dark-grey"
+                  title="{{'image' | translate }}">
+                  <mat-icon (click)="openDialogWithTemplateRef(myDialog,element)" class="color-light-gray">image
+                  </mat-icon>
+                </button>
+              </div>
+              <!-- <button mat-icon-button color="dark-grey" title="{{'Disable' | translate }}" (click)="toggleCourtHoliday(element.holidayId,
+                  element.active)" *ngIf="element.active">
+                  <mat-icon class="color-red">block</mat-icon>
+                </button>
+                <button mat-icon-button color="dark-grey" title="{{'Enable' | translate }}" (click)="toggleCourtHoliday(element.holidayId,
+                  element.active)" *ngIf="!element.active">
+                  <mat-icon class="color-green">done_outline</mat-icon>
+                </button> -->
+
+            </td>
+          <tr>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+      <div class="col-sm-12 text-center" [hidden]="dataSource.filteredData?.length !== 0">
+        {{'No records found' | translate}}</div>
+      <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons
+        aria-label="Select page of periodic elements">
+      </mat-paginator>
+    </div>
+  </div>
+</div>
+
+<!-- Dialog template -->
+
+<ng-template #myDialog>
+  <h2 matDialogTitle>{{'Signature' | translate}}</h2>
+  <mat-dialog-content>
+    <img [src]="pdfSrc" alt="image" class="w-100" />
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button matDialogClose color="primary">{{'Cancel' | translate}}</button>
+  </mat-dialog-actions>
+</ng-template>

@@ -1,0 +1,75 @@
+{
+  "moving1Resposne": [
+    {
+      "accident": "string",
+      "actaualSpeed": 0,
+      "bookedInd": "string",
+      "filed": "string",
+      "hazard": 0,
+      "issueDate": "2022-07-01T08:01:37.637",
+      "microfilmNumber": 0,
+      "misc": "string",
+      "overweight": 0,
+      "owner": "string",
+      "radarIndication": "string",
+      "sample": "string",
+      "speedZone": 0,
+      "ticket": "F144520158",
+      "violation": "string"
+    },
+    {
+      "accident": "string",
+      "actaualSpeed": 0,
+      "bookedInd": "string",
+      "filed": "string",
+      "hazard": 0,
+      "issueDate": "2022-07-03T08:02:37.637",
+      "microfilmNumber": 0,
+      "misc": "string",
+      "overweight": 0,
+      "owner": "string",
+      "radarIndication": "string",
+      "sample": "string",
+      "speedZone": 0,
+      "ticket": "F144520159",
+      "violation": "string"
+    }
+  ],
+  "moving2Resposne": [
+    {
+      "assignAgency": 241,
+      "assignDate": "2022-07-03T08:02:37.637",
+      "dateOfBirth": "2022-07-03T08:02:37.637",
+      "description": "string",
+      "eyes": "Blue",
+      "hair": "Black",
+      "height": "6.41",
+      "issuingAgency": "AZ-104",
+      "plate": "VAUJJ5455",
+      "race": "Cocasian",
+      "sex": "male",
+      "ticket": "F144520158",
+      "vin": "5455",
+      "violation": "NO PARKING ZONE",
+      "weight": 120
+    },
+    {
+      "assignAgency": 244,
+      "assignDate": "2021-07-03T08:02:37.637",
+      "dateOfBirth": "2022-08-03T08:02:37.637",
+      "description": "string",
+      "eyes": "Blue",
+      "hair": "Black",
+      "height": "6.11",
+      "issuingAgency": "AZ-108",
+      "plate": "VAUJJ5484",
+      "race": "Asian",
+      "sex": "male",
+      "ticket": "F144520158",
+      "vin": "5455",
+      "violation": "NO PARKING ZONE",
+      "weight": 84
+    }
+  ],
+  "profile": { "name": "typicode" }
+} 

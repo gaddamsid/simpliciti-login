@@ -1,0 +1,128 @@
+<div id="paymentCart" class="container-fluid">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="container-fluid">
+                <div class="total-amount-bar d-flex justify-content-between blacked-title border-0 mb-4">
+                    <div class="cart-item d-flex">
+                        <p class="m-0">{{"Transaction No." | translate}}:
+                            <span>{{paymentDetails.transactionNumber}}</span>
+                        </p>
+                        <b class="mt-0 ml-3 mr-3">|</b>
+                        <p class="m-0">{{"Receipt No." | translate}}: <span> {{paymentDetails.receiptNumber}}</span></p>
+                    </div>
+                    <div class="total-price">
+                        <p class="m-0">{{"Amount Paid" | translate}}: <span>
+                                {{ paymentDetails?.totalAmount | currency }}</span></p>
+                    </div>
+                </div>
+                <div *ngFor="let plate of paymentDetails.plateDetails">
+                    <div class="total-amount-bar d-flex justify-content-between blacked-title border-0 mb-2">
+                        <div class="cart-item d-flex">
+                            <p class="m-0">{{"Plate Number" | translate}}: {{ plate?.statePlate }}</p>
+                        </div>
+                    </div>
+                    <div class="card-container">
+                        <p class="font-weight-bold">{{"Ticket Details" | translate}}</p>
+                        <mat-card class="p-0 mb-2" *ngFor="let item of plate?.ticketDetails">
+                            <mat-card-content>
+                                <div class="container-fluid">
+                                    <div class="row min-70-height">
+                                        <div class="col-md-4 bg-light d-flex">
+                                            <div class="d-flex flex-column justify-content-center p-2 ticket-detail">
+                                                <p class="m-0 font-weight-bold">Ticket <span>{{ item?.citationNumber
+                                                        }}</span></p>
+                                                <span class="f-12">
+                                                    <span>{{item?.locationAndDescription }}
+                                                        - <span>{{item?.date | date}}</span></span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="align-items-center col-md-4 d-flex">
+                                            <p class="m-0">{{"Amount Due"| translate }}
+                                                <span class="font-weight-bold">{{item?.amountDue | currency}}</span>
+                                            </p>
+                                        </div>
+                                        <div class="align-items-center col-md-4 d-flex">
+                                            <p class="m-0"> {{"Amount Paid"| translate }}
+                                                <span class="font-weight-bold">{{item?.payThisAmount | currency}}</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+                        <p class="font-weight-bold mt-2">{{"Plate Fees Detail"| translate }}</p>
+                        <mat-card class="p-0 mb-2" *ngFor="let item of plate?.feeDetails">
+                            <mat-card-content>
+                                <div class="container-fluid">
+                                    <div class="row min-70-height">
+                                        <div class="col-md-4 bg-light d-flex">
+                                            <div class="d-flex flex-column justify-content-center p-2 ticket-detail">
+                                                <p class="m-0 font-weight-bold">{{item?.chargeType}} <span></span></p>
+                                            </div>
+                                        </div>
+                                        <div class="align-items-center col-md-4 d-flex">
+                                            <p class="m-0">{{"Amount Due"| translate }} <span
+                                                    class="font-weight-bold">{{item?.dueAmount |
+                                                    currency}}</span></p>
+                                        </div>
+                                        <div class="align-items-center col-md-4 d-flex">
+                                            <p class="m-0">{{"Amount Paid"| translate }} <span
+                                                    class="font-weight-bold">{{item?.payment |
+                                                    currency}}</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-3">
+            <div class="payment-confirm">
+                <mat-card class="p-0 pt-3 fixed-card">
+                    <mat-card-content>
+                        <div class="container-fluid pb-3">
+                            <h4 class="font-weight-bold mb-4">{{"Payment" | translate}}</h4>
+                            <div>
+                                <p class="align-items-center d-flex m-0 mb-3">
+                                    <mat-icon class="mr-2">check_circle</mat-icon>
+                                    {{"Payment has been submitted" | translate}}
+                                </p>
+                                <ul class="m-0 p-0">
+                                    <li class="d-flex justify-content-between mb-3">
+                                        <p class="m-0 p-0">{{"Payment Source" | translate}}</p>
+                                        <span class="font-weight-bold f-12"></span>
+                                    </li>
+                                    <li class="d-flex justify-content-between mb-3">
+                                        <p class="m-0 p-0">{{paymentDetails.paymentMethod1 | translate}}</p>
+                                        <span class="font-weight-bold f-12">{{ paymentDetails?.paymentMethod1Amount |
+                                            currency}}</span>
+                                    </li>
+                                    <li class="d-flex justify-content-between mb-3"
+                                        *ngIf="paymentDetails?.paymentMethod2Amount && (paymentDetails.paymentMethod2Amount > 0)">
+                                        <p class="m-0 p-0">{{paymentDetails.paymentMethod2 | translate}}</p>
+                                        <span class="font-weight-bold f-12">{{ paymentDetails?.paymentMethod2Amount |
+                                            currency}}</span>
+                                    </li>
+                                    <li class="d-flex justify-content-between mb-3">
+                                        <p class="m-0 p-0">{{"Total" | translate}}</p>
+                                        <h4>{{ paymentDetails?.totalAmount | currency}}</h4>
+                                    </li>
+                                </ul>
+                                <div class="d-flex payment-button flex-column">
+                                    <button mat-raised-button class="m-1 color-blue mb-4">
+                                        {{'Adjust Payment' | translate}}</button>
+                                    <button mat-stroked-button class="edit-blue" (click)="downloadAsPDF()">
+                                        {{"REPRINT PAYMENT RECEIPT" | translate}}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </div>
+    </div>
+</div>

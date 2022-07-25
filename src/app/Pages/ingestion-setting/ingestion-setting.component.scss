@@ -1,0 +1,18 @@
+::ng-deep{
+    .mat-checkbox-label  {
+        white-space: nowrap;
+        width: 270px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 800px;
+    background: rgba($color: #ffffff, $alpha: 0.7);
+    position: absolute;
+    z-index: 1000;
+    width: 100%;
+  }

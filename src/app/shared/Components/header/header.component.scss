@@ -1,0 +1,42 @@
+.example-spacer {
+  flex: 1 1 auto;
+}
+mat-toolbar {
+  height: auto;
+  padding: 5px;
+  mat-icon {
+    color: #fff;
+  }
+  mat-chip-list {
+    mat-chip {
+      background-color: #bbbcbd;
+      border-radius: 5px;
+      button {
+        margin: -5px 0 0 5px;
+        mat-icon {
+          color: #55585a;
+        }
+      }
+    }
+  }
+}
+.badge {
+  padding-left: 9px;
+  padding-right: 9px;
+  -webkit-border-radius: 9px;
+  -moz-border-radius: 9px;
+  border-radius: 9px;
+}
+
+.label-warning[href],
+.badge-warning[href] {
+  background-color: #c67605;
+}
+#lblCartCount {
+    font-size: 10px;
+    background: #ff0000;
+    color: rgb(14, 1, 1);
+    padding: 0 5px;
+    vertical-align: top;
+    margin-left: -8px; 
+}

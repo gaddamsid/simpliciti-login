@@ -1,0 +1,693 @@
+<h3 class="header-title">
+  {{"location_list" | translate }}
+</h3>
+
+<!---LOCATION Form Starts-->
+
+<div class="container-fluid" *ngIf="showAddForm || showEditForm">
+  <form [formGroup]="LocationForm" (ngSubmit)="addData(LocationForm.value)">
+    <div class="row">
+      <div class="col-md-4">
+        <mat-form-field appearance="fill" class="w-100" [disabled]="showEditForm"
+          [ngClass]="showEditForm === true ? 'disable-field pb-0 border-bottom-black' : ''">
+          <mat-label>{{ "Location Code" | translate }}</mat-label>
+          <input matInput tabindex="-1" placeholder="Type" [id]="'locationsCode'" formControlName="locationsCode"
+            appNotAllowWhiteSpaceStart specialIsAlphaNumeric maxlength="8" />
+          <!-- ERRORS -->
+          <mat-error *ngIf="LocationForm.get('locationsCode')?.hasError('required')" [id]="'errorLocationsCode1'">
+            {{ 'Location Code is Required' | translate }}
+          </mat-error>
+
+          <mat-error *ngIf="LocationForm.get('locationsCode')?.hasError('invalid')" [id]="'errorLocationsCode2'">
+            {{ LocationForm.get('locationsCode')?.getError('invalid') |
+            translate }}
+          </mat-error>
+
+          <!-- ERRORS -->
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>{{ "Location Name" | translate }}</mat-label>
+          <input matInput placeholder="Type" [id]="'locationsName'" formControlName="locationsName"
+            appNotAllowWhiteSpaceStart specialIsAlphaNumeric maxlength="100" />
+          <!-- ERRORS -->
+          <mat-error *ngIf="LocationForm.get('locationsName')?.hasError('required')" [id]="'errorLocationsName'">
+            {{ 'Location Name is Required' | translate }}
+          </mat-error>
+          <!-- ERRORS -->
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>{{ "Camera Type" | translate }}</mat-label>
+          <mat-select formControlName="cameraType" [id]="'cameraType'" (selectionChange)="Cameralist($event)">
+            <mat-option *ngFor="let rule of cameraTypes" [value]="rule.cameraTypesID">
+              {{rule.cameraTypesName}}
+            </mat-option>
+          </mat-select>
+          <!-- ERRORS -->
+          <mat-error *ngIf="LocationForm.get('cameraType')?.hasError('required')" [id]="'errorcameraType'">
+            {{ 'Camera Type is Required' | translate }}
+          </mat-error>
+          <!-- ERRORS -->
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>{{ "Latitude" | translate }}</mat-label>
+          <input matInput [id]="'latitude'" maxlength="10" formControlName="latitude" />
+          <!-- ERRORS -->
+          <mat-error *ngIf="LocationForm.get('latitude')?.hasError('pattern')" [id]="'errorlatitude'">
+            {{'The Latitude Value Must Be Between +90.000000 to -90.000000' | translate}}
+          </mat-error>
+          <!-- ERRORS -->
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>{{ "Longitude" | translate }}</mat-label>
+          <input matInput [id]="'longitude'" maxlength="10" formControlName="longitude" />
+          <!-- ERRORS -->
+          <mat-error *ngIf="LocationForm.get('longitude')?.hasError('pattern')" [id]="'errorlongitude'">
+            {{'The Longitude Value Must Be Between +180.000000 to -180.000000' | translate}}
+          </mat-error>
+          <!-- ERRORS -->
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>{{ "Description" | translate }}</mat-label>
+          <input matInput placeholder="Type" [id]="'locationsDescription'" formControlName="locationsDescription"
+            appNotAllowWhiteSpaceStart specialIsAlphaNumeric maxlength="150" />
+        </mat-form-field>
+        <div class="row">
+          <div class="col-md-6">
+            <mat-checkbox color="primary" formControlName="enable" [id]="'enable'">{{'Enable' | translate}}
+            </mat-checkbox>
+          </div>
+          <div class="col-md-6">
+            <mat-checkbox color="primary" formControlName="lprEnable" [id]="'lprEnable'">{{'LPR Enable' | translate}}
+            </mat-checkbox>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" style="margin-bottom: 22px">
+      <div class="col-md-4">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>{{ "Speed Limit" | translate }}</mat-label>
+          <input matInput type="number" [id]="'speedLimit'" formControlName="speedLimit" min="0" maxlength="3"
+            oninput="this.value=this.value.slice(0,this.maxLength)" />
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>{{ "Warning Period Start" | translate }}</mat-label>
+          <!-- <input matInput type="datetime-local" [id]="'warningPeriodStart'" formControlName="warningPeriodStart"
+            (blur)="validateField($event.target)" min="1753-06-07T00:00" -->
+            <!-- <input class="input-calendar" placeholder="Choose a date & time" formControlName="warningPeriodStart"> -->
+            <input matInput [ngxMatDatetimePicker]="picker" placeholder="Choose a date & time" [id]="'warningPeriodStart'"
+            formControlName="warningPeriodStart" [min]="minDate" class="date-input" (blur)="validateField($event.target)">
+              {{ this.LocationForm.controls['warningPeriodStart'].value | date:'MM/dd/yyyy hh:mm a' }}
+            <mat-datepicker-toggle matSuffix [for]="$any(picker)" [id]="'warningPeriodStartCal'"></mat-datepicker-toggle>
+            <ngx-mat-datetime-picker #picker [enableMeridian]="true">
+              <ng-template>
+                <span id="calendar-check">
+                  <mat-icon class="calender-icon">check</mat-icon>
+                </span>
+              </ng-template>
+            </ngx-mat-datetime-picker>
+          <!-- ERRORS -->
+          <mat-error *ngIf="LocationForm.get('warningPeriodStart')?.hasError('required')"
+            [id]="'errorwarningPeriodStart'">
+            {{ 'Warning Period Start is Required' | translate }}
+          </mat-error>
+          <mat-error *ngIf="LocationForm.get('warningPeriodStart')?.hasError('invalid')"
+            [id]="'errorwarningPeriodStart1'">
+            {{ LocationForm.get('warningPeriodStart')?.getError('invalid') | translate}}
+          </mat-error>
+          <!-- ERRORS -->
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>{{ "Enforcement Period Start" | translate }}</mat-label>
+          <!-- <input matInput type="datetime-local" [id]="'enforcementPeriodStart'" formControlName="enforcementPeriodStart"
+            (blur)="validateField($event.target)"> -->
+            <input matInput [ngxMatDatetimePicker]="picker1" placeholder="Choose a date & time"
+            [id]="'enforcementPeriodStart'" [min]="minDate" formControlName="enforcementPeriodStart" class="date-input">
+            {{ this.LocationForm.controls['enforcementPeriodStart'].value | date:'MM/dd/yyyy hh:mm a' }}
+            <mat-datepicker-toggle matSuffix [for]="$any(picker1)" [id]="'enforcementPeriodStartCal'"></mat-datepicker-toggle>
+            <ngx-mat-datetime-picker #picker1 [enableMeridian]="true">
+              <ng-template>
+                <span id="calendar-check1">
+                  <mat-icon class="calender-icon">check</mat-icon>
+                </span>
+              </ng-template>
+            </ngx-mat-datetime-picker>
+          <!-- ERRORS -->
+          <mat-error *ngIf="LocationForm.get('enforcementPeriodStart')?.hasError('required')"
+            [id]="'errorenforcementPeriodStart'">
+            {{ 'Enforcement Period Start is Required' | translate }}
+          </mat-error>
+          <mat-error *ngIf="LocationForm.get('enforcementPeriodStart')?.hasError('invalid')"
+            [id]="'errorEnforcementPeriodStart1'">
+            {{ LocationForm.get('enforcementPeriodStart')?.getError('invalid') | translate }}
+          </mat-error>
+          <!-- ERRORS -->
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-md-4" *ngIf="isRedLight">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>{{ "Red Seconds" | translate }}</mat-label>
+          <input matInput type="number" [id]="'redSec'" formControlName="redSeconds" min="1" maxlength="3"
+            oninput="this.value=this.value.slice(0,this.maxLength)" />
+          <!-- ERRORS -->
+          <mat-error *ngIf="LocationForm.get('redSeconds')?.hasError('required')" [id]="'errorRedSec'">
+            {{ 'Red Seconds is Required' | translate }}
+          </mat-error>
+          <mat-error *ngIf="LocationForm.get('redSeconds')?.hasError('pattern')" [id]="'errorRedSec1'">
+            {{ 'Invalid Red Seconds' | translate }}
+          </mat-error>
+          <!-- ERRORS -->
+        </mat-form-field>
+      </div>
+      <div class="col-md-4" *ngIf="isRedLight">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>{{ "Yellow Seconds" | translate }}</mat-label>
+          <input matInput type="number" [id]="'yellowSec'" formControlName="yellowSeconds" min="1" maxlength="3"
+            oninput="this.value=this.value.slice(0,this.maxLength)" />
+          <!-- ERRORS -->
+          <mat-error *ngIf="LocationForm.get('yellowSeconds')?.hasError('required')" [id]="'errorYellowSec'">
+            {{ 'Yellow Seconds is Required' | translate }}
+          </mat-error>
+          <mat-error *ngIf="LocationForm.get('yellowSeconds')?.hasError('pattern')" [id]="'errorYellowSec1'">
+            {{ 'Invalid Yellow Seconds' | translate }}
+          </mat-error>
+          <!-- ERRORS -->
+        </mat-form-field>
+      </div>
+      <div class="col-md-4" *ngIf="!isRedLight">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>{{ "Enforcement Speed" | translate }}</mat-label>
+          <input matInput type="number" [id]="'enfSpeed'" formControlName="enforcementSpeed" min="0" maxlength="3"
+            oninput="this.value=this.value.slice(0,this.maxLength)" />
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>{{"Value" | translate}}</mat-label>
+          <mat-select formControlName="value" [id]="'value'" (selectionChange)="valueSelect($event)">
+            <mat-option *ngFor="let item of valueItems" [value]="item.name">
+              {{item.name}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-checkbox color="primary" *ngIf="isRedLight" formControlName="rejectAmberSecBelow"
+          [id]="'rejectAmberSecBelow'">
+          <span class="white-space-wrap">{{'Auto-Reject Events Amber Seconds Below'| translate }}</span>
+        </mat-checkbox>
+      </div>
+    </div>
+    <div class="row mt-3" *ngIf="isRedLight" style="margin-bottom: 1rem;">
+      <div class="col-md-4">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>{{ "Below Seconds Value(s)" | translate }}</mat-label>
+          <input matInput type="number" min="0" [id]="'belowSec'" formControlName="belowSecondsValue" maxlength="3"
+            oninput="this.value=this.value.slice(0,this.maxLength)" />
+        </mat-form-field>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>{{ "Reject Yellow Seconds Below Category" | translate }}</mat-label>
+          <mat-select formControlName="rejectYellowSec" [id]="'rejectYellowSec'"
+            (selectionChange)="rejectYellowCategory($event)">
+            <mat-option *ngFor="let item of rejectYellowCat" [value]="item.categoriesID">
+              {{item.categoryName}}
+            </mat-option>
+          </mat-select>
+          <!-- ERRORS -->
+          <mat-error *ngIf="LocationForm.get('rejectYellowSec')?.hasError('required')" [id]="'errorRejectYellowSec'">
+            {{ 'Reject Yellow Seconds Below Category is Required' | translate }}
+          </mat-error>
+          <!-- ERRORS -->
+        </mat-form-field>
+      </div>
+    </div>
+
+    <!-- Speed Section start-->
+    <div class="row" style="margin-bottom: 15px" *ngIf="!isRedLight">
+      <div class="container-fluid">
+        <div class=" mat-card">
+          <h4 class="blacked-title">{{'Variable Speed Limits' | translate}}</h4>
+          <div class="container-fluid">
+
+            <!-- Speed Search Section -->
+            <div class="row p-1 m-1">
+              <div class="col-sm-12">
+                <div class="align-items-center d-flex row">
+                  <div class="col-6">
+                    <mat-form-field appearance="fill">
+                      <mat-label>{{ "Search" | translate }}</mat-label>
+                      <input matInput placeholder="Type" [id]="'search'" #searchSpeed [id]="'searchSpeedData'"
+                        placeholder="Type" (keyup)="applySpeedFilter($event)" />
+                    </mat-form-field>
+                  </div>
+                  <div class="col-6">
+                    <div class="text-right">
+                      <button type="button" appearance="fill" [id]="'addSpeed'" mat-raised-button class="m-1 color-blue"
+                        (click)="addSpeed()"> {{ "Add" | translate }} </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Speed Table -->
+            <div class="col-md-12 p-2">
+              <div class="lane-table">
+                <table mat-table [dataSource]="speedDataSource" matSortDisableClear #speedSort="matSort" matSort
+                  (matSortChange)="announceSortChange($event)">
+                  <ng-container matColumnDef="speedLimit">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'Speed Limit' | translate}}</th>
+                    <td mat-cell *matCellDef="let element" class="text-center"> {{element.speedLimit}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="enforcementSpeed">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'Enforcement Speed' | translate}}</th>
+                    <td mat-cell *matCellDef="let element" class="text-center"> {{element.enforcementSpeed}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="startTime">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'Start Time' | translate}}</th>
+                    <td mat-cell *matCellDef="let element" class="text-center"> {{element.startTime}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="endTime">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'End Time' | translate}}</th>
+                    <td mat-cell *matCellDef="let element" class="text-center"> {{element.endTime}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="weekDays">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'Days of the Week' | translate}}</th>
+                    <td mat-cell *matCellDef="let element" class="text-center"> {{element.daysOfTheWeek}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef> {{'Action' | translate}} </th>
+                    <td mat-cell *matCellDef="let element" class="text-center">
+                      <button mat-icon-button color="dark-grey" type="button" [id]="'deleteLane'"
+                        title="{{'Delete' | translate }}" (click)="deleteSpeedRow(element)">
+                        <mat-icon class="color-light-gray">
+                          delete</mat-icon>
+                      </button>
+                    </td>
+
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="speedDisplayColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: speedDisplayColumns;"></tr>
+                </table>
+                <div class="col-sm-12 text-center" *ngIf="speedDataSource?.filteredData?.length === 0">
+                  {{'No records found' | translate}}</div>
+                <mat-paginator #speedPaginator [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons
+                  [id]="'pageSpeed'" aria-label="Select page of periodic elements">
+                </mat-paginator>
+              </div>
+            </div>
+          </div>
+
+          <!-- Speed Add Section -->
+          <div class="container-fluid" *ngIf="showAddSpeed">
+            <div class="row">
+              <div class="col-md-4">
+                <mat-form-field appearance="fill" class="w-100">
+                  <mat-label>{{ "Speed Limit" | translate }}</mat-label>
+                  <input type="number" matInput [id]="'varSpeedLimit'" formControlName="varSpeedLimit" min="0"
+                    maxlength="2" oninput="this.value=this.value.slice(0,this.maxLength)"
+                    (blur)="validateLaneField($event.target)" />
+                </mat-form-field>
+                <div *ngIf="varSpeedError === true" class="custom-error-div" [id]="'errorVarSpeedLimit'">
+                  <span class="custom-error-span">
+                    {{'Speed Limit is Required' | translate}}
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <mat-form-field appearance="fill" class="w-100">
+                  <mat-label>{{ "Enforcement Speed" | translate }}</mat-label>
+                  <input type="number" matInput [id]="'varEnforcementSpeed'" formControlName="varEnforcementSpeed"
+                    min="0" maxlength="3" oninput="this.value=this.value.slice(0,this.maxLength)" />
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <mat-form-field appearance="fill" class="w-100">
+                  <mat-label>{{ "Start Time" | translate }}</mat-label>
+                  <input matInput type="time" [id]="'startTime'" formControlName="startTime"
+                    (blur)="validateField($event.target); validateLaneField($event.target)">
+                  <!-- ERRORS -->
+                  <mat-error *ngIf="LocationForm.get('startTime')?.hasError('invalid')" [id]="'errorStartTime'">
+                    {{ 'Please enter a valid value. The field is incomplete or has an invalid time' | translate }}
+                  </mat-error>
+                  <!-- ERRORS -->
+                </mat-form-field>
+                <div *ngIf="varStartTimeError === true" class="custom-error-div" [id]="'errorStartTime1'">
+                  <span class="custom-error-span">
+                    {{ 'Please enter a valid value. The field is incomplete or has an invalid time' | translate}}
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <mat-form-field appearance="fill" class="w-100">
+                  <mat-label>{{ "End Time" | translate }}</mat-label>
+                  <input matInput type="time" [id]="'endTime'" formControlName="endTime"
+                    (blur)="validateField($event.target); validateLaneField($event.target)">
+                  <!-- ERRORS -->
+                  <mat-error *ngIf="LocationForm.get('endTime')?.hasError('invalid')" [id]="'errorEndTime'">
+                    {{ 'Please enter a valid value. The field is incomplete or has an invalid time' | translate }}
+                  </mat-error>
+                  <!-- ERRORS -->
+                </mat-form-field>
+                <div *ngIf="varEndTimeError === true" class="custom-error-div" [id]="'errorEndTime1'">
+                  <span class="custom-error-span">
+                    {{ 'Please enter a valid value. The field is incomplete or has an invalid time' | translate}}
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <mat-form-field appearance="fill" class="w-100">
+                  <mat-label>{{ "Days Of The Week" | translate }}</mat-label>
+                  <input type="" matInput [id]="'weekDays'" formControlName="weekDays"
+                    (blur)="validateField($event.target)" min="1" maxlength="2"
+                    oninput="this.value=this.value.slice(0,this.maxLength)" />
+                  <i class="fa fa-fw fa-question-circle toolbox tip">
+                    <div class="custom-tooltip">
+                      <span>Required Format : M,T,W,TH,F,S,Su</span>
+                    </div>
+                  </i>
+                  <!-- ERRORS -->
+                  <mat-error *ngIf="LocationForm.get('weekDays')?.hasError('invalid')" [id]="'errorWeekDays'">
+                    {{ 'Please enter a valid value.' | translate }}
+                  </mat-error>
+                  <!-- ERRORS -->
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="align-items-end col-md-12 mb-3 d-flex justify-content-end">
+                <button type="button" mat-raised-button class="m-1 color-blue" [id]="'cancelSpeed'"
+                  (click)="cancelSpeed()"> {{'Cancel' |translate}} </button>
+                <button type="button" mat-raised-button class="m-1 color-blue" [id]="'addSpeedData'"
+                  (click)="createSpeedTable(LocationForm.value)"> {{'Add' | translate}} </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Speed Section end-->
+
+    <!-- Lanes Section start-->
+    <div class="row">
+      <div class="container-fluid">
+        <div class=" mat-card">
+          <h4 class="blacked-title">{{'Lane' | translate}}</h4>
+          <div class="container-fluid">
+
+            <!-- Lanes Search Section-->
+            <div class="row p-1 m-1">
+              <div class="col-sm-12">
+                <div class="align-items-center d-flex row">
+                  <div class="col-6">
+                    <mat-form-field appearance="fill">
+                      <mat-label>{{ "Search" | translate }}</mat-label>
+                      <input matInput placeholder="Type" [id]="'search'" #searchLane [id]="'searchLaneData'"
+                        placeholder="Type" (keyup)="applyLaneFilter($event)" />
+                    </mat-form-field>
+                  </div>
+                  <div class="col-6">
+                    <div class="text-right">
+                      <button type="button" appearance="fill" [id]="'addLane'" mat-raised-button class="m-1 color-blue"
+                        (click)="addLane()">
+                        {{ "Add" | translate }}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Lanes Table -->
+            <div class="col-md-12 p-2">
+              <div class="lane-table">
+                <table mat-table [dataSource]="lanesDataSource" matSortDisableClear #lanesSort="matSort" matSort
+                  (matSortChange)="sortLanesData($event)">
+                  <ng-container matColumnDef="laneNum">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'Lane Number' | translate}}</th>
+                    <td mat-cell *matCellDef="let element" class="text-center"> {{element.lanesNumber}} </td>
+                  </ng-container>
+
+
+                  <ng-container matColumnDef="laneMinSpeed">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>{{'Minimum Speed' | translate}}</th>
+                    <td mat-cell *matCellDef="let element" class="text-center"> {{element.lanesMinimumSpeed}} </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="action">
+                    <th mat-header-cell *matHeaderCellDef> {{'Action' | translate}} </th>
+                    <td mat-cell *matCellDef="let element" class="text-center">
+                      <button mat-icon-button color="dark-grey" type="button" [id]="'deleteLane'"
+                        title="{{'Delete' | translate }}">
+                        <mat-icon class="color-light-gray" (click)="deleteLaneRow(element)">
+                          delete</mat-icon>
+                      </button>
+                    </td>
+
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="lanesDisplayColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: lanesDisplayColumns;"></tr>
+                </table>
+                <div class="col-sm-12 text-center" *ngIf="lanesDataSource?.filteredData?.length === 0">
+                  {{'No records found' | translate}}</div>
+                <mat-paginator #lanesPaginator [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons
+                  [id]="'pageLanes'" aria-label="Select page of periodic elements">
+                </mat-paginator>
+              </div>
+            </div>
+          </div>
+
+          <!-- Lanes Add Form -->
+          <div class="container-fluid" *ngIf="showAddLane">
+            <div class="row">
+              <div class="col-md-4">
+                <mat-form-field appearance="fill" class="w-100">
+                  <mat-label>{{ "Number" | translate }}</mat-label>
+                  <input type="number" matInput [id]="'laneNum'" formControlName="laneNum" min="0" maxlength="2"
+                    oninput="this.value=this.value.slice(0,this.maxLength)" (blur)="validateLaneField($event.target)" />
+                  <!-- ERRORS -->
+                  <mat-error *ngIf="LocationForm.get('laneNum')?.hasError('required')" [id]="'errorlaneNum'">
+                    {{ 'Number is Required' | translate }}
+                  </mat-error>
+                  <!-- ERRORS -->
+                </mat-form-field>
+                <div *ngIf="laneNumError === true" class="custom-error-div" [id]="'errorlaneNum1'">
+                  <span class="custom-error-span">
+                    {{'Number is Required' | translate}}
+                  </span>
+                </div>
+
+              </div>
+              <div class="col-md-4">
+                <mat-form-field appearance="fill" class="w-100">
+                  <mat-label>{{ "Minimum Speed" | translate }}</mat-label>
+                  <input type="number" matInput [id]="'laneMinSpeed'" formControlName="laneMinSpeed" min="0"
+                    maxlength="3" oninput="this.value=this.value.slice(0,this.maxLength)"
+                    (blur)="validateLaneField($event.target)" />
+                  <!-- ERRORS -->
+                  <mat-error *ngIf="LocationForm.get('laneMinSpeed')?.hasError('required')" [id]="'errorlaneMinSpeed'">
+                    {{ 'Minimum Speed is Required' | translate }}
+                  </mat-error>
+                  <!-- ERRORS -->
+                </mat-form-field>
+                <div *ngIf="laneMinSpeedError === true" class="custom-error-div" [id]="'errorlaneMinSpeed1'">
+                  <span class="custom-error-span">
+                    {{'Minimum Speed is Required' | translate}}
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="align-items-end col-md-12 mb-3 d-flex justify-content-end">
+                <button type="button" mat-raised-button class="m-1 color-blue" [id]="'cancelLane'"
+                  (click)="cancelLane()">{{'Cancel'
+                  |translate}}</button>
+                <button type="button" mat-raised-button class="m-1 color-blue" [id]="'addLaneData'"
+                  (click)="createLanesTable(LocationForm.value)">{{'Add' | translate}}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Lanes Section end-->
+
+    <div class="row mt-3">
+      <div class="col-md-4">
+        <mat-form-field appearance="fill" class="w-100">
+          <mat-label>{{ "Jurisdiction Id" | translate }}</mat-label>
+          <mat-select formControlName="jurisdictionsID" [id]="'jurisdictionsID'" (selectionChange)="juriID($event)">
+            <mat-option *ngFor="let rule of Jurisdictions" [value]="rule.jurisdictionsID">
+              {{rule.jurisdictionsName}}
+            </mat-option>
+          </mat-select>
+          <!-- ERRORS -->
+          <mat-error *ngIf="LocationForm.get('jurisdictionsID')?.hasError('required')" [id]="'errorjurisdictionsID'">
+            {{ 'Jurisdiction Id is Required' | translate }}
+          </mat-error>
+          <!-- ERRORS -->
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="align-items-end col-md-12 mb-3 d-flex justify-content-end">
+      <button type="button" mat-raised-button class="m-1 color-blue" [id]="'cancel'" (click)="cancel()">{{'Cancel'
+        |translate}}</button>
+      <button mat-raised-button class="m-1 color-blue" type="submit" *ngIf="showAddForm" [id]="'add'">{{'Add' |
+        translate}}</button>
+      <button mat-raised-button class="m-1 color-blue" type="button" [id]="'save'" *ngIf="showEditForm"
+        (click)="editLocationData(LocationForm.value)">{{'Save' |
+        translate}}</button>
+    </div>
+  </form>
+</div>
+
+<!---LOCATION Form Ends-->
+
+<div class="container-fluid">
+  <div class="tab-pane fade active show" id="locationPanel" role="tabpanel" aria-labelledby="locationTab"
+    [hidden]="showAddForm || showEditForm">
+    <div class="data-region">
+      <!-- LOCATION SEARCH BAR -->
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="align-items-center d-flex row">
+            <div class="col-5">
+              <mat-form-field appearance="fill">
+                <mat-label>{{ "Search" | translate }}</mat-label>
+                <input matInput [(ngModel)]="searchData" #search [id]="'searchData'" placeholder="Type"
+                  (keyup)="applyFilter($event)" />
+              </mat-form-field>
+            </div>
+            <div class="col-5">
+              <mat-form-field appearance="fill">
+                <mat-label>{{"Select Contract Type" | translate}}</mat-label>
+                <mat-select [(ngModel)]="contractID" [id]="'contractID'" (selectionChange)="contractSelect($event)">
+                  <mat-option *ngFor="let item of contractType" [value]="item.id">
+                    {{item.name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-2">
+              <div class="text-right">
+                <button [id]="'addButton'" mat-raised-button class="m-1 color-blue" (click)="addLocation()">
+                  {{ "Add" | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LOCATION TABLE -->
+
+      <div class="mat-elevation-z8">
+        <table mat-table [dataSource]="locationDataSource" matSortDisableClear #locationsort="matSort" matSort
+          (matSortChange)="announceSortChange($event)">
+          <ng-container matColumnDef="locationsName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ "Location_Name" | translate
+              }}</th>
+            <td mat-cell *matCellDef="let element" class="text-left wrap-word">
+              <p class="max-150px m-0">{{element.locationsName}}</p>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="locationsCode">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ "Location_Code" | translate }}</th>
+            <td mat-cell *matCellDef="let element" class="text-left"> {{element.locationsCode}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="locationsDescription">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ "Location_Description" | translate }}</th>
+            <td mat-cell *matCellDef="let element" class="text-left wrap-word">
+              <p class="max-150px m-0">{{element.locationsDescription}}</p>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="amberTime">
+            <th [hidden]="!isRedLight" mat-header-cell *matHeaderCellDef mat-sort-header> {{ "Amber_Time" |
+              translate }}</th>
+            <td [hidden]="!isRedLight" mat-cell *matCellDef="let element" class="text-right">
+              {{element.amberTime}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="latitude">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ "Latitude" | translate }}</th>
+            <td mat-cell *matCellDef="let element" class="text-right">
+              <div>{{element.latitude}}</div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="longitude">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ "Longitude" | translate }}</th>
+            <td mat-cell *matCellDef="let element" class="text-right"> {{element.longitude}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="jurisdictionsName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> {{ "Jurisdiction" | translate }}</th>
+            <td mat-cell *matCellDef="let element" class="text-left"> {{element.jurisdictionsName}} </td>
+          </ng-container>
+          <ng-container matColumnDef="active">
+            <tr>
+              <th mat-header-cell *matHeaderCellDef class="text-center">{{'Action' | translate }}</th>
+            </tr>
+            <tr>
+              <td mat-cell *matCellDef="let element" class="text-center">
+                <button [id]="'editButtonSmall'" mat-icon-button color="dark-grey" title="Edit"
+                  title="{{'Edit' | translate }}">
+                  <mat-icon class="edit-blue" (click)="onEditIconClick(element.locationsID)">edit</mat-icon>
+                </button>
+                <button mat-icon-button color="dark-grey" title="{{'Disable' | translate }}" (click)="
+                                toggleLocation(element.locationsID, element.active)" *ngIf="element.active">
+                  <mat-icon class="color-red">block</mat-icon>
+                </button>
+                <button mat-icon-button color="dark-grey" title="{{'Enable' | translate }}"
+                  (click)="toggleLocation(element.locationsID, element.active)" *ngIf="!element.active">
+                  <mat-icon class="color-green">done_outline</mat-icon>
+                </button>
+              </td>
+            <tr>
+          </ng-container>
+
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <div class="col-sm-12 text-center" *ngIf="locationDataSource?.filteredData?.length === 0"> {{'No records found'
+          |
+          translate}}</div>
+        <mat-paginator [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons [id]="'pageLocation'"
+          [hidden]="showAddForm" aria-label="Select page of periodic elements">
+        </mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>

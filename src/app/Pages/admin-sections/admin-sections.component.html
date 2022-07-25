@@ -1,0 +1,201 @@
+<h3 class="header-title">
+    {{'Admin Sections' | translate}}
+</h3>
+
+<div class="container-fluid" *ngIf="showAddForm">
+        <form [formGroup]="AdminSecForm" 
+      (ngSubmit)="addData(AdminSecForm.value)">
+  <div class="row">
+    
+    <div class="col-md-6">
+      <mat-form-field appearance="fill" class="w-100">
+        <mat-label>{{ "Name" | translate }}</mat-label>
+        <input matInput  maxlength="100" [id]="'Name'" formControlName="sectionsName" appNotAllowWhiteSpaceStart />
+         <!-- ERRORS -->
+                        <mat-error *ngIf="AdminSecForm.get('sectionsName')?.hasError('required')" [id]="'errorsectionsName'">
+                            {{ 'Name is Required' | translate }}
+                        </mat-error>
+                     <!-- ERRORS -->
+      </mat-form-field>
+    </div>
+    <div class="col-md-6">
+  <mat-form-field appearance="fill" class="w-100">
+        <mat-label>{{"Section Type" | translate}}</mat-label>
+                     <mat-select formControlName="sectionTypesName" [id]="'sectionTypesName'"
+                            (selectionChange)="sectionTypeslist($event)">
+                            <mat-option *ngFor="let rule of sectionTypes" [value]="rule.sectionTypesID">
+                                {{rule.sectionTypesName}}
+                               </mat-option>
+                        </mat-select>  
+                    <!-- ERRORS -->
+                        <mat-error *ngIf="AdminSecForm.get('sectionTypesName')?.hasError('required')" [id]="'errorsectionTypesName'">
+                            {{ 'Section Type is Required' | translate }}
+                        </mat-error>
+                     <!-- ERRORS -->
+      </mat-form-field>
+
+    </div>
+  </div>
+  <div class="row section-accordian">
+    <div class="col">
+      <div class="tabs mt-2">
+        <div class="tab">
+          <input   (click)="toggleShow()" type="checkbox" [id]="'check'">
+          <label class="tab-label" id="divshow1" for="check">{{ "Advance Section Details" | translate }}</label>
+          <div class="tab-content" *ngIf="isShown"  id="divshow">
+            <div class="row">
+              <div class="col-md-3">
+                <mat-form-field appearance="fill" class="w-100">
+                  <mat-label>{{ "Primary Act" | translate }}</mat-label>
+                  <input matInput  maxlength="100" [id]="'PrimaryAct'" formControlName="sectionsPrimaryAct" appNotAllowWhiteSpaceStart/>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field appearance="fill" class="w-100">
+                  <mat-label>{{ "Primary Section" | translate }}</mat-label>
+                  <input matInput  maxlength="100" [id]="'PrimarySection'"  formControlName="sectionsPrimarySection" appNotAllowWhiteSpaceStart/>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field appearance="fill" class="w-100">
+                  <mat-label>{{ "Primary SubSection" | translate }}</mat-label>
+                  <input matInput  maxlength="100" [id]="'sectionsPrimarySubSection'" formControlName="sectionsPrimarySubSection" appNotAllowWhiteSpaceStart/>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field appearance="fill" class="w-100">
+                  <mat-label>{{ "Secondary Act" | translate }}</mat-label>
+                  <input matInput  maxlength="100"  [id]="'sectionsSecondaryAct'"  formControlName="sectionsSecondaryAct" appNotAllowWhiteSpaceStart/>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3">
+                <mat-form-field appearance="fill" class="w-100">
+                  <mat-label>{{ "Secondary Section" | translate }}</mat-label>
+                  <input matInput  maxlength="100" [id]="'sectionsSecondarySection'" formControlName="sectionsSecondarySection" appNotAllowWhiteSpaceStart/>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field appearance="fill" class="w-100">
+                  <mat-label>{{ "Secondary SubSection" | translate }}</mat-label>
+                  <input matInput  maxlength="100" [id]="'sectionsSecondarySubSection'" formControlName="sectionsSecondarySubSection" appNotAllowWhiteSpaceStart/>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field appearance="fill" class="w-100">
+                  <mat-label>{{ "Secondary Paragraph" | translate }}</mat-label>
+                  <input matInput  maxlength="100" [id]="'sectionsSecondaryParagraph'" formControlName="sectionsSecondaryParagraph" appNotAllowWhiteSpaceStart/>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field appearance="fill" class="w-100">
+                  <mat-label>{{ "Secondary Camera Type" | translate }}</mat-label> 
+                          <mat-select formControlName="sectionsSecondaryCameraType" [id]="'sectionsSecondaryCameraType'"
+                            (selectionChange)="SecondaryCameralist($event)">
+                            <mat-option *ngFor="let rule of secondarycameraTypes" [value]="rule.cameraTypesName">
+                                {{rule.cameraTypesName}}
+                               </mat-option>
+                        </mat-select>     
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="row mt-2">
+    <div class="col-md-12">
+      <div class="d-flex justify-content-end">
+         <button mat-raised-button class="m-1 color-blue" [id]="'Cancel'" (click)="cancelAdd_Save()">{{'Cancel'| translate}}</button>
+            <button mat-raised-button class="color-blue m-1"  *ngIf="addBtn" [id]="'addBtn'">{{'Add' | translate}}</button>
+              <button type="button"  mat-raised-button class="m-1 color-blue" [id]="'Searchbtn'"*ngIf="!addBtn" (click)="updateRecord(AdminSecForm.value)">
+              {{'Save' |translate}}
+            </button>
+      </div>
+    </div>
+  </div>
+  </form>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<div class="container-fluid"  [hidden]="showAddForm">
+          <!-- search form -->
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="align-items-center d-flex row">
+        <div class="col-6">
+      <mat-form-field appearance="fill">
+                <mat-label>{{ "Search" | translate }}</mat-label>
+                    <input matInput #search matInput [id]="'Search1'"
+                          
+                         (keyup)="applyFilter($event)" />
+              </mat-form-field>
+        </div>
+        <div class="col-6">
+          <div class="text-right">
+            <button mat-raised-button appearance="fill" class="m-1 color-blue" [id]="'Add1'" (click)="showAddFormPage()">
+              {{ "Add" | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- search from end -->
+    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
+
+  <ng-container matColumnDef="sectionsName">
+    <th mat-sort-header mat-header-cell *matHeaderCellDef>{{'Name' | translate}}</th>
+    <td mat-cell *matCellDef="let element"> {{element.sectionsName}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="lastChangeDate">
+    <th mat-sort-header mat-header-cell *matHeaderCellDef>{{'Last Change Date' | translate}} </th>
+    <td mat-cell *matCellDef="let element" class="text-center"> {{element.lastChangeDate | date:'medium' }} </td>
+  </ng-container>
+
+
+  <ng-container matColumnDef="lastChangeUser">
+    <th mat-sort-header mat-header-cell *matHeaderCellDef>  {{'Last Change User' | translate}} </th>
+    <td mat-cell *matCellDef="let element"> {{element.lastChangeUser}} </td>
+  </ng-container>
+      <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef>{{'Action' | translate}}</th>
+   <td mat-cell *matCellDef="let element" class="text-center">
+                <button mat-icon-button color="dark-grey" [id]="'Edit'" title="{{'Edit' | translate }}" (click)="editIconClicked(element.sectionsID)">
+                  <mat-icon class="edit-blue">edit</mat-icon>
+                </button>
+               <button mat-icon-button color="dark-grey" [id]="'Disable'" title="{{'Disable' | translate }}" (click)="toggleType(element.sectionsID, element.active)" *ngIf="element.active">
+                  <mat-icon class="color-red">block</mat-icon>
+                </button>
+                <button mat-icon-button color="dark-grey" [id]="'Enable'" title="{{'Enable' | translate }}" (click)="toggleType(element.sectionsID, element.active)" *ngIf="!element.active">
+                  <mat-icon class="color-green">done_outline</mat-icon>
+                </button>
+              </td>
+    </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+ <div class="col-sm-12 text-center" *ngIf="dataSource.filteredData?.length === 0"> {{'No records found' | translate}}</div>
+      
+        <mat-paginator
+        [pageSizeOptions]="[10, 20, 50, 100]"
+        showFirstLastButtons
+        [hidden]="showAddForm"
+      ></mat-paginator>
+</div>
+
+

@@ -1,0 +1,31 @@
+
+<mat-card-content class="mat-card-content p-2 pt-0">
+    <div class="innergrid border-0">
+        <table>
+            <tr>
+                <td>{{"Description" | translate}}</td>
+                <td class="font-weight-bold">{{(violationDetails?.description ? violationDetails?.description : '-')}}</td>
+            </tr>
+            <tr>
+                <td>{{"Violation Code" | translate}}</td>
+                <td class="font-weight-bold">{{(violationDetails?.violationCode ? violationDetails?.violationCode : '-')}}</td>
+            </tr>
+            <tr>
+                <td>{{"Issue Date" | translate}}</td>
+                <td class="font-weight-bold">{{violationDetails?.issueDate | date : globalFormats.dateOnly}}</td>
+            </tr>
+            <tr>
+                <td>{{"Location" | translate}}</td>
+                <td class="font-weight-bold">{{(violationDetails?.location ? violationDetails?.location : '-')}}</td>
+            </tr>
+            <tr>
+                <td>{{"Issuing Officer" | translate}}</td>
+                <td class="font-weight-bold">{{(violationDetails?.issuingOfficer ? violationDetails?.issuingOfficer : '-')}}</td>
+            </tr>
+            <tr>
+                <td>{{"Related Violations" | translate}}</td>
+                <td class="font-weight-bold">{{violationDetails?.relatedViolations | date : globalFormats.dateOnly}}</td>
+            </tr>
+        </table>
+    </div>
+</mat-card-content>

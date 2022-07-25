@@ -1,0 +1,75 @@
+.full-width-table {
+  width: 100%;
+}
+.event-table {
+  button.mat-focus-indicator.mat-button.mat-button-base {
+    color: #3f51b5;
+  }
+}
+
+/*event table inner page start*/
+/* Style the list */
+ul.breadcrumb {
+  padding: 10px 16px;
+  list-style: none;
+}
+
+/* Display list items side by side */
+ul.breadcrumb li {
+  display: inline;
+  font-size: 14px;
+}
+
+/* Add a slash symbol (/) before/behind each list item */
+ul.breadcrumb li + li:before {
+  padding: 8px;
+  color: #fe8600;
+  content: "/\00a0";
+}
+
+/* Add a color to all links inside the list */
+ul.breadcrumb li a {
+  color: #000;
+  text-decoration: none;
+}
+
+/* Add a color on mouse-over */
+ul.breadcrumb {
+  li {
+    a {
+      :hover {
+        color: #fe8600;
+        text-decoration: underline;
+      }
+    }
+  }
+}
+.eventicons {
+  text-align: right;
+}
+.plates {
+  text-align: right;
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    li {
+      a {
+        text-decoration: none;
+        color: #0047ba;
+      }
+    }
+  }
+}
+.sider img {
+  width: 100%;
+}
+.card-box-wrp li {
+  margin: 5px;
+  .list-group {
+    padding: 10px 0;
+  }
+}
+/*event table inner page End*/

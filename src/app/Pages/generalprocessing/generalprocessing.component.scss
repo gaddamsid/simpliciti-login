@@ -1,0 +1,140 @@
+.dashboard-card {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  right: 15px;
+  bottom: 15px;
+}
+.more-button {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+}
+.dashboard-card-content {
+  text-align: center;
+}
+.mt-250 {
+  position: absolute;
+  top: 50%;
+
+  button.mat-focus-indicator.mat-button.mat-button-base {
+    background: #55585a;
+    padding: 0 !important;
+    min-width: 20px !important;
+    color: #fff;
+    border-radius: 0;
+  }
+}
+.mat-drawer-backdrop.mat-drawer-shown {
+  background-color: transparent;
+}
+.toolbar-cls {
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+}
+mat-sidenav:not(.mat-drawer-opened) {
+  transform: translate3d(0, 0, 0) !important;
+  visibility: visible !important;
+  width: 60px !important;
+  overflow: hidden;
+}
+mat-sidenav:not(.mat-drawer-opened) div.leftNav div.navProfile img {
+  width: 40px;
+  margin: 16px 0 0px 0;
+}
+mat-sidenav:not(.mat-drawer-opened) .navTitle,
+mat-sidenav:not(.mat-drawer-opened) .profileTitle {
+  display: none;
+}
+.mat-drawer-container {
+  height: 100%;
+}
+.mat-list-base .mat-list-item .mat-list-item-content,
+.mat-list-base .mat-list-option .mat-list-item-content {
+  color: white;
+}
+.white-class {
+  color: white;
+}
+.mat-nav-list {
+  width: 100%;
+  a {
+    .mat-icon {
+      margin-right: 15px;
+    }
+    display: block;
+    color: #fff;
+    img {
+      filter: brightness(0) invert(1);
+      margin-right: 5px;
+    }
+    span {
+      font-family: "Open Sans", sans-serif;
+      font-size: 14px;
+      font-weight: 300;
+
+      img {
+        filter: brightness(1) invert(0);
+      }
+      span {
+        font-weight: 700;
+      }
+    }
+  }
+}
+
+.mat-list-item-content :hover {
+  background-color: #ffffff;
+  color: #555;
+}
+.card {
+  border: 1px solid #ccc;
+  padding: 15px;
+  width: 100%;
+  height: 175.78px;
+  p {
+    font-size: 18px;
+    letter-spacing: 1px;
+    font-weight: 500;
+  }
+}
+.flex {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  margin-top: 50px;
+}
+.see-history {
+  background: #0f73ee;
+  color: #fff;
+  border: 0;
+  border-radius: 4px;
+  font-size: 14px;
+  padding: 8px;
+  float: right;
+  width: 110px;
+  margin-top: 10px;
+}
+.amount {
+  font-size: 44px !important;
+  color: #0f73ee;
+}
+.card-title {
+  width: max-content;
+}
+table {
+  width: 100%;
+}
+mat-card.mat-card.mat-focus-indicator {
+  min-height: 265px;
+  margin-bottom: 15px;
+}
+.grf-box {
+  padding: 20px 0;
+}
+.grf-box img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}

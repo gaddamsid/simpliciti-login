@@ -1,0 +1,155 @@
+<div class="spinner-wrapper" *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
+</div>
+<div class="container-fluid" id="pdfPage">
+    <app-plate-info [entityDetails]="entityDetails" (downloadPdf)="downloadAsPDF()"></app-plate-info>
+    <div class="action-icons-search d-flex justify-content-between">
+        <div class="button-selector"><button [id]="'event1'"  type="button" class="btn btn-secondary f-14 border-0 entity-button">
+                {{"Ticket Detail" |translate}}</button>
+            <button [id]="'event2'"  type="button" class="btn btn-secondary f-14 border-0  entity-button" (click)="ticketHistory()">{{"Ticket History"
+                |translate}}</button>
+            <button [id]="'event3'"  type="button" class="btn btn-secondary f-14 border-0  entity-button disabled">{{"Correspondence"
+                |translate}}</button>
+        </div>
+        <div class="entity-icons-group eventicons d-flex mr-5">
+            <button [id]="'event14'"  mat-button class="custom-button-size p-0">
+                <img [id]="'event5'"  src="./assets/Tickets/Group 8702.svg" width="20px" />
+            </button>
+            <button [id]="'event6'"  mat-button class="custom-button-size p-0">
+                <img [id]="'event7'"  src="./assets/Tickets/Group 7661.svg" width="26px" />
+            </button>
+            <button [id]="'event8'"  mat-button class="custom-button-size p-0">
+                <img [id]="'event9'"  src="./assets/Tickets/P.png" width="22px" />
+            </button>
+            <button [id]="'event10'"  mat-button [matMenuTriggerFor]="menu">
+                <img [id]="'event11'"  src="./assets/Tickets/Group 7658.png" width="12px" />
+            </button>
+            <button [id]="'event12'"  mat-button class="custom-button-size p-0">
+                <img [id]="'event13'"  src="./assets/Tickets/Group 7660.png" width="12px" />
+            </button>
+            <button [id]="'event14'"  mat-button class="custom-button-size color-text">
+                <!-- <img src="./assets/Tickets/Group 8257.png" width="22px" /> -->
+                <button [id]="'event15'"  mat-icon-button [matMenuTriggerFor]="menu"
+                                aria-label="Example icon-button with a menu ">
+                                <mat-icon  [id]="'event16'" >more_vert</mat-icon>
+                            </button>
+                            <mat-menu #menu="matMenu">
+                                <button [id]="'event17'"  mat-menu-item>
+                                    <span>{{"Adjust Payment" | translate}}</span>
+                                </button>
+                                <button  [id]="'event18'" mat-menu-item>
+                                    <span>{{"Reduce Fines and Penalties" | translate}}</span>
+                                </button>
+                                <button [id]="'event19'" mat-menu-item>
+                                    <span>{{"View Ticket History" | translate}}</span>
+                                </button>
+                                <button [id]="'event20'"  mat-menu-item>
+                                    <span>{{"Add an Event and Send a Correspondence" | translate}}</span>
+                                </button>
+                                <button [id]="'event21'"  mat-menu-item>
+                                    <span>{{"Dissmiss a Ticket" | translate}}</span>
+                                </button>
+                                <button [id]="'event22'"  mat-menu-item>
+                                    <span>{{"Administrative Review" | translate}}</span>
+                                </button>
+                                <button [id]="'event23'"  mat-menu-item>
+                                    <span>{{"Ticket Facsimile" | translate}}</span>
+                                </button>
+                                <button [id]="'event24'"  mat-menu-item>
+                                    <span>{{"Suspend Ticket" | translate}}</span>
+                                </button>
+                                <button [id]="'event25'"  mat-menu-item>
+                                    <span>{{"Suspend Backout" | translate}}</span>
+                                </button>
+                                <button [id]="'event27'"  mat-menu-item>
+                                    <span>{{"nameandAddressUpdate" | translate}}</span>
+                                </button>
+                                <button [id]="'event26'"  mat-menu-item>
+                                    <span>{{"Add To Workflow" | translate}}</span>
+                                </button>
+                                <button [id]="'event27'"  mat-menu-item 
+                                (click)="openCustomLayout();findByTicketNumber('F144643934')"><!--Temparary Hard coded Will remove later-->
+                                    <span>{{'Change Layout View'| translate }}</span><!-- Temp Hard coded will remove-->
+                                </button>
+                            </mat-menu>
+            </button>
+            <mat-menu #menu="matMenu">
+                <button [id]="'event28'"  mat-menu-item>Xl</button>
+                <button [id]="'event29'"  mat-menu-item>Xl Detail</button>
+                <button [id]="'event30'"  mat-menu-item>PDF</button>
+                <button [id]="'event31'"  mat-menu-item>CSV</button>
+                <button [id]="'event32'"  mat-menu-item>Print</button>
+            </mat-menu>
+        </div>
+        <div class="layoutLinks mt-3">
+            <a [id]="'layout 1'" [ngClass]="applyClass1 ? 'active-layout' : ''" (click)="changeLayout(1)">{{'Layout 1'| translate}}</a>
+            <a [id]="'layout 2'" [ngClass]="applyClass2 ? 'active-layout' : ''" (click)="changeLayout(2)">{{'Layout 2' | translate }}</a>
+            <a [id]="'layout 3'" [ngClass]="applyClass3 ? 'active-layout' : ''" (click)="changeLayout(3)">{{'Layout 3' | translate}}</a>
+        </div>
+        <div class="searchbar">
+            <mat-icon [id]="'event33'"  role="img" class="mat-icon mr-2 notranslate" aria-hidden="true"><span
+                class="material-icons">chevron_left</span>
+                </mat-icon>
+                <mat-icon [id]="'event34'"  role="img" class="mat-icon mr-2 notranslate" aria-hidden="true"><span
+                    class="material-icons">chevron_right</span>
+                </mat-icon>
+        </div>
+    </div>
+<div class="right-wrp mt-3" [hidden]="showTicketHistory">
+  <div class="row" [ngClass]="[(eventLayout?.layoutType === '3') ? 'flex-column-reverse' : '']">
+    <div class="col-md-6" [ngClass]="[(eventLayout?.layoutType === '2') ? 'col-md-12' : '', 
+    (eventLayout?.layoutType === '3') ? 'col-md-12' : '']"  >
+        <div class="outer-box mb-3" [hidden]="eventLayout?.image !== 'Y'">
+            <div fxLayout="row" fxLayoutAlign="center center">
+                <div class="gallery-wrapper">
+                    <app-gp-gallery></app-gp-gallery>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+<div class="col-md-6 toggled-flex" [ngClass]="[(eventLayout?.layoutType === '2') ? 'col-md-12' : '', 
+    (eventLayout?.layoutType === '3') ? 'col-md-12' : '']">
+
+    <div class="outer-box item-grid  mb-3" *ngIf="eventLayout?.processing  === 'Y'">
+        <div class="d-flex flex-wrap w-100">
+            <mat-card class="w-100 mat-card mat-focus-indicator p-0"  [ngStyle]="{'height.px': eventLayout?.processingHeight}">
+                <app-processing></app-processing>
+            </mat-card>
+        </div>
+    </div>
+    <div class="outer-box item-grid  mb-3" *ngIf="eventLayout?.violation  === 'Y'">
+            <div class="d-flex flex-wrap w-100">
+                <mat-card class="w-100 mat-card mat-focus-indicator mb-3 p-0"  [ngStyle]="{'height.px': eventLayout?.violationHeight}">
+                    <app-violation-details></app-violation-details>
+                </mat-card>
+            </div>
+    </div>
+    <div class="outer-box item-grid  mb-3" *ngIf="eventLayout?.nameAddress  === 'Y'">
+        <div class="d-flex flex-wrap w-100">
+            <mat-card class="w-100 mat-card mat-focus-indicator mb-3 p-0"  [ngStyle]="{'height.px': eventLayout?.nameAddressHeight}">
+                <app-address></app-address>
+            </mat-card>
+        </div>
+    </div>
+    <div class="outer-box item-grid  mb-3" *ngIf="eventLayout?.citation  === 'Y'">
+        <div class="d-flex flex-wrap w-100">
+            <mat-card class="w-100 mat-card mat-focus-indicator mb-3 p-0" [ngStyle]="{'height.px': eventLayout?.citationHeight}">
+                <app-citation-details></app-citation-details>
+            </mat-card>
+        </div>
+    </div>
+        <div class="outer-box item-grid  mb-3" *ngIf="eventLayout?.payments  === 'Y'">
+            <div class="d-flex flex-wrap w-100">
+                <mat-card class="w-100 mat-card mat-focus-indicator p-0"  [ngStyle]="{'height.px': eventLayout?.payementHeight}">
+                    <app-payments></app-payments>
+                </mat-card>
+            </div>
+        </div>
+</div>
+</div>
+</div>
+<div class="ticketHistory" [hidden]="!showTicketHistory">
+    <app-ticket-history></app-ticket-history>
+</div>
+</div>

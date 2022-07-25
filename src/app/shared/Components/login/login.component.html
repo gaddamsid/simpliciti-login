@@ -1,0 +1,83 @@
+<!-- <div class="toolbar" role="banner" *ngIf="oAuthToken">
+    <div style="margin:10em;">
+        <button style="background-color:#041d36;color:white" (click)="oAuthlogin()" *ngIf="!oAuthToken"> Sign In</button> &nbsp;&nbsp;
+        <button style="background-color:#041d36;color:white" (click)="oAuthlogout()" *ngIf="oAuthToken"> Sign Out</button>
+    </div>
+
+</div> -->
+<!--(oAuthToken)="oAuthToken"-->
+<!-- <div class="content" role="main">
+    <span *ngIf="oAuthToken">Hi <b>{{this.userInfo?.preferred_username}}</b>, Welcome ! Successfully Loggged In Into SimpliCiti</span>
+</div> -->
+
+<!-- <router-outlet *ngIf="oAuthToken"></router-outlet> -->
+
+<!-- <div class="toolbar" role="banner" *ngIf="oAuthToken"> -->
+
+<div class="spinner-wrapper spinn" *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
+</div>
+<mat-grid-list cols="2" rowHeight="100%" *ngIf="isNormlaLogin && !isLoading">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit(loginForm.value)" novalidate>
+        <mat-grid-tile>
+            <div class="login">
+                <div>
+                    <h1>SimpliCiti</h1>
+                </div>
+                <div>
+                    <h2>Welcome</h2>
+                </div>
+                <p>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Username</mat-label>
+                        <input matInput placeholder="Username" id="userid" name="userid" formControlName="userid"
+                            maxlength="12" (keypress)="noWhiteSpace($event);">
+                        <mat-error
+                            *ngIf="loginForm.get('userid')?.errors?.['required']"
+                            id="userid1">
+                            {{'Username is required'}}
+                        </mat-error>
+                        <mat-error *ngIf="loginForm.get('userid')?.errors?.['minlength']" id="userid2">
+                            {{'Username must be minimum of 3 characters'}}
+                        </mat-error>
+                        <mat-error *ngIf="loginForm.get('userid')?.errors?.['maxlength']" id="userid">
+                            {{'Username cannot exceed 12 characters'}}
+                        </mat-error>
+                    </mat-form-field>
+                </p>
+                <p>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Password</mat-label>
+                        <input matInput placeholder="Password" name="password" type="password"
+                            formControlName="password" maxlength="15" (keypress)="noWhiteSpace($event);">
+                        <mat-error
+                            *ngIf="loginForm.get('password')?.errors?.['required']"
+                            id="password1">
+                            {{'Password is required'}}
+                        </mat-error>
+                        <mat-error *ngIf="loginForm.get('password')?.errors?.['minlength']" id="password2">
+                            {{'Password must be minimum of 8 characters'}}
+                        </mat-error>
+                        <mat-error *ngIf="loginForm.get('password')?.errors?.['maxlength']" id="password">
+                            {{'Password cannot exceed 15 characters'}}
+                        </mat-error>
+                    </mat-form-field>
+                </p>
+                <p>
+                    <button class="btn btn-primary login-btn">LOGIN</button>
+                </p>
+                <!-- 
+                <p>
+                <a href="#">CHANGE PASSWORD</a>
+            </p> -->
+            </div>
+        </mat-grid-tile>
+        <mat-grid-tile>
+
+            <img src="../../assets/images/login.jpg">
+
+
+        </mat-grid-tile>
+    </form>
+</mat-grid-list>
+<!-- </div> -->
